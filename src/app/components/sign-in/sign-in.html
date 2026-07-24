@@ -1,0 +1,189 @@
+<section>
+  <div class="login">
+    <div class="login__card">
+      <div class="login__branding">
+        <img src="logo.jpg" alt="logo" class="login__logo" />
+
+        <h1 class="login__title">Employee Management System</h1>
+
+        <p class="login__description">
+          Manage employees,departments,attendance and payroll from the secure platform
+        </p>
+      </div>
+
+      <div class="login__form">
+        <h2 class="login__heading">Welcome Back</h2>
+        <p class="login__subtitle">Sign in to Continue</p>
+
+        <form class="login__form-content" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="login__field">
+            <label for="employeeId" class="login__label">Employee ID</label>
+            <input
+              type="text"
+              id="employeeId"
+              name="employeeId"
+              class="login__input"
+              placeholder="Enter Employee ID"
+              formControlName="employeeId"
+              appEmployeeId
+            />
+            @if (employeeId?.hasError('maxlength') && employeeId?.touched) {
+              <p class="login__error">
+                Employee ID must contain only "E" followed by up to 4 digits.
+              </p>
+            }
+            @if (employeeId?.hasError('invalidEmployeeId') && employeeId?.touched) {
+              <p class="login__error">Employee ID must start with 'E' followed by numbers only.</p>
+            }
+            @if (employeeId?.hasError('required') && employeeId?.touched) {
+              <p class="login__error">This field is required</p>
+            }
+          </div>
+
+          <div class="login__field">
+            <label for="password" class="login__label">Password</label>
+            <div class="login__password">
+              <input
+                [type]="showPassword() ? 'text' : 'password'"
+                id="password"
+                class="login__input"
+                placeholder="Enter Password"
+                name="password"
+                formControlName="password"
+              />
+              <button
+                type="button"
+                class="login__toggle"
+                aria-label="show password"
+                (click)="togglePassword()"
+              >
+                @if (!showPassword()) {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="login__toggle-icon"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                } @else {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="login__toggle-icon"
+                  >
+                    <path
+                      d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
+                    />
+                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                    <path
+                      d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
+                    />
+                    <path d="m2 2 20 20" />
+                  </svg>
+                }
+              </button>
+            </div>
+
+            @if (password?.hasError('required') && password?.touched) {
+              <p class="login__error">This field is required</p>
+            }
+
+            @if (password?.hasError('maxlength') && password?.touched) {
+              <p class="login__error">Password must not exceed 15 characters</p>
+            }
+
+            @if (password?.errors?.['invalidPassword'] && password?.touched) {
+              <p class="login__error">
+                Password must contain:Uppercase,LowerCase,Number, Special Character,and at least 8
+                characters.
+              </p>
+            }
+          </div>
+
+          <div class="login__field">
+            <label for="role" class="login__label">Role </label>
+            <select name="role" class="login__input" formControlName="role">
+              <option value="">Select Role</option>
+              <option value="Admin">Admin</option>
+              <option value="Employee">Employee</option>
+            </select>
+            @if (role?.hasError('required') && role?.touched) {
+              <p class="login__error">Please select a role.</p>
+            }
+          </div>
+
+          <div class="login__options">
+            <div class="login__remember">
+              <div class="login__checkbox-group">
+                <input
+                  type="checkbox"
+                  id="remember_me"
+                  class="login__checkbox"
+                  formControlName="checkbox"
+                />
+                <label for="remember_me" class="login__remember-label">Remember Me</label>
+              </div>
+              @if (checkbox?.hasError('required') && checkbox?.touched) {
+                <p class="login__error login__error-full">Accept all the terms and condtions</p>
+              }
+            </div>
+
+            <div class="login-forgotPassword">
+              <button
+                type="button"
+                (click)="onForgotPasswordClick($event)"
+                class="login__forgotPassword-button"
+              >
+                Forgot Password?
+              </button>
+              @if (showForgotPassword()) {
+                <app-forgot-password
+                  (continue)="openResetPassword()"
+                  (cancel)="closeForgotPassword()"
+                ></app-forgot-password>
+              }
+              @if (showResetPassword()) {
+                <app-reset-password (cancel)="closeResetPassword()"></app-reset-password>
+              }
+            </div>
+          </div>
+
+          <div class="login__actions">
+            <button type="submit" class="login__button--primary" [disabled]="loginForm.invalid">
+              Sign In
+            </button>
+          </div>
+
+          <div class="login__divider">
+            <div class="login__divider-line"></div>
+            <span class="login__divider-text">OR</span>
+            <div class="login__divider-line"></div>
+          </div>
+
+          <div class="login__actions">
+            <button routerLink="/sign-up" class="login__button--secondary" type="button">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

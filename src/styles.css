@@ -1,0 +1,111 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+:root {
+  /* Primary */
+  --color-primary: #1e40af;
+  --color-primary-hover: #1e3a8a;
+  --color-primary-light: #dbeafe;
+  --color-primary-subtle: #eff6ff;
+
+  /* Background */
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-alt: #f1f5f9;
+  --color-surface-hover: #eef2f7;
+
+  /* Text */
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-label: #475569;
+  --color-text-placeholder: #94a3b8;
+  --color-text-inverse: #ffffff;
+
+  /* Border */
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-divider: #eef1f5;
+
+  /* Status */
+  --color-success: #15803d;
+  --color-success-light: #dcfce7;
+  --color-warning: #b45309;
+  --color-warning-light: #fef3c7;
+  --color-danger: #b91c1c;
+  --color-danger-light: #fee2e2;
+  --color-info: #0369a1;
+  --color-info-light: #e0f2fe;
+
+  /* Sidebar */
+  --color-sidebar-bg: #f4f8ff;
+  --color-sidebar-text: #64748b;
+  --color-sidebar-text-active: #ebecec;
+  --color-sidebar-hover: #93c5fd;
+
+  /* Form Inputs */
+  --color-input-bg: #ffffff;
+
+
+  /* Shadows */
+  --shadow-input: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.08);
+
+  /* Menu bar */
+ 
+}
+
+.dark-theme {
+  --color-background: #000000;
+  --color-surface: #1e293b;
+  --color-surface-alt: #263449;
+  --color-surface-hover: #334155;
+
+  --color-border: #334155;
+  --color-border-strong: #475569;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-label: #cbd5e1;
+  --color-text-placeholder: #94a3b8;
+  --color-text-inverse: #0f172a;
+
+  --color-primary: #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-primary-light: #1e3a8a;
+  --color-primary-subtle: #172554;
+
+  --color-success: #22c55e;
+  --color-success-light: #14532d;
+  --color-warning: #fbbf24;
+  --color-warning-light: #78350f;
+  --color-danger: #ef4444;
+  --color-danger-light: #7f1d1d;
+  --color-info: #38bdf8;
+  --color-info-light: #0c4a6e;
+
+  --color-sidebar-bg: #151b23;
+  --color-sidebar-text: #f0f6fc;
+  --color-sidebar-text-active: #25292e;
+  --color-sidebar-hover: #1e293b;
+
+   --menu-bg:#64748B;
+}

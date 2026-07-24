@@ -1,0 +1,238 @@
+<section>
+  <div class="signUp">
+    <div class="signUp__card">
+      <div class="signUp__branding">
+        <img src="logo.jpg" alt="logo" class="signUp__logo" />
+
+        <h1 class="signUp__title">Employee Management System</h1>
+
+        <p class="signUp__description">
+          Manage employees,departments,attendance and payroll from the secure platform
+        </p>
+      </div>
+
+      <div class="signUp__form">
+        <h2 class="signUp__heading">Sign Up</h2>
+        <p class="signUp__subtitle">Create your employee account</p>
+
+        <form class="signUp__form-content" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+          <div class="signUp__field">
+            <label for="fullName" class="signUp__label">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              class="signUp__input"
+              placeholder="Enter Your Full Name"
+              formControlName="fullName"
+              appFullName
+            />
+            @if (fullName?.touched && fullName?.hasError('required')) {
+              <p class="signUp__errors">This field is required</p>
+            }
+
+            @if (fullName?.hasError('invalidFullName') && fullName?.touched) {
+              <p class="signUp__error">Full Name can contain only letters and spaces.</p>
+            }
+          </div>
+
+          <div class="signUp__field">
+            <label for="emailID" class="signUp__label">Email ID</label>
+            <input
+              type="email"
+              id="emailID"
+              name="emailID"
+              class="signUp__input"
+              placeholder="Enter Email ID"
+              formControlName="emailID"
+            />
+            @if (emailID?.touched && emailID?.hasError('required')) {
+              <p class="signUp__errors">This field is required</p>
+            }
+          </div>
+
+          <div class="signUp__field">
+            <label for="createPassword" class="signUp__label">Create Password</label>
+            <div class="signUp__password">
+              <input
+                [type]="showCreatePassword() ? 'text' : 'password'"
+                id="createPassword"
+                name="createPassword"
+                class="signUp__input"
+                placeholder="Create Password"
+                formControlName="createPassword"
+              />
+              <button type="button" class="signUp__toggle" (click)="toggleCreatePassword()">
+                @if (!showCreatePassword()) {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="signUp__toggle-icon"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                } @else {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="signUp__toggle-icon"
+                  >
+                    <path
+                      d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
+                    />
+                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                    <path
+                      d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
+                    />
+                    <path d="m2 2 20 20" />
+                  </svg>
+                }
+              </button>
+            </div>
+
+            @if (createPassword?.errors?.['invalidPassword'] && createPassword?.touched) {
+              <p class="signUp__errors">
+                Password must contain:Uppercase,LowerCase,Number, Special Character,and at least 8
+                characters.
+              </p>
+            }
+
+            @if (createPassword?.hasError('required') && createPassword?.touched) {
+              <p class="signUp__errors">This field is required</p>
+            }
+
+            @if (createPassword?.hasError('maxlength') && createPassword?.touched) {
+              <p class="signUp__errors">Password must not exceed 15 characters</p>
+            }
+          </div>
+
+          <div class="signUp__field">
+            <label for="confirmPassword" class="signUp__label">Confirm Password</label>
+            <div class="signUp__password">
+              <input
+                [type]="showConfirmPassword() ? 'text' : 'password'"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="signUp__input"
+                placeholder="Confirm Password"
+                formControlName="confirmPassword"
+              />
+              <button type="button" class="signUp__toggle" (click)="toggleConfirmPassword()">
+                @if (!showConfirmPassword()) {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="signUp__toggle-icon"
+                  >
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                } @else {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="signUp__toggle-icon"
+                  >
+                    <path
+                      d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
+                    />
+                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                    <path
+                      d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
+                    />
+                    <path d="m2 2 20 20" />
+                  </svg>
+                }
+              </button>
+            </div>
+            @if (signUpForm?.hasError('passwordMismatch') && confirmPassword?.touched) {
+              <p class="signUp__errors">Passwords do not match.</p>
+            }
+            @if (confirmPassword?.hasError('maxlength') && createPassword?.touched) {
+              <p class="signUp__errors">Password must not exceed 15 characters</p>
+            }
+          </div>
+
+          <div class="signUp__field">
+            <label for="role" class="signUp__label">Role </label>
+            <select name="role" class="signUp__input" formControlName="role">
+              <option value="">Select Role</option>
+              <option value="Admin">Admin</option>
+              <option value="Employee">Employee</option>
+            </select>
+            @if (role?.hasError('required') && role?.touched) {
+              <p class="signUp__errors">Please select a role.</p>
+            }
+          </div>
+
+          <div class="signUp__checkbox">
+            <input
+              type="checkbox"
+              id="termsAndConditions"
+              name="checkbox"
+              formControlName="checkbox"
+              class="signUp__checkbox-input"
+              (click)="onCheckboxClick($event)"
+            />
+            <label for="termsAndConditions" class="signUp__checkbox-label"
+              >I agree to the Terms & Conditions</label
+            >
+
+            @if (checkbox?.hasError('required') && checkbox?.touched) {
+              <p class="signUp__errors">Accept all the terms and condtions</p>
+            }
+
+            @if (isTermsModalOpen()) {
+              <app-terms-and-conditions
+                (accept)="acceptTerms()"
+                (cancel)="cancelTerms()"
+              ></app-terms-and-conditions>
+            }
+          </div>
+
+          <div class="signUp__actions">
+            <button class="signUp__button-primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>
+          </div>
+
+          <div class="signUp__actions">
+            <p class="signUp__text">Already have an account...?</p>
+            <a routerLink="/sign-in" class="signUp__button-secondary">Sign In</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
