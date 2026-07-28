@@ -20,6 +20,23 @@ body {
 }
 
 :root {
+  /* Authentication */
+
+  --auth-card-bg: #0f172a73; /* 45% opacity */
+  --auth-card-border: #ffffff26; /* 15% opacity */
+
+  --auth-heading: #ffffff;
+
+  --auth-text: #ffffffd1; /* 82% opacity */
+  --auth-label: #ffffffeb; /* 92% opacity */
+  --auth-placeholder: #ffffff73; /* 45% opacity */
+
+  --auth-input-bg: #ffffff14; /* 8% opacity */
+  --auth-input-border: #ffffff2e; /* 18% opacity */
+
+  --auth-input-focus: #3b82f659; /* 35% opacity */
+  --auth-forgot-password: #7dd3fc;
+
   /* Primary */
   --color-primary: #1e40af;
   --color-primary-hover: #1e3a8a;
@@ -63,14 +80,12 @@ body {
   /* Form Inputs */
   --color-input-bg: #ffffff;
 
-
   /* Shadows */
   --shadow-input: 0 0 0 3px rgba(37, 99, 235, 0.15);
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.08);
 
   /* Menu bar */
- 
 }
 
 .dark-theme {
@@ -107,5 +122,5 @@ body {
   --color-sidebar-text-active: #25292e;
   --color-sidebar-hover: #1e293b;
 
-   --menu-bg:#64748B;
+  --menu-bg: #64748b;
 }

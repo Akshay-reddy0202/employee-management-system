@@ -1,5 +1,8 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth-service';
+import { ToastrService } from 'ngx-toastr';
+import { EmployeeInterface } from '../../models/employee-interface';
 
 @Component({
   selector: 'app-forgot-password',
@@ -9,26 +12,48 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class ForgotPassword {
   forgotPasswordForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    emailID: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
   });
 
-  get email() {
-    return this.forgotPasswordForm.get('email');
+  get emailID() {
+    return this.forgotPasswordForm.get('emailID');
   }
 
   onSubmit(): void {
     if (this.forgotPasswordForm.invalid) {
       return;
     }
-    console.log(this.forgotPasswordForm.value);
-    this.continue.emit();
+    this.onContinue();
   }
 
-  continue = output<void>();
+  continue = output<EmployeeInterface>();
   cancel = output<void>();
-
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  private readonly authService = inject(AuthService);
+  private toastr = inject(ToastrService);
+
+  onContinue() {
+    const email = this.forgotPasswordForm.getRawValue().emailID;
+
+    this.authService.getEmployeeByEmail(email).subscribe({
+      next: (employee) => {
+        if (!employee) {
+          this.toastr.error('Email does not exist');
+          return;
+        }
+        this.toastr.success('Email Verified', 'Success');
+        this.continue.emit(employee);
+      },
+      error: () => {
+        this.toastr.error('Something went wrong', 'Error');
+      },
+    });
   }
 }

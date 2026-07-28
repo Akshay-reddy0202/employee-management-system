@@ -1,12 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ElementRef, ViewChild, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordValidator } from '../../shared/validators/password-validator';
 import { confirmPasswordValidator } from '../../shared/validators/confirm-password-validator';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FullNameDirective } from '../../shared/directives/full-name-directive';
 import { fullNameValidator } from '../../shared/validators/full-name-validator';
 import { TermsAndConditions } from '../terms-and-conditions/terms-and-conditions';
 import { AuthService } from '../../services/auth-service';
+import { ToastrService } from 'ngx-toastr';
+import { ageValidator } from '../../shared/validators/age-validator';
+import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,9 +20,14 @@ import { AuthService } from '../../services/auth-service';
 export class SignUp {
   signUpForm = new FormGroup(
     {
+      role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       fullName: new FormControl('', {
         nonNullable: true,
         validators: [Validators.required, Validators.minLength(3), fullNameValidator],
+      }),
+      dateOfBirth: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, ageValidator(18)],
       }),
       emailID: new FormControl('', {
         nonNullable: true,
@@ -33,7 +41,7 @@ export class SignUp {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(15)],
       }),
-      role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+
       checkbox: new FormControl(false, {
         nonNullable: true,
         validators: [Validators.requiredTrue],
@@ -68,6 +76,17 @@ export class SignUp {
     return this.signUpForm.get('checkbox');
   }
 
+  get dateOfBirth() {
+    return this.signUpForm.get('dateOfBirth');
+  }
+
+  protected readonly maxDate = new Date().toISOString().split('T')[0];
+
+  private readonly authService = inject(AuthService);
+  private toastr = inject(ToastrService);
+  private emailInput = viewChild<ElementRef<HTMLInputElement>>('emailInput');
+  private router = inject(Router);
+
   onSubmit() {
     if (this.signUpForm.invalid) {
       return;
@@ -75,13 +94,22 @@ export class SignUp {
     const formValue = this.signUpForm.getRawValue();
     this.authService.register(formValue).subscribe({
       next: (employee) => {
-        console.log('Employee registered successfully', employee);
+        this.toastr.success('Employee registered successfully', 'Success');
         this.signUpForm.reset();
+        this.router.navigate(['/sign-in']);
       },
       error: (error) => {
-        console.error('registration failed!', error);
+        this.toastr.error(error.message, 'Registration Failed');
+        this.emailID?.reset();
+        setTimeout(() => {
+          this.emailInput()?.nativeElement.focus();
+        });
       },
     });
+  }
+
+  ngOnInit(): void {
+    this.initializeEmailIDListener();
   }
 
   showCreatePassword = signal(false);
@@ -120,5 +148,36 @@ export class SignUp {
     this.closeTermsModal();
   }
 
-  private readonly authService = inject(AuthService);
+  private initializeEmailIDListener(): void {
+    const emailControl = this.emailID;
+
+    if (!emailControl) {
+      return;
+    }
+
+    emailControl?.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        filter(() => emailControl.valid),
+        switchMap((email:string) => this.authService.checkEmailExists(email)),
+      )
+      .subscribe((emailExists) => {
+        this.handleEmailExists(emailExists);
+      });
+  }
+
+  private handleEmailExists(emailExists: boolean): void {
+    if (emailExists) {
+      this.toastr.error('Email already exists');
+
+      this.emailID?.setErrors({
+        emailExists: true,
+      });
+
+      setTimeout(() => {
+        this.emailInput()?.nativeElement.focus();
+      });
+    }
+  }
 }

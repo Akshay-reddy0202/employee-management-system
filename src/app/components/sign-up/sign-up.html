@@ -1,7 +1,7 @@
 <section>
   <div class="signUp">
     <div class="signUp__card">
-      <div class="signUp__branding">
+      <!-- <div class="signUp__branding">
         <img src="logo.jpg" alt="logo" class="signUp__logo" />
 
         <h1 class="signUp__title">Employee Management System</h1>
@@ -9,13 +9,30 @@
         <p class="signUp__description">
           Manage employees,departments,attendance and payroll from the secure platform
         </p>
-      </div>
+      </div> -->
 
       <div class="signUp__form">
         <h2 class="signUp__heading">Sign Up</h2>
         <p class="signUp__subtitle">Create your employee account</p>
 
-        <form class="signUp__form-content" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <form
+          class="signUp__form-content"
+          [formGroup]="signUpForm"
+          (ngSubmit)="onSubmit()"
+          autocomplete="off"
+        >
+          <div class="signUp__field">
+            <label for="role" class="signUp__label">Role </label>
+            <select name="role" class="signUp__input" formControlName="role">
+              <option value=""></option>
+              <option value="Admin">Admin</option>
+              <option value="Employee">Employee</option>
+            </select>
+            @if (role?.hasError('required') && role?.touched) {
+              <p class="signUp__errors">Please select a role.</p>
+            }
+          </div>
+
           <div class="signUp__field">
             <label for="fullName" class="signUp__label">Full Name</label>
             <input
@@ -32,13 +49,14 @@
             }
 
             @if (fullName?.hasError('invalidFullName') && fullName?.touched) {
-              <p class="signUp__error">Full Name can contain only letters and spaces.</p>
+              <p class="signUp__errors">Full Name can contain only letters and spaces.</p>
             }
           </div>
 
           <div class="signUp__field">
             <label for="emailID" class="signUp__label">Email ID</label>
             <input
+              #emailInput
               type="email"
               id="emailID"
               name="emailID"
@@ -48,6 +66,29 @@
             />
             @if (emailID?.touched && emailID?.hasError('required')) {
               <p class="signUp__errors">This field is required</p>
+            }
+
+            @if (emailID?.hasError('emailExists')) {
+              <p class="signUp__errors">Email already exists</p>
+            }
+          </div>
+
+          <div class="signUp__field">
+            <label for="dateOfBirth" class="signUp__label">Date of Birth</label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              class="signUp__input"
+              formControlName="dateOfBirth"
+              [max]="maxDate"
+            />
+            @if (dateOfBirth?.touched && dateOfBirth?.hasError('required')) {
+              <p class="signUp__errors">Date of Birth is required</p>
+            }
+
+            @if (dateOfBirth?.touched && dateOfBirth?.hasError('minimumAge')) {
+              <p class="signUp__errors">Employee must be at least 18 years old.</p>
             }
           </div>
 
@@ -186,18 +227,6 @@
             }
           </div>
 
-          <div class="signUp__field">
-            <label for="role" class="signUp__label">Role </label>
-            <select name="role" class="signUp__input" formControlName="role">
-              <option value="">Select Role</option>
-              <option value="Admin">Admin</option>
-              <option value="Employee">Employee</option>
-            </select>
-            @if (role?.hasError('required') && role?.touched) {
-              <p class="signUp__errors">Please select a role.</p>
-            }
-          </div>
-
           <div class="signUp__checkbox">
             <input
               type="checkbox"
@@ -224,7 +253,9 @@
           </div>
 
           <div class="signUp__actions">
-            <button class="signUp__button-primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>
+            <button class="signUp__button-primary" type="submit" [disabled]="signUpForm.invalid">
+              Sign Up
+            </button>
           </div>
 
           <div class="signUp__actions">

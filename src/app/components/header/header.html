@@ -81,8 +81,11 @@
           </svg>
         }
       </button>
+      
       <a routerLink="/sign-up" class="header__signUp-button">SignUp</a>
       <a routerLink="/sign-in" class="header__login-button">Login</a>
+      <a (click)="logout()" class="header__logout-button">Logout</a>
+      
     </div>
   </header>
 </section>

@@ -1,8 +1,9 @@
 export interface SignupRequestInterface {
+  role: string;
   fullName: string;
   emailID: string;
+  dateOfBirth: string;
   createPassword: string;
   confirmPassword: string;
-  role: string;
   checkbox: boolean;
 }

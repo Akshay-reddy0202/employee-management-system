@@ -1,0 +1,43 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  width: 100%;
+  min-height: 100dvh;
+
+  background-image: url('/bg-image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth__container {
+  width: 1400px;
+  height: 100%;
+
+  display: flex;
+  justify-content:center;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.auth__branding {
+  width: 700px;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 520px;
+}

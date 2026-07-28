@@ -1,7 +1,7 @@
 <section>
   <div class="login">
     <div class="login__card">
-      <div class="login__branding">
+      <!-- <div class="login__branding">
         <img src="logo.jpg" alt="logo" class="login__logo" />
 
         <h1 class="login__title">Employee Management System</h1>
@@ -9,13 +9,18 @@
         <p class="login__description">
           Manage employees,departments,attendance and payroll from the secure platform
         </p>
-      </div>
+      </div> -->
 
       <div class="login__form">
         <h2 class="login__heading">Welcome Back</h2>
         <p class="login__subtitle">Sign in to Continue</p>
 
-        <form class="login__form-content" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form
+          class="login__form-content"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+          autocomplete="off"
+        >
           <div class="login__field">
             <label for="employeeId" class="login__label">Employee ID</label>
             <input
@@ -119,14 +124,7 @@
 
           <div class="login__field">
             <label for="role" class="login__label">Role </label>
-            <select name="role" class="login__input" formControlName="role">
-              <option value="">Select Role</option>
-              <option value="Admin">Admin</option>
-              <option value="Employee">Employee</option>
-            </select>
-            @if (role?.hasError('required') && role?.touched) {
-              <p class="login__error">Please select a role.</p>
-            }
+            <input type="text" class="login__input" formControlName="role" readonly />
           </div>
 
           <div class="login__options">
@@ -155,12 +153,16 @@
               </button>
               @if (showForgotPassword()) {
                 <app-forgot-password
-                  (continue)="openResetPassword()"
+                  (continue)="openResetPassword($event)"
                   (cancel)="closeForgotPassword()"
                 ></app-forgot-password>
               }
               @if (showResetPassword()) {
-                <app-reset-password (cancel)="closeResetPassword()"></app-reset-password>
+                <app-reset-password
+                  [employee]="selectedEmployee()!"
+                  (completed)="onResetPasswordCompleted()"
+                  (cancel)="closeResetPassword()"
+                ></app-reset-password>
               }
             </div>
           </div>

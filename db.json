@@ -1,20 +1,22 @@
 {
   "employees": [
     {
-      "employeeId": "ec000ec7-b693-4bc2-896b-ea7d9078f95c",
-      "fullName": "Akshay ",
-      "emailID": "akki@gmail.com",
-      "password": "Akshay@123",
       "role": "Admin",
-      "id": "mNK-ZCTkeKI"
+      "employeeId": "E0001",
+      "fullName": "Akshay",
+      "dateOfBirth": "2005-02-02",
+      "emailID": "akshay@gmail.com",
+      "password": "Akshay@123",
+      "id": "EeRRXIKW76g"
     },
     {
-      "employeeId": "981ce3f2-667b-41d5-a5c3-a9cbd77f08c1",
-      "fullName": "Akshay ",
-      "emailID": "A123@gmail.com",
-      "password": "Aksh@1234",
       "role": "Admin",
-      "id": "i28b2wg6bIs"
+      "employeeId": "E0002",
+      "fullName": "John Doe",
+      "dateOfBirth": "2006-12-12",
+      "emailID": "john@gmail.com",
+      "password": "John@123",
+      "id": "nQy7Hdu7cVQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
