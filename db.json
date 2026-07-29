@@ -17,6 +17,33 @@
       "emailID": "john@gmail.com",
       "password": "John@123",
       "id": "nQy7Hdu7cVQ"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0003",
+      "fullName": "Vivek",
+      "dateOfBirth": "2002-08-23",
+      "emailID": "vivek@gmail.com",
+      "password": "Vivek@1234",
+      "id": "0CEktRwGtDE"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0004",
+      "fullName": "rohit",
+      "dateOfBirth": "2001-02-02",
+      "emailID": "rohit@gmail.com",
+      "password": "Rohit@123",
+      "id": "dxDbRxqeh4A"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0005",
+      "fullName": "Rahul",
+      "dateOfBirth": "2004-02-04",
+      "emailID": "Rahul@123",
+      "password": "Rahul@123",
+      "id": "dD4M0Ew-62g"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

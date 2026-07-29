@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class ResetPassword {
   resetPasswordForm = new FormGroup(
     {
-      newPassword: new FormControl('', {
+      createPassword: new FormControl('', {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(15), passwordValidator],
       }),
@@ -27,8 +27,8 @@ export class ResetPassword {
     },
   );
 
-  get newPassword() {
-    return this.resetPasswordForm.get('newPassword');
+  get createPassword() {
+    return this.resetPasswordForm.get('createPassword');
   }
 
   get confirmPassword() {
@@ -40,31 +40,29 @@ export class ResetPassword {
   private toastr = inject(ToastrService);
   private router = inject(Router);
 
-
   onSubmit() {
     if (this.resetPasswordForm.invalid) {
       return;
     }
     const employee = this.employee();
-    const newPassword = this.resetPasswordForm.getRawValue().newPassword;
+    const newPassword = this.resetPasswordForm.getRawValue().createPassword;
 
     this.authService.resetPassword(employee.employeeId, newPassword).subscribe({
       next: () => {
-        this.toastr.success('Password Updated', 'success');
         this.onCompleted();
         this.router.navigate(['/sign-in']);
       },
-      error:(error)=>{
-        this.toastr.error(error.message,'password update failed');
-      }
+      error: (error) => {
+        this.toastr.error(error.message, 'password update failed');
+      },
     });
   }
 
-  showNewPassword = signal(false);
+  showCreatePassword = signal(false);
   showConfirmPassword = signal(false);
 
-  toggleNewPassword() {
-    this.showNewPassword.update((value) => !value);
+  toggleCreatePassword() {
+    this.showCreatePassword.update((value) => !value);
   }
 
   toggleConfirmPassword() {
@@ -78,8 +76,8 @@ export class ResetPassword {
     this.cancel.emit();
   }
 
-  onCompleted():void{
-    this.toastr.success('Password reset successfully','Success');
+  onCompleted(): void {
+    this.toastr.success('Password reset successfully', 'Success');
     this.completed.emit();
   }
 }

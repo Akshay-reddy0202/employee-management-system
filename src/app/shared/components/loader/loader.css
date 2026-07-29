@@ -8,7 +8,7 @@
   align-items: center;
   gap: 16px;
 
-  background-color: rgba(255, 255, 255, 0.8);
+  background: var(--loader-overlay);
   backdrop-filter: blur(4px);
 
   z-index: 9999;
@@ -18,8 +18,8 @@
   width: 70px;
   height: 70px;
 
-  border: 6px solid #dbeafe;
-  border-top: 6px solid #057bd0;
+  border: 6px solid var(--loader-spinner-track);
+  border-top: 6px solid var(--loader-spinner-active);
   border-radius: 50%;
 
   animation: loader-spin 0.8s linear infinite;
@@ -28,7 +28,7 @@
 .loader__text {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--loader-text);
   text-align: center;
   letter-spacing: 0.5px;
 }

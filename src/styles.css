@@ -20,72 +20,211 @@ body {
 }
 
 :root {
-  /* Authentication */
+  /* ==========================================================
+     AUTHENTICATION
+     ========================================================== */
 
-  --auth-card-bg: #0f172a73; /* 45% opacity */
-  --auth-card-border: #ffffff26; /* 15% opacity */
+  /* Authentication Background */
 
-  --auth-heading: #ffffff;
+  --auth-background-overlay: rgba(15, 23, 42, 0.45);
 
-  --auth-text: #ffffffd1; /* 82% opacity */
-  --auth-label: #ffffffeb; /* 92% opacity */
-  --auth-placeholder: #ffffff73; /* 45% opacity */
+  /* Authentication Card */
 
-  --auth-input-bg: #ffffff14; /* 8% opacity */
-  --auth-input-border: #ffffff2e; /* 18% opacity */
+  --auth-card-background: #f2f2f2;
+  --auth-card-border: rgba(255, 255, 255, 0.15);
+  --auth-card-shadow: 0 12px 40px rgba(15, 23, 42, 0.18);
 
-  --auth-input-focus: #3b82f659; /* 35% opacity */
-  --auth-forgot-password: #7dd3fc;
+  /* Authentication Typography */
 
-  /* Primary */
-  --color-primary: #1e40af;
-  --color-primary-hover: #1e3a8a;
-  --color-primary-light: #dbeafe;
-  --color-primary-subtle: #eff6ff;
+  --auth-heading-color: #ffffff;
+  --auth-subtitle-color: rgba(255, 255, 255, 0.82);
+  --auth-description-color: rgba(255, 255, 255, 0.75);
+
+  --auth-label-color: rgba(255, 255, 255, 0.92);
+
+  /* Authentication Inputs */
+
+  --auth-input-background: rgba(255, 255, 255, 0.08);
+  --auth-input-border: rgba(255, 255, 255, 0.18);
+  --auth-input-border-focus: #3b82f6;
+  --auth-input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+
+  --auth-input-text: #ffffff;
+  --auth-input-placeholder: rgba(255, 255, 255, 0.45);
+
+  --auth-divider-line: #ffffff;
+  --auth-branding-divider: #2f81f7;
+
+  /*Auth Toggle Eye*/
+  --auth-toggle-hover: rgba(255, 255, 255, 0.15);
+  --auth-toggle-text: #ffffff;
+
+  /* Authentication Buttons */
+
+  --auth-button-primary-background: #2563eb;
+  --auth-button-primary-hover: #1d4ed8;
+  --auth-button-primary-text: #ffffff;
+  --auth-button-border: #dedede;
+
+  --auth-button-secondary-background: rgba(255, 255, 255, 0.08);
+  --auth-button-secondary-hover: rgba(255, 255, 255, 0.15);
+  --auth-button-secondary-text: #ffffff;
+
+  /* Authentication Links */
+
+  --auth-link-color: #7dd3fc;
+  --auth-link-hover: #38bdf8;
+
+  /* Authentication Validation */
+
+  --auth-error-color: #ef4444;
+  --auth-success-color: #22c55e;
+
+  /* ==========================================================
+   AUTHENTICATION MODALS
+   ========================================================== */
+
+  /* Modal Card */
+
+  --auth-modal-background: #ffffff;
+  --auth-modal-border: #e2e8f0;
+  --auth-modal-shadow: 0 12px 40px rgba(15, 23, 42, 0.18);
+  --auth-mmodal-text: #1e293b;
+  /* Modal Typography */
+
+  --auth-modal-heading-color: #1e293b;
+  --auth-modal-subtitle-color: #64748b;
+  --auth-modal-description-color: #64748b;
+  --auth-modal-label-color: #475569;
+  --auth-modal-heading-border: #64748b;
+  --auth-modal-footer-border: #64748b;
+
+  /* Modal Inputs */
+
+  --auth-modal-input-background: #ffffff;
+  --auth-modal-input-border: #cbd5e1;
+  --auth-modal-input-border-focus: #2563eb;
+  --auth-modal-input-text: #1e293b;
+  --auth-modal-input-placeholder: #94a3b8;
+  --auth-modal-input-focus-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+
+  /*Modal Toggle*/
+  --auth-modal-toggle-hover: #bbb6b6;
+  --auth-modal-toggle-text: #000000;
+
+  /* Modal Buttons */
+
+  --auth-modal-button-text: #1e293b;
+
+  --auth-modal-button-primary-background: #2563eb;
+  --auth-modal-button-primary-hover: #1d4ed8;
+  --auth-modal-button-primary-text: #ffffff;
+
+  --auth-modal-button-secondary-background: #ffffff;
+  --auth-modal-button-secondary-hover: #f8fafc;
+
+  --auth-modal-button-secondary-border: #cbd5e1;
+
+  /* Modal Validation */
+
+  --auth-modal-error-color: #dc2626;
+  --auth-modal-success-color: #16a34a;
+
+
+  /* ==========================================================
+   LOADER
+   ========================================================== */
+
+--loader-overlay: rgba(255, 255, 255, 0.8);
+--loader-spinner-track: #dbeafe;
+--loader-spinner-active: #2563eb;
+--loader-text: #1e293b;
+
+  /* ==========================================================
+     APPLICATION
+     ========================================================== */
 
   /* Background */
-  --color-background: #ffffff;
-  --color-surface: #f8fafc;
-  --color-surface-alt: #f1f5f9;
-  --color-surface-hover: #eef2f7;
 
-  /* Text */
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #64748b;
-  --color-text-label: #475569;
-  --color-text-placeholder: #94a3b8;
-  --color-text-inverse: #ffffff;
+  --app-background: #ffffff;
+  --app-surface: #f8fafc;
+  --app-surface-secondary: #f1f5f9;
+  --app-surface-hover: #eef2f7;
 
-  /* Border */
-  --color-border: #e2e8f0;
-  --color-border-strong: #cbd5e1;
-  --color-divider: #eef1f5;
+  /* Typography */
+
+  --app-text-primary: #1e293b;
+  --app-text-secondary: #64748b;
+  --app-text-muted: #94a3b8;
+  --app-text-label: #475569;
+  --app-text-inverse: #ffffff;
+
+  /* Borders */
+
+  --app-border: #e2e8f0;
+  --app-border-strong: #cbd5e1;
+  --app-divider: #eef1f5;
+
+  /* Brand */
+
+  --app-primary: #1e40af;
+  --app-primary-hover: #1e3a8a;
+  --app-primary-light: #dbeafe;
+  --app-primary-subtle: #eff6ff;
 
   /* Status */
-  --color-success: #15803d;
-  --color-success-light: #dcfce7;
-  --color-warning: #b45309;
-  --color-warning-light: #fef3c7;
-  --color-danger: #b91c1c;
-  --color-danger-light: #fee2e2;
-  --color-info: #0369a1;
-  --color-info-light: #e0f2fe;
 
-  /* Sidebar */
-  --color-sidebar-bg: #f4f8ff;
-  --color-sidebar-text: #64748b;
-  --color-sidebar-text-active: #ebecec;
-  --color-sidebar-hover: #93c5fd;
+  --app-success: #15803d;
+  --app-success-background: #dcfce7;
 
-  /* Form Inputs */
-  --color-input-bg: #ffffff;
+  --app-warning: #b45309;
+  --app-warning-background: #fef3c7;
 
-  /* Shadows */
-  --shadow-input: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  --app-danger: #b91c1c;
+  --app-danger-background: #fee2e2;
+
+  --app-info: #0369a1;
+  --app-info-background: #e0f2fe;
+
+  /* ==========================================================
+     SIDEBAR
+     ========================================================== */
+
+  --sidebar-background: #f4f8ff;
+  --sidebar-text: #64748b;
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: #dbeafe;
+  --sidebar-active-background: #2563eb;
+
+  /* ==========================================================
+     HEADER
+     ========================================================== */
+
+  --header-background: #ffffff;
+  --header-text: #1e293b;
+  --header-border: #e2e8f0;
+  --header-icon: #64748b;
+  --header-icon-hover: #2563eb;
+
+  /* ==========================================================
+     FORM CONTROLS
+     ========================================================== */
+
+  --input-background: #ffffff;
+  --input-border: #cbd5e1;
+  --input-border-focus: #2563eb;
+  --input-text: #1e293b;
+  --input-placeholder: #94a3b8;
+
+  /* ==========================================================
+     SHADOWS
+     ========================================================== */
+
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.15);
 
-  /* Menu bar */
+  --focus-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .dark-theme {

@@ -18,7 +18,7 @@ section {
   align-items: center;
   justify-content: center;
 
-  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--auth-card-shadow);
   background: transparent;
   border-radius: 8px;
 
@@ -26,33 +26,6 @@ section {
 
   width: 520px;
 }
-/* 
-.signUp__branding {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background-color: var(--color-primary-light);
-  padding: 40px;
-  gap: 24px;
-  border-radius: 4px;
-}
-
-.signUp__logo {
-  height: 40px;
-  width: 100px;
-  border-radius: 4px;
-}
-
-.signUp__title {
-  color: var(--color-text-primary);
-  font-size: 34px;
-  font-weight: 900;
-}
-
-.signUp__description {
-  font-size: 16px;
-  color: var(--color-text-secondary);
-} */
 
 .signUp__form {
   display: flex;
@@ -67,11 +40,11 @@ section {
 .signUp__heading {
   font-weight: 800;
   font-size: 32px;
-  color: var(--auth-heading);
+  color: var(--auth-heading-color);
 }
 
 .signUp__subtitle {
-  color: var(--auth-text);
+  color: var(--auth-subtitle-color);
   font-size: 16px;
   font-weight: 700;
 }
@@ -90,7 +63,7 @@ section {
 }
 
 .signUp__label {
-  color: var(--auth-label);
+  color: var(--auth-label-color);
   font-size: 14px;
 }
 
@@ -103,26 +76,25 @@ section {
   width: 100%;
   height: 50px;
   padding: 16px;
-  background: var(--auth-input-bg);
+  background: var(--auth-input-background);
   border: 1px solid var(--auth-input-border);
-  color: white;
+  color: var(--auth-input-text);
   border-radius: 8px;
 }
 
 .signUp__input::placeholder {
   font-size: 14px;
   font-weight: 100;
-  color: var(--auth-placeholder);
+  color: var(--auth-input-placeholder);
 }
 
 .signUp__input:focus {
   outline: none;
-  box-shadow: var(--auth-input-focus);
+  box-shadow: var(--auth-input-focus-shadow);
 }
 
 .signUp__input option {
-  color: #000000;
-  background-color: #ffffff;
+  color: black;
 }
 
 .signUp__toggle {
@@ -140,14 +112,14 @@ section {
 
   border: none;
   background: none;
-  color: var(--color-text-secondary);
+  color: var(--auth-toggle-text);
   transition:
     color 0.2s ease,
     transform 0.2s ease;
 }
 
 .signUp__toggle:hover {
-  color: var(--color-text-primary);
+  color: var(--auth-toggle-hover);
 }
 
 .signUp__toggle:active {
@@ -155,7 +127,7 @@ section {
 }
 
 .signUp__toggle:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 1px solid var(---auth-toggle-text);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -167,6 +139,12 @@ section {
 
 .signUp__checkbox {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.signUp__checkbox-group {
+  display: flex;
   align-items: flex-start;
   gap: 8px;
 }
@@ -174,7 +152,7 @@ section {
 .signUp__checkbox-label {
   font-weight: normal;
   font-size: 14px;
-  color: var(--auth-label);
+  color: var(--auth-label-color);
 }
 
 .signUp__actions {
@@ -189,66 +167,50 @@ section {
   width: 100%;
   padding: 16px;
   border: 1px solid;
-  background-color: var(--color-primary);
-  color: var(--color-surface-alt);
+  background-color: var(--auth-button-primary-background);
+  color: var(--auth-button-primary-text);
   border-radius: 8px;
   font-size: 16px;
 }
 
 .signUp__button-primary:disabled {
-  background-color: var(--color-border);
-  color: var(--color-text-secondary);
+  background-color: var(--auth-button-primary-background);
+  color: var(--auth-button-primary-text);
 
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .signUp__button-primary:not(:disabled):hover {
-  background-color: var(--color-primary-hover);
+  background-color: var(--auth-button-primary-hover);
 }
 
 .signUp__text {
   font-size: 14px;
   font-weight: 300;
-  color: var(--color-text-secondary);
+  color: var(--auth-description-color);
 }
 
 .signUp__button-secondary {
   font-size: 14px;
   font-weight: 300;
   text-decoration: none;
-  color: var(--color-text-secondary);
+  color: var(--auth-link-color);
 }
 
 .signUp__button-secondary:hover {
-  color: var(--color-primary-hover);
+  color: var(--auth-link-hover);
 }
 
 .signUp__errors {
   font-size: 14px;
   font-weight: 500;
-  color: var(--color-danger);
-}
-
-@media (max-width: 1024px) {
-  .signUp {
-    padding: 24px;
-  }
-  .signUp__branding,
-  .signUp__form {
-    padding: 40px;
-  }
-  .signUp__title {
-    font-size: 28px;
-  }
-  .signUp__heading {
-    font-size: 28px;
-  }
+  color: var(--auth-error-color);
 }
 
 @media (max-width: 768px) {
-  .signUp__branding {
-    display: none;
+  .signUp__card {
+    width: 100%;
   }
   .signUp__form {
     width: 100%;
@@ -261,4 +223,10 @@ section {
   .signUp__subtitle {
     font-size: 16px;
   }
+}
+
+.signUp__input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  transform: scale(1.5);
+  opacity: 1;
 }

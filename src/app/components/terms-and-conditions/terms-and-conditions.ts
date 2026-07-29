@@ -7,16 +7,14 @@ import { Component, output } from '@angular/core';
   styleUrl: './terms-and-conditions.css',
 })
 export class TermsAndConditions {
-  
-  accept = output<void>();
   cancel = output<void>();
+  // accept = output<void>();
 
-  onAccept():void {
-    this.accept.emit();
-  }
+  // onAccept(): void {
+  //   this.accept.emit();
+  // }
 
-  onCancel():void {
+  onCancel(): void {
     this.cancel.emit();
   }
-
 }

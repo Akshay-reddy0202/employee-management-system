@@ -1,4 +1,4 @@
 export interface LoginRequestInterface {
-    employeeId : string;
-    password: string;
+  employeeId: string;
+  password: string;
 }

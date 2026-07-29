@@ -16,11 +16,10 @@
 
   display: flex;
   flex-direction: column;
-
-  background: var(--color-surface);
+  background: var(--auth-modal-background);
   border-radius: 16px;
 
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--auth-modal-shadow);
 
   overflow: hidden;
 }
@@ -28,12 +27,13 @@
 .terms__header {
   padding: 20px 24px;
 
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--auth-modal-heading-border);
 }
 
 .terms__title {
   font-size: 24px;
-  color: var(--color-text-primary);
+  font-weight: 700;
+  color: var(--auth-modal-heading-color);
 }
 
 .terms__content {
@@ -49,7 +49,7 @@
 .terms__paragraph {
   margin-bottom: 16px;
 
-  color: var(--color-text-secondary);
+  color: var(--auth-mmodal-text);
 }
 
 .terms__footer {
@@ -59,7 +59,7 @@
 
   padding: 16px 24px;
 
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--auth-modal-footer-border);
 }
 
 .terms__button {
@@ -73,11 +73,11 @@
 }
 
 .terms__button--secondary {
-  background: var(--color-surface-secondary);
+  background: var(--auth-modal-button-primary-background);
   color: var(--color-text-primary);
 }
 
 .terms__button--primary {
-  background: var(--color-primary);
-  color: white;
+  background: var(--auth-modal-button-primary-background);
+  color: var(--auth-modal-button-primary-text);
 }

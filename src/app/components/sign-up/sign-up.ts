@@ -94,7 +94,10 @@ export class SignUp {
     const formValue = this.signUpForm.getRawValue();
     this.authService.register(formValue).subscribe({
       next: (employee) => {
-        this.toastr.success('Employee registered successfully', 'Success');
+        this.toastr.success(
+          `Your Employee ID is ${employee.employeeId}`,
+          'Registration Successful',
+        );
         this.signUpForm.reset();
         this.router.navigate(['/sign-in']);
       },
@@ -125,9 +128,20 @@ export class SignUp {
 
   isTermsModalOpen = signal(false);
 
-  onCheckboxClick(event: MouseEvent): void {
-    event.preventDefault();
-    this.openTermsModal();
+  onCheckboxChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+
+    if (checkbox.checked) {
+      event.preventDefault();
+
+      // Keep checkbox unchecked for now
+      this.signUpForm.get('checkbox')?.setValue(false);
+
+      this.openTermsModal();
+    } else {
+      // User is unchecking
+      this.signUpForm.get('checkbox')?.setValue(false);
+    }
   }
 
   openTermsModal(): void {
@@ -138,13 +152,13 @@ export class SignUp {
     this.isTermsModalOpen.set(false);
   }
 
-  acceptTerms(): void {
-    this.signUpForm.get('checkbox')?.setValue(true);
-    this.closeTermsModal();
-  }
+  // acceptTerms(): void {
+  //   this.signUpForm.get('checkbox')?.setValue(true);
+  //   this.closeTermsModal();
+  // }
 
   cancelTerms(): void {
-    this.signUpForm.get('checkbox')?.setValue(false);
+    this.signUpForm.get('checkbox')?.setValue(true);
     this.closeTermsModal();
   }
 
@@ -160,7 +174,7 @@ export class SignUp {
         debounceTime(500),
         distinctUntilChanged(),
         filter(() => emailControl.valid),
-        switchMap((email:string) => this.authService.checkEmailExists(email)),
+        switchMap((email: string) => this.authService.checkEmailExists(email)),
       )
       .subscribe((emailExists) => {
         this.handleEmailExists(emailExists);

@@ -4,14 +4,14 @@ export function confirmPasswordValidator(formGroup: AbstractControl): Validation
   const createPasswordControl = formGroup.get('createPassword');
   const confirmPasswordControl = formGroup.get('confirmPassword');
 
-  const password = createPasswordControl?.value;
+  const createPassword = createPasswordControl?.value;
   const confirmPassword = confirmPasswordControl?.value;
 
-  if (!password || !confirmPassword) {
+  if (!createPassword || !confirmPassword) {
     return null;
   }
 
-  if (password === confirmPassword) {
+  if (createPassword === confirmPassword) {
     return null;
   }
 

@@ -1,16 +1,6 @@
 <section>
   <div class="signUp">
     <div class="signUp__card">
-      <!-- <div class="signUp__branding">
-        <img src="logo.jpg" alt="logo" class="signUp__logo" />
-
-        <h1 class="signUp__title">Employee Management System</h1>
-
-        <p class="signUp__description">
-          Manage employees,departments,attendance and payroll from the secure platform
-        </p>
-      </div> -->
-
       <div class="signUp__form">
         <h2 class="signUp__heading">Sign Up</h2>
         <p class="signUp__subtitle">Create your employee account</p>
@@ -66,6 +56,9 @@
             />
             @if (emailID?.touched && emailID?.hasError('required')) {
               <p class="signUp__errors">This field is required</p>
+            }
+            @if (emailID?.touched && emailID?.hasError('email')) {
+              <p class="signUp__errors">Email Id is not valid</p>
             }
 
             @if (emailID?.hasError('emailExists')) {
@@ -228,27 +221,26 @@
           </div>
 
           <div class="signUp__checkbox">
-            <input
-              type="checkbox"
-              id="termsAndConditions"
-              name="checkbox"
-              formControlName="checkbox"
-              class="signUp__checkbox-input"
-              (click)="onCheckboxClick($event)"
-            />
-            <label for="termsAndConditions" class="signUp__checkbox-label"
-              >I agree to the Terms & Conditions</label
-            >
+            <div class="signUp__checkbox-group">
+              <input
+                type="checkbox"
+                id="termsAndConditions"
+                name="checkbox"
+                formControlName="checkbox"
+                class="signUp__checkbox-input"
+                (change)="onCheckboxChange($event)"
+              />
+              <label for="termsAndConditions" class="signUp__checkbox-label"
+                >I agree to the Terms & Conditions</label
+              >
+            </div>
 
             @if (checkbox?.hasError('required') && checkbox?.touched) {
               <p class="signUp__errors">Accept all the terms and condtions</p>
             }
 
             @if (isTermsModalOpen()) {
-              <app-terms-and-conditions
-                (accept)="acceptTerms()"
-                (cancel)="cancelTerms()"
-              ></app-terms-and-conditions>
+              <app-terms-and-conditions (cancel)="cancelTerms()"></app-terms-and-conditions>
             }
           </div>
 

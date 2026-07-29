@@ -27,7 +27,7 @@ export class SignIn {
       nonNullable: true,
       validators: [Validators.required, passwordValidator, Validators.maxLength(15)],
     }),
-    role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    // role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     checkbox: new FormControl(false, { nonNullable: true, validators: [Validators.requiredTrue] }),
   });
 
@@ -39,16 +39,16 @@ export class SignIn {
     return this.loginForm.get('password');
   }
 
-  get role() {
-    return this.loginForm.get('role');
-  }
+  // get role() {
+  //   return this.loginForm.get('role');
+  // }
   get checkbox() {
     return this.loginForm.get('checkbox');
   }
 
-  ngOnInit(): void {
-    this.initializeEmployeeIdListener();
-  }
+  // ngOnInit(): void {
+  //   this.initializeEmployeeIdListener();
+  // }
 
   private readonly authService = inject(AuthService);
   private toastr = inject(ToastrService);
@@ -72,40 +72,40 @@ export class SignIn {
     });
   }
 
-  private initializeEmployeeIdListener(): void {
-    const employeeIdControl = this.employeeId;
+  // private initializeEmployeeIdListener(): void {
+  //   const employeeIdControl = this.employeeId;
 
-    if (!employeeIdControl) {
-      return;
-    }
+  //   if (!employeeIdControl) {
+  //     return;
+  //   }
 
-    employeeIdControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        filter((employeeId) => !!employeeId && /^E\d{4}$/.test(employeeId)),
-      )
-      .subscribe((employeeId) => {
-        this.fetchRole(employeeId);
-      });
-  }
+  //   employeeIdControl.valueChanges
+  //     .pipe(
+  //       debounceTime(500),
+  //       distinctUntilChanged(),
+  //       filter((employeeId) => !!employeeId && /^E\d{4}$/.test(employeeId)),
+  //     )
+  //     .subscribe((employeeId) => {
+  //       this.fetchRole(employeeId);
+  //     });
+  // }
 
-  protected fetchRole(employeeId: string): void {
-    this.authService.getEmployeeById(employeeId).subscribe({
-      next: (employee) => {
-        if (employee) {
-          this.loginForm.patchValue({
-            role: employee.role,
-          });
-        } else {
-          this.loginForm.patchValue({
-            role: '',
-          });
-          this.role?.reset();
-        }
-      },
-    });
-  }
+  // protected fetchRole(employeeId: string): void {
+  //   this.authService.getEmployeeById(employeeId).subscribe({
+  //     next: (employee) => {
+  //       if (employee) {
+  //         this.loginForm.patchValue({
+  //           role: employee.role,
+  //         });
+  //       } else {
+  //         this.loginForm.patchValue({
+  //           role: '',
+  //         });
+  //         this.role?.reset();
+  //       }
+  //     },
+  //   });
+  // }
 
   showPassword = signal(false);
 
