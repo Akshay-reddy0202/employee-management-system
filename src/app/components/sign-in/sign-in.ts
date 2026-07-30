@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth-service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { EmployeeInterface } from '../../models/employee-interface';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { ThemeService } from '../../services/theme-service';
 
 @Component({
   selector: 'app-sign-in',
@@ -53,6 +54,7 @@ export class SignIn {
   private readonly authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  public themeService = inject(ThemeService);
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -62,6 +64,7 @@ export class SignIn {
     this.authService.login(formValue).subscribe({
       next: (employee) => {
         this.authService.saveCurrentUser(employee);
+        this.themeService.setTheme(employee.theme);
         this.toastr.success('Login Success', 'Success');
         this.loginForm.reset();
         this.router.navigate(['/dashboard']);
@@ -71,41 +74,6 @@ export class SignIn {
       },
     });
   }
-
-  // private initializeEmployeeIdListener(): void {
-  //   const employeeIdControl = this.employeeId;
-
-  //   if (!employeeIdControl) {
-  //     return;
-  //   }
-
-  //   employeeIdControl.valueChanges
-  //     .pipe(
-  //       debounceTime(500),
-  //       distinctUntilChanged(),
-  //       filter((employeeId) => !!employeeId && /^E\d{4}$/.test(employeeId)),
-  //     )
-  //     .subscribe((employeeId) => {
-  //       this.fetchRole(employeeId);
-  //     });
-  // }
-
-  // protected fetchRole(employeeId: string): void {
-  //   this.authService.getEmployeeById(employeeId).subscribe({
-  //     next: (employee) => {
-  //       if (employee) {
-  //         this.loginForm.patchValue({
-  //           role: employee.role,
-  //         });
-  //       } else {
-  //         this.loginForm.patchValue({
-  //           role: '',
-  //         });
-  //         this.role?.reset();
-  //       }
-  //     },
-  //   });
-  // }
 
   showPassword = signal(false);
 

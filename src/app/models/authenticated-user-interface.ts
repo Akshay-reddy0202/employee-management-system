@@ -1,8 +1,9 @@
 export interface AuthenticatedUserInterface {
-      id: number,
-      employeeId: string,
-      role: string,
-      fullName: string,
-      dateOfBirth: string,
-      emailID: string,
+  id: number;
+  employeeId: string;
+  role: string;
+  fullName: string;
+  dateOfBirth: string;
+  emailID: string;
+  theme: 'light' | 'dark';
 }

@@ -72,6 +72,7 @@ export class AuthService {
               dateOfBirth: signUpForm.dateOfBirth,
               emailID: signUpForm.emailID,
               password: signUpForm.createPassword,
+              theme: 'light',
             };
 
             return this.http.post<EmployeeInterface>(`${this.apiUrl}/employees`, employee, {
@@ -139,6 +140,7 @@ export class AuthService {
       fullName: employee.fullName,
       dateOfBirth: employee.dateOfBirth,
       emailID: employee.emailID,
+      theme: employee.theme,
     };
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(currentUser));
     this.currentUser.set(currentUser);
@@ -156,6 +158,32 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     return this.loggedInUser() !== null;
+  }
+
+  public updateUserTheme(theme: 'light' | 'dark'): Observable<AuthenticatedUserInterface> {
+    const currentUser = this.currentUser();
+
+    if (!currentUser) {
+      return throwError(() => new Error('No authenticated user'));
+    }
+
+    return this.http
+      .patch<EmployeeInterface>(`${this.apiUrl}/employees/${currentUser.id}`, {
+        theme,
+      })
+      .pipe(
+        map(() => {
+          const updatedUser: AuthenticatedUserInterface = {
+            ...currentUser,
+            theme,
+          };
+
+          this.currentUser.set(updatedUser);
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedUser));
+
+          return updatedUser;
+        }),
+      );
   }
 
   public logout(): void {

@@ -1,22 +1,16 @@
-<section>
-  <header class="header">
-    <div class="header__navigation">
-      <button
-        class="header__menu-button"
-        (click)="sidebarOpen()"
-        [class.header__menu-button--active]="sidebarService.isSidebarOpen()"
-        type="button"
-      >
-        <span class="header__menu-line"></span>
-        <span class="header__menu-line"></span>
-        <span class="header__menu-line"></span>
-      </button>
-      <img src="logo.jpg" alt="" class="header__logo" />
-      <h1 class="header__title">Home</h1>
+<header class="header">
+  <div class="header__left">
+    <div class="header__brand">
+      <img src="cropped-iceDQ-Favicon-PNG.png" alt="logo" class="header__logo" />
+      <p class="header__logo-text">iceDQ</p>
     </div>
 
+    <h1 class="header__title">Home</h1>
+  </div>
+
+  <div class="header__center">
     <div class="header__search">
-      <input type="text" class="header__search-input" placeholder="search..." />
+      <input type="search" class="header__search-input" placeholder="search..." />
 
       <button class="header__search-button">
         <svg
@@ -36,56 +30,144 @@
         </svg>
       </button>
     </div>
+  </div>
 
-    <div class="header__actions">
-      <button (click)="changeTheme()" class="header__theme-button">
-        @if (!isDarkTheme()) {
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="header__theme-icon"
-          >
-            <path
-              d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
-            />
-          </svg>
-        } @else {
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="header__theme-icon"
-          >
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2" />
-            <path d="M12 20v2" />
-            <path d="m4.93 4.93 1.41 1.41" />
-            <path d="m17.66 17.66 1.41 1.41" />
-            <path d="M2 12h2" />
-            <path d="M20 12h2" />
-            <path d="m6.34 17.66-1.41 1.41" />
-            <path d="m19.07 4.93-1.41 1.41" />
-          </svg>
-        }
-      </button>
-      
-      <a routerLink="/sign-up" class="header__signUp-button">SignUp</a>
-      <a routerLink="/sign-in" class="header__login-button">Login</a>
-      <a (click)="logout()" class="header__logout-button">Logout</a>
-      
+  <div class="header__right">
+    <button (click)="changeTheme()" class="header__theme-button">
+      @if (currentTheme() === 'light') {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="header__theme-icon"
+        >
+          <path
+            d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
+          />
+        </svg>
+      } @else {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="header__theme-icon"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" />
+          <path d="M12 20v2" />
+          <path d="m4.93 4.93 1.41 1.41" />
+          <path d="m17.66 17.66 1.41 1.41" />
+          <path d="M2 12h2" />
+          <path d="M20 12h2" />
+          <path d="m6.34 17.66-1.41 1.41" />
+          <path d="m19.07 4.93-1.41 1.41" />
+        </svg>
+      }
+    </button>
+
+    <div class="header__avatar">
+      <p class="header__avatar-text">AB</p>
+      <div class="header__avatar-tooltip">
+        <p class="header__avatar-name">Akshay Badalwar</p>
+      </div>
     </div>
-  </header>
-</section>
+
+    <div class="header__role">
+      <button class="header__role-button" (click)="toggleRoleDropdown()">
+        <span class="header__role-text">Admin</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="header__role-icon"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      @if (isRoleMenuOpen()) {
+        <div class="header__dropdown">
+          <button class="header__dropdown-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="header__dropdown-icon"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="10" r="3" />
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+            </svg>
+
+            Profile
+          </button>
+
+          <button class="header__dropdown-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="header__dropdown-icon"
+            >
+              <path
+                d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+              />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+
+            Settings
+          </button>
+          <button class="header__dropdown-item" (click)="logout()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="header__dropdown-icon"
+            >
+              <path d="m16 17 5-5-5-5" />
+              <path d="M21 12H9" />
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            </svg>
+
+            Logout
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

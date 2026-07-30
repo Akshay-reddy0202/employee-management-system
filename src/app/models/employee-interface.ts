@@ -3,7 +3,8 @@ export interface EmployeeInterface {
   role: string;
   employeeId: string;
   fullName: string;
-  dateOfBirth:string;
+  dateOfBirth: string;
   emailID: string;
   password: string;
+  theme: 'light' | 'dark';
 }

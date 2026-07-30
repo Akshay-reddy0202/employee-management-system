@@ -49,7 +49,7 @@
 .terms__paragraph {
   margin-bottom: 16px;
 
-  color: var(--auth-mmodal-text);
+  color: var(--auth-modal-text);
 }
 
 .terms__footer {

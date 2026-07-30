@@ -2,12 +2,12 @@ import { effect, Service, signal } from '@angular/core';
 
 @Service()
 export class ThemeService {
-  isDarkTheme = signal(false);
+  currentTheme = signal<'light' | 'dark'>('light');
 
   constructor() {
     effect(() => {
       const html = document.documentElement;
-      if (this.isDarkTheme()) {
+      if (this.currentTheme() === 'dark') {
         html.classList.add('dark-theme');
       } else {
         html.classList.remove('dark-theme');
@@ -15,19 +15,11 @@ export class ThemeService {
     });
   }
 
-  get() {
-    const currentTheme = this.isDarkTheme();
-  }
-  
-  toggle() {
-    this.isDarkTheme.update((value) => !value);
+  public setTheme(theme: 'light' | 'dark'): void {
+    this.currentTheme.set(theme);
   }
 
-  lightTheme() {
-    this.isDarkTheme.set(false);
-  }
-
-  darkTheme() {
-    this.isDarkTheme.set(true);
+  public getCurrentTheme(): 'light' | 'dark' {
+    return this.currentTheme();
   }
 }
