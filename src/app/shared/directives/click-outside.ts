@@ -16,7 +16,7 @@ export class ClickOutside {
     const clickedInside = this.elementRef.nativeElement.contains(event.target as Node);
 
     if (!clickedInside) {
-      this.clickOutside.emit();
+      this.emitClickOutside();
     }
   }
 

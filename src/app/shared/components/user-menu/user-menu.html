@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="user-menu__role">
+  <div class="user-menu__role" appClickOutside   [appClickOutside]="isMenuOpen()" (clickOutside)="closeMenu()">
     <button class="user-menu__role-button" (click)="toggleDropdown()">
       <span class="user-menu__role-text">{{ authService.loggedInUser()?.role }}</span>
       <svg
