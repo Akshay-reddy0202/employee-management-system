@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="user-menu__role" appClickOutside   [appClickOutside]="isMenuOpen()" (clickOutside)="closeMenu()">
+  <div class="user-menu__role" [appClickOutside]="isMenuOpen()" (clickOutside)="closeMenu()">
     <button class="user-menu__role-button" (click)="toggleDropdown()">
       <span class="user-menu__role-text">{{ authService.loggedInUser()?.role }}</span>
       <svg
@@ -26,7 +26,7 @@
     </button>
     @if (isMenuOpen()) {
       <div class="user-menu__dropdown">
-        <button class="user-menu__dropdown-item">
+        <button class="user-menu__dropdown-item" (click)="goToProfile()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -47,7 +47,7 @@
           Profile
         </button>
 
-        <button class="user-menu__dropdown-item">
+        <button class="user-menu__dropdown-item" (click)="goToSettings()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

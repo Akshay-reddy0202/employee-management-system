@@ -1,7 +1,16 @@
-<aside class="sidebar" [class.sidebar--open]="sidebarService.isSidebarOpen()">
+<aside
+  class="sidebar"
+  [class.sidebar--expanded]="sidebarService.isExpanded()"
+>
   <header class="sidebar__header">
-    <h2 class="sidebar__title">Employee Management System</h2>
-    <button class="sidebar__close" (click)="closeSidebar()">
+    <div class="sidebar__branding">
+      <img src="cropped-iceDQ-Favicon-PNG.png" alt="logo" class="sidebar__branding-logo" />
+      @if (sidebarService.isExpanded()) {
+        <p class="sidebar__branding-text">iceDQ</p>
+      }
+    </div>
+
+    <button class="sidebar__toggle" type="button" (click)="sidebarService.toggle()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -12,19 +21,19 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="sidebar__close-icon"
+        class="sidebar__expand-icon"
       >
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
+        <path d="m9 18 6-6-6-6" />
       </svg>
     </button>
   </header>
 
-  <nav class="sidebar__navigation">
-    <a href="" class="sidebar__item">Dashboard</a>
-    <a href="" class="sidebar__item">Employees</a>
-    <a href="" class="sidebar__item">Attendance</a>
-    <a href="" class="sidebar__item">Payroll</a>
-    <a href="" class="sidebar__item">Application</a>
-  </nav>
+  <div class="sidebar__content">
+    <nav class="sidebar__navigation">
+      @for (item of navigationItems; track item.id) {
+        <app-navigation-item [item]="item" [expanded]="sidebarService.isExpanded()">
+        </app-navigation-item>
+      }
+    </nav>
+  </div>
 </aside>

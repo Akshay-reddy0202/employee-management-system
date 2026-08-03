@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { InitialsPipePipe } from '../../pipes/initials.pipe';
 import { ClickOutside } from '../../directives/click-outside';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-menu',
@@ -11,6 +12,7 @@ import { ClickOutside } from '../../directives/click-outside';
 })
 export class UserMenu {
   protected readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly isMenuOpen = signal(false);
 
@@ -24,5 +26,15 @@ export class UserMenu {
 
   closeMenu(): void {
     this.isMenuOpen.set(false);
+  }
+
+  goToProfile(): void {
+    this.closeMenu();
+    this.router.navigate(['/profile']);
+  }
+
+  goToSettings(): void {
+    this.closeMenu();
+    this.router.navigate(['/settings']);
   }
 }

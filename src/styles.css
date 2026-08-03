@@ -189,11 +189,12 @@ body {
      SIDEBAR
      ========================================================== */
 
-  --sidebar-background: #f4f8ff;
+  --sidebar-background: #eff0f3;
   --sidebar-border: #cbd5e1;
   --sidebar-header-border: #64748b;
   --sidebar-text: #444e5c;
-  --sidebar-text-active: #ffffff;
+  --sidebar-logo-text: #6ba0e2;
+  --sidebar-text-active: #3a3838;
   --sidebar-hover: #ebf1f8;
   --sidebar-active-background: #2563eb;
 
@@ -205,7 +206,7 @@ body {
   --header-text: #1e293b;
   --header-border: #e2e8f0;
   --header-menu-hover: #f5f8fb;
-  --header-logo-text: #6ba0e2;
+
   --header-icon: #eff2f6;
   --header-icon-hover: #2563eb;
   --header-text-hover: #606263;
@@ -402,12 +403,13 @@ body {
      SIDEBAR
      ========================================================== */
 
-  --sidebar-background: #111827;
-  --sidebar-border: #334155;
+  --sidebar-background: #1f2836;
+  --sidebar-border: #c4cbd4;
   --sidebar-header-border: #cbd5e1;
   --sidebar-text: #ebf0f7;
+  --sidebar-logo-text: #6ba0e2;
   --sidebar-text-active: #ffffff;
-  --sidebar-hover: #1e293b;
+  --sidebar-hover: #2d3b52;
   --sidebar-active-background: #2563eb;
 
   /* ==========================================================
@@ -419,7 +421,7 @@ body {
   --header-border: #334155;
   --header-menu-hover: #1e293b;
   --header-icon: #4e6377;
-  --header-logo-text: #6ba0e2;
+
   --header-icon-hover: #60a5fa;
   --header-text-hover: #d9d9da;
 

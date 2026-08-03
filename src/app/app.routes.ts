@@ -7,6 +7,11 @@ import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 import { Dashboard } from './features/dashboard/pages/dashboard/dashboard';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { Profile } from './features/profile/profile';
+import { Settings } from './features/settings/settings';
+import { Employees } from './features/employees/employees';
+import { Attendance } from './features/attendance/attendance';
+import { Application } from './features/application/application';
 
 export const routes: Routes = [
   {
@@ -35,7 +40,14 @@ export const routes: Routes = [
     path: '',
     component: DashboardLayout,
     canActivate: [authGuard],
-    children: [{ path: 'dashboard', component: Dashboard, data: { title: 'Dashboard' } }],
+    children: [
+      { path: 'dashboard', component: Dashboard, data: { title: 'Dashboard' } },
+      { path: 'employees', component: Employees, data: { title: 'Employees' } },
+      { path: 'attendance', component: Attendance, data: { title: 'Attendance' } },
+      { path: 'application', component: Application, data: { title: 'Application' } },
+      { path: 'profile', component: Profile, data: { title: 'Profile' } },
+      { path: 'settings', component: Settings, data: { title: 'Settings' } },
+    ],
   },
   { path: '**', redirectTo: 'sign-in' },
 ];

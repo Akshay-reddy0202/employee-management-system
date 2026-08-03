@@ -2,17 +2,17 @@ import { Service, signal } from '@angular/core';
 
 @Service()
 export class SidebarService {
-  isSidebarOpen = signal(false);
+  readonly isExpanded = signal(false);
 
   toggle() {
-    this.isSidebarOpen.update((value) => !value);
+    this.isExpanded.update((value) => !value);
   }
 
-  open() {
-    this.isSidebarOpen.set(true);
+  expand() {
+    this.isExpanded.set(true);
   }
 
-  close() {
-    this.isSidebarOpen.set(false);
+  collapse() {
+    this.isExpanded.set(false);
   }
 }

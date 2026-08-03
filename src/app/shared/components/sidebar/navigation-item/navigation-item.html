@@ -1,0 +1,15 @@
+<a class="navigation-item" [routerLink]="item().route" routerLinkActive="navigation-item--active">
+  <div class="navigation-item__icon" [innerHTML]="iconSvg"></div>
+
+  @if (expanded()) {
+    <span class="navigation-item__label">
+      {{ item().label }}
+    </span>
+  }
+
+  @if (!expanded()) {
+    <span class="navigation-item__tooltip">
+      {{ item().tooltip }}
+    </span>
+  }
+</a>
