@@ -11,7 +11,7 @@ import { Settings } from './features/settings/settings';
 import { Employees } from './features/employees/employees';
 import { Attendance } from './features/attendance/attendance';
 import { Application } from './features/application/application';
-import { Departments } from './features/departments/departments';
+import { Departments } from './features/departments/pages/departments';
 
 export const routes: Routes = [
   {

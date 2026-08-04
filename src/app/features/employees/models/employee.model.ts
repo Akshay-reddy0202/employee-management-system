@@ -9,4 +9,10 @@ export interface EmployeeInterface {
   emailID: string;
   password: string;
   theme: Theme;
+
+   departmentId?: number | null;
+  designationId?: number | null;
+  managerId?: number | null;
+  status?: string | null;
+  joiningDate?: string | null;
 }
