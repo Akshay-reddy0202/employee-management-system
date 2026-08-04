@@ -3,10 +3,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { InitialsPipePipe } from '../../pipes/initials.pipe';
 import { ClickOutside } from '../../directives/click-outside';
 import { Router, RouterLink } from '@angular/router';
+import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-user-menu',
-  imports: [InitialsPipePipe, ClickOutside],
+  imports: [InitialsPipePipe, ClickOutside, ConfirmationDialog],
   templateUrl: './user-menu.html',
   styleUrl: './user-menu.css',
 })
@@ -15,9 +16,19 @@ export class UserMenu {
   private readonly router = inject(Router);
 
   readonly isMenuOpen = signal(false);
+  readonly isConfirmationDialogOpen = signal(false);
 
-  logout(): void {
+  protected logout(): void {
+    this.closeLogoutDialog();
     this.authService.logout();
+  }
+
+  protected openLogoutDialog(): void {
+    this.isConfirmationDialogOpen.set(true);
+  }
+
+  protected closeLogoutDialog(): void {
+    this.isConfirmationDialogOpen.set(false);
   }
 
   toggleDropdown(): void {

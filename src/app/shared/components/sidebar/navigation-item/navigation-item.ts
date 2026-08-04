@@ -17,6 +17,6 @@ export class NavigationItem {
   readonly expanded = input.required<boolean>();
 
   protected get iconSvg(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml (this.icons[this.item().icon]);
+    return this.sanitizer.bypassSecurityTrustHtml(this.icons[this.item().icon]);
   }
 }

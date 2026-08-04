@@ -1,0 +1,30 @@
+<div class="confirmation-dialog">
+  <div class="confirmation-dialog__backdrop"></div>
+  <div class="confirmation-dialog__card">
+    <h2 class="confirmation-dialog__title">{{ title() }}</h2>
+    <p class="confirmation-dialog__message">
+      {{ message() }}
+    </p>
+
+    <div class="confirmation-dialog__actions">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="confirmation-dialog__button confirmation-dialog__button--secondary"
+      >
+        {{ cancelText() }}
+      </button>
+
+      <button
+        type="button"
+        class="confirmation-dialog__button"
+        [class.confirmation-dialog__button--danger]="variant() === 'danger'"
+        [class.confirmation-dialog__button--warning]="variant() === 'warning'"
+        [class.confirmation-dialog__button--info]="variant() === 'info'"
+        (click)="onConfirm()"
+      >
+        {{ confirmText() }}
+      </button>
+    </div>
+  </div>
+</div>

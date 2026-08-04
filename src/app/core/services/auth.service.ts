@@ -9,6 +9,7 @@ import { LoginRequestInterface } from '../../features/auth/models/login-request.
 import { AuthenticatedUserInterface } from '../models/authenticated-user.model';
 import { SHOW_LOADER } from '../interceptors/loading-token.interceptor';
 import { Router } from '@angular/router';
+import { Theme } from '../enums/theme.enum';
 
 @Service()
 export class AuthService {
@@ -74,7 +75,7 @@ export class AuthService {
               dateOfBirth: signUpForm.dateOfBirth,
               emailID: signUpForm.emailID,
               password: signUpForm.createPassword,
-              theme: 'light',
+              theme: Theme.LIGHT,
             };
 
             return this.http.post<EmployeeInterface>(`${this.apiUrl}/employees`, employee, {
@@ -142,7 +143,7 @@ export class AuthService {
       fullName: employee.fullName,
       dateOfBirth: employee.dateOfBirth,
       emailID: employee.emailID,
-      theme: employee.theme,
+      theme: Theme.LIGHT,
     };
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(currentUser));
     this.currentUser.set(currentUser);
@@ -162,7 +163,7 @@ export class AuthService {
     return this.loggedInUser() !== null;
   }
 
-  public updateUserTheme(theme: 'light' | 'dark'): Observable<AuthenticatedUserInterface> {
+  public updateUserTheme(theme: Theme): Observable<AuthenticatedUserInterface> {
     const currentUser = this.currentUser();
 
     if (!currentUser) {

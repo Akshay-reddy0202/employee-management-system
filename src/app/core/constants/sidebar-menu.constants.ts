@@ -17,13 +17,20 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
   },
   {
     id: 3,
+    label: 'Departments',
+    tooltip: 'Departments',
+    route: '/departments',
+    icon: 'departments',
+  },
+  {
+    id: 4,
     label: 'Attendance',
     tooltip: 'Attendance',
     route: '/attendance',
     icon: 'attendance',
   },
   {
-    id: 4,
+    id: 5,
     label: 'Application',
     tooltip: 'Application',
     route: '/application',

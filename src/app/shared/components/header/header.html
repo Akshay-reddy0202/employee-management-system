@@ -28,8 +28,8 @@
   </div>
 
   <div class="header__right">
-    <button (click)="changeTheme()" class="header__theme-button">
-      @if (currentTheme() === 'light') {
+    <button (click)="changeTheme()" class="header__theme-button" type="button">
+      @if (currentTheme() === Theme.LIGHT) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

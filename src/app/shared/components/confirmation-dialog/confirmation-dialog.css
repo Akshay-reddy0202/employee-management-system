@@ -1,0 +1,131 @@
+.confirmation-dialog {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.confirmation-dialog__backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.45);
+
+  backdrop-filter: blur(4px);
+}
+
+.confirmation-dialog__card {
+  position: relative;
+
+  width: 420px;
+  max-width: calc(100vw - 32px);
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 16px;
+
+  background: var(--app-surface);
+
+  box-shadow: var(--shadow-lg);
+
+  z-index: 1;
+
+  animation: confirmation-dialog-fade 0.2s ease;
+}
+
+.confirmation-dialog__title {
+  font-size: 22px;
+  font-weight: 600;
+
+  color: var(--app-text-primary);
+}
+
+.confirmation-dialog__message {
+  font-size: 15px;
+  line-height: 1.6;
+
+  color: var(--app-text-secondary);
+}
+
+.confirmation-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+.confirmation-dialog__button {
+  min-width: 110px;
+
+  padding: 10px 18px;
+
+  border-radius: 8px;
+  border: 1px solid transparent;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.confirmation-dialog__button:hover {
+  transform: translateY(-1px);
+}
+
+.confirmation-dialog__button--secondary {
+  background: var(--app-surface-secondary);
+
+  border-color: var(--app-border);
+
+  color: var(--app-text-primary);
+}
+
+.confirmation-dialog__button--secondary:hover {
+  background: var(--app-surface-hover);
+}
+
+.confirmation-dialog__button--primary:hover {
+  opacity: 0.9;
+}
+
+.confirmation-dialog__button--danger {
+  background: var(--app-danger);
+  color: var(--app-text-inverse);
+}
+
+.confirmation-dialog__button--warning {
+  background: var(--app-warning);
+  color: var(--app-text-inverse);
+}
+
+.confirmation-dialog__button--info {
+  background: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+@keyframes confirmation-dialog-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

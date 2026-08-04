@@ -1,3 +1,5 @@
+import { Theme } from "../../../core/enums/theme.enum";
+
 export interface EmployeeInterface {
   id?: number;
   role: string;
@@ -6,5 +8,5 @@ export interface EmployeeInterface {
   dateOfBirth: string;
   emailID: string;
   password: string;
-  theme: 'light' | 'dark';
+  theme: Theme;
 }

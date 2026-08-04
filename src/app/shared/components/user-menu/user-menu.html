@@ -68,7 +68,7 @@
 
           Settings
         </button>
-        <button class="user-menu__dropdown-item" (click)="logout()">
+        <button class="user-menu__dropdown-item" (click)="openLogoutDialog()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -88,6 +88,18 @@
 
           Logout
         </button>
+        @if (isConfirmationDialogOpen()) {
+          <app-confirmation-dialog
+            title="Logout"
+            message="Are you sure you want to logout? You will need to sign in again to access your account."
+            confirmText="Logout"
+            cancelText="Stay Logged In"
+            (confirm)="logout()"
+            (cancel)="closeLogoutDialog()"
+            variant="danger"
+          >
+          </app-confirmation-dialog>
+        }
       </div>
     }
   </div>

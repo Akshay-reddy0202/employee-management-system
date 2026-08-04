@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ROUTE_DATA } from '../../../core/constants/route-data.constants';
 import { UserMenu } from '../user-menu/user-menu';
+import { Theme } from '../../../core/enums/theme.enum';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class Header {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
+  protected readonly Theme = Theme;
   readonly currentTheme = this.themeService.currentTheme;
 
   private readonly navigationEnd = toSignal(
@@ -53,7 +55,7 @@ export class Header {
 
   changeTheme(): void {
     const currentTheme = this.themeService.getCurrentTheme();
-    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    const nextTheme = currentTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
     this.themeService.setTheme(nextTheme);
 
     this.authService.updateUserTheme(nextTheme).subscribe({

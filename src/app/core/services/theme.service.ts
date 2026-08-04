@@ -1,13 +1,14 @@
 import { effect, Service, signal } from '@angular/core';
+import { Theme } from '../enums/theme.enum';
 
 @Service()
 export class ThemeService {
-  currentTheme = signal<'light' | 'dark'>('light');
+  currentTheme = signal<Theme>(Theme.LIGHT);
 
   constructor() {
     effect(() => {
       const html = document.documentElement;
-      if (this.currentTheme() === 'dark') {
+      if (this.currentTheme() === Theme.DARK) {
         html.classList.add('dark-theme');
       } else {
         html.classList.remove('dark-theme');
@@ -15,11 +16,11 @@ export class ThemeService {
     });
   }
 
-  public setTheme(theme: 'light' | 'dark'): void {
+  public setTheme(theme:Theme): void {
     this.currentTheme.set(theme);
   }
 
-  public getCurrentTheme(): 'light' | 'dark' {
+  public getCurrentTheme():Theme {
     return this.currentTheme();
   }
 }

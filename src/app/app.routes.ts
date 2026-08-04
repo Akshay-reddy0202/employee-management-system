@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { SignIn } from './features/auth/pages/sign-in/sign-in';
 import { SignUp } from './features/auth/pages/sign-up/sign-up';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
@@ -12,6 +11,7 @@ import { Settings } from './features/settings/settings';
 import { Employees } from './features/employees/employees';
 import { Attendance } from './features/attendance/attendance';
 import { Application } from './features/application/application';
+import { Departments } from './features/departments/departments';
 
 export const routes: Routes = [
   {
@@ -43,6 +43,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: Dashboard, data: { title: 'Dashboard' } },
       { path: 'employees', component: Employees, data: { title: 'Employees' } },
+      { path: 'departments', component: Departments, data: { title: 'Departments' } },
       { path: 'attendance', component: Attendance, data: { title: 'Attendance' } },
       { path: 'application', component: Application, data: { title: 'Application' } },
       { path: 'profile', component: Profile, data: { title: 'Profile' } },
