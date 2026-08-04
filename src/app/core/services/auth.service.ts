@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { inject, Service, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { SignupRequestInterface } from '../../features/auth/models/signup-request.model';
 import { map, Observable, of, switchMap, throwError } from 'rxjs';
 import { EmployeeInterface } from '../../features/employees/models/employee.model';
@@ -11,7 +11,9 @@ import { SHOW_LOADER } from '../interceptors/loading-token.interceptor';
 import { Router } from '@angular/router';
 import { Theme } from '../enums/theme.enum';
 
-@Service()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;

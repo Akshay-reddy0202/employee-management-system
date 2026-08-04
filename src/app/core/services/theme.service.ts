@@ -1,7 +1,9 @@
-import { effect, Service, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { Theme } from '../enums/theme.enum';
 
-@Service()
+@Injectable({
+  providedIn: 'root',
+})
 export class ThemeService {
   currentTheme = signal<Theme>(Theme.LIGHT);
 
@@ -16,11 +18,11 @@ export class ThemeService {
     });
   }
 
-  public setTheme(theme:Theme): void {
+  public setTheme(theme: Theme): void {
     this.currentTheme.set(theme);
   }
 
-  public getCurrentTheme():Theme {
+  public getCurrentTheme(): Theme {
     return this.currentTheme();
   }
 }
