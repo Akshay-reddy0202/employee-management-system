@@ -26,9 +26,55 @@
 }
 
 .departments__table-row td {
+  text-align: center;
   padding: 14px 16px;
   border-bottom: 1px solid var(--app-border);
   color: var(--app-text-primary);
   font-size: 15px;
   vertical-align: middle;
+}
+
+.departments__table-actions {
+  display: flex;
+  justify-content: center;
+
+  gap: 16px;
+}
+
+.departments__action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.departments__action-button--edit {
+  background: var(--app-primary-subtle);
+  color: var(--app-primary);
+}
+
+.departments__action-button--delete {
+  background: var(--app-danger-background);
+  color: var(--app-danger);
+}
+
+.departments__action-button--edit:hover {
+  background: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+.departments__action-button--delete:hover {
+  background: var(--app-danger);
+  color: var(--app-text-inverse);
+}
+
+.departments__action-button:hover {
+  transform: translateY(-1px);
 }

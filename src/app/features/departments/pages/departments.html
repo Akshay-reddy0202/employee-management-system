@@ -1,10 +1,23 @@
 <div class="departments">
   <header class="departments__header">
     <h2 class="departments__title">Departments</h2>
-    <button class="departments__add-button">Add Department</button>
+    <button class="departments__add-button" (click)="openCreateDepartmentForm()">Add Department</button>
   </header>
+  @if (isDepartmentFormOpen()) {
+    <app-department-modal>
+      <app-department-form
+        (cancel)="closeDepartmentForm()"
+        (save)="save($event)"
+        [department]="selectedDepartment()"
+      ></app-department-form>
+    </app-department-modal>
+  }
 
   <section class="departments__content">
-    <app-department-table></app-department-table>
+    <app-department-table
+      (edit)="onEditDepartment($event)"
+      (delete)="onDeleteDepartment($event)"
+      [departments]="departments()"
+    ></app-department-table>
   </section>
 </div>

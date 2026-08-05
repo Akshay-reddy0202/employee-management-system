@@ -1,1 +1,103 @@
-<p>department-form works!</p>
+<form
+  class="department-form"
+  [formGroup]="departmentForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+>
+  <div class="department-form__field">
+    <label class="department-form__label" for="name"> Department Name </label>
+    <input
+      id="name"
+      type="text"
+      class="department-form__input"
+      formControlName="name"
+      placeholder="Enter department name"
+    />
+
+    @if (name?.touched && name?.invalid) {
+      <p class="department-form__error">
+        @if (name?.errors?.['required']) {
+          Department name is required.
+        }
+
+        @if (name?.errors?.['minlength']) {
+          Department name must contain at least 2 characters.
+        }
+      </p>
+    }
+  </div>
+
+  <div class="department-form__field">
+    <label class="department-form__label" for="code"> Department Code </label>
+
+    <input
+      id="code"
+      type="text"
+      class="department-form__input"
+      formControlName="code"
+      placeholder="Enter department code"
+    />
+
+    @if (code?.touched && code?.invalid) {
+      <p class="department-form__error">
+        @if (code?.errors?.['required']) {
+          Department code is required.
+        }
+
+        @if (code?.errors?.['minlength']) {
+          Department code must contain at least 2 characters.
+        }
+
+        @if (code?.errors?.['maxlength']) {
+          Department code cannot exceed 10 characters.
+        }
+      </p>
+    }
+  </div>
+
+  <div class="department-form__field">
+    <label class="department-form__label" for="description"> Description </label>
+
+    <textarea
+      id="description"
+      class="department-form__textarea"
+      formControlName="description"
+      rows="4"
+      placeholder="Enter description"
+    ></textarea>
+
+    @if (description?.touched && description?.invalid) {
+      <p class="department-form__error">
+        @if (description?.errors?.['maxlength']) {
+          Description cannot exceed 100 characters.
+        }
+      </p>
+    }
+  </div>
+
+  <mat-form-field appearance="outline" class="department-form__select">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" panelClass="department-status-panel">
+      <mat-option value="Active">Active</mat-option>
+      <mat-option value="Inactive">Inactive</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  @if (status?.touched && status?.invalid) {
+    <p class="department-form__error">Status is required.</p>
+  }
+
+  <div class="department-form__actions">
+    <button
+      type="button"
+      class="department-form__button department-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button type="submit" class="department-form__button department-form__button--primary">
+      Save
+    </button>
+  </div>
+</form>

@@ -11,13 +11,32 @@
       </tr>
     </thead>
     <tbody class="departments__table-body">
-      <tr class="departments__table-row">
-        <td>IT</td>
-        <td>Information Tech</td>
-        <td>Software</td>
-        <td>0</td>
-        <td>Active</td>
-      </tr>
+      @for (department of departments(); track department.id) {
+        <tr class="departments__table-row">
+          <td>{{ department.code }}</td>
+          <td>{{ department.name }}</td>
+          <td>{{ department.description }}</td>
+          <td></td>
+          <td>{{ department.status }}</td>
+          <td class="departments__table-actions">
+            <button
+              type="button"
+              class="departments__action-button departments__action-button--edit"
+              (click)="onEditClick(department)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              type="button"
+              class="departments__action-button departments__action-button--delete"
+              (click)="onDeleteClick(department)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </section>

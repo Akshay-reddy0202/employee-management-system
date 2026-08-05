@@ -445,3 +445,21 @@ body {
 
   --focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
+
+
+
+.department-status-panel {
+  background-color: #ffffff !important;
+}
+
+.department-status-panel .mat-mdc-option {
+  background-color: #ffffff !important;
+}
+
+.department-status-panel .mat-mdc-option:hover {
+  background-color: #f8fafc !important;
+}
+
+.department-status-panel .mat-mdc-option.mdc-list-item--selected {
+  background-color: #eff6ff !important;
+}
