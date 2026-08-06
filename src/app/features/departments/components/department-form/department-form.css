@@ -108,6 +108,10 @@
   background: var(--app-primary-hover);
 }
 
+.department-form__button--primary:disabled {
+  cursor: not-allowed;
+}
+
 .department-form__button--secondary {
   background: transparent;
   color: var(--app-text-primary);

@@ -6,7 +6,9 @@
   border-collapse: collapse;
   width: 100%;
 }
-
+.department-table__sortable-header {
+  cursor: pointer;
+}
 .departments__table th,
 .departments__table td {
   padding: 12px 16px;
@@ -20,6 +22,13 @@
 .departments__table-row th {
   font-weight: 600;
   color: var(--app-text-primary);
+}
+
+.department-table__sort-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
 }
 
 .departments__table-body {

@@ -96,8 +96,12 @@
       Cancel
     </button>
 
-    <button type="submit" class="department-form__button department-form__button--primary">
-      Save
+    <button
+      type="submit"
+      class="department-form__button department-form__button--primary"
+      [disabled]="departmentForm.invalid || isSubmitting()"
+    >
+      {{ isSubmitting() ? 'Saving...' : 'Save' }}
     </button>
   </div>
 </form>

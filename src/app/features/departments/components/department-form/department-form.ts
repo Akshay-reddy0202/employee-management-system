@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { Department } from '../../interfaces/department.interface';
@@ -49,7 +49,6 @@ export class DepartmentForm {
       this.departmentForm.markAllAsTouched();
       return;
     }
-
     const formValue = this.departmentForm.getRawValue();
 
     if (formValue.status === null) {
@@ -58,14 +57,32 @@ export class DepartmentForm {
 
     const request: CreateDepartmentRequest = formValue;
     this.save.emit(request);
-    this.cancel.emit();
   }
 
   protected readonly cancel = output<void>();
   protected readonly save = output<CreateDepartmentRequest>();
   public readonly department = input<Department | null>(null);
+  readonly isSubmitting = input(false);
 
   onCancel(): void {
     this.cancel.emit();
+  }
+  
+  constructor() {
+    effect(() => {
+      const department = this.department();
+
+      if (department) {
+        this.departmentForm.patchValue({
+          name: department.name,
+          code: department.code,
+          description: department.description,
+          status: department.status,
+        });
+      }
+      else{
+        this.departmentForm.reset();
+      }
+    });
   }
 }

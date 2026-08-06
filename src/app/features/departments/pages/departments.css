@@ -37,6 +37,61 @@
   background-color: var(--app-primary-hover);
 }
 
+.departments__toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.departments__toolbar-search {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.departments__toolbar-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--app-text-primary);
+
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  outline: none;
+
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.departments__toolbar-input:hover {
+  border-color: var(--app-primary);
+}
+
+.departments__toolbar-input:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px rgba(5, 123, 208, 0.15);
+}
+
+.departments__toolbar-input::placeholder {
+  color: var(--app-text-secondary);
+}
+
+.departments__toolbar-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--app-text-secondary);
+
+  pointer-events: none;
+}
 .departments__content {
   width: 100%;
 }

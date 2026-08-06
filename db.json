@@ -51,6 +51,21 @@
       "id": "dD4M0Ew-62g"
     }
   ],
-  "departments": [],
+  "departments": [
+    {
+      "name": "rafdsss",
+      "code": "fdsasdf",
+      "description": "safdsaf",
+      "status": "Active",
+      "id": "tnXO-dH6M0I"
+    },
+    {
+      "name": "gfh",
+      "code": "dghf",
+      "description": "dfgh",
+      "status": "Active",
+      "id": "CzQcnuQcg3c"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

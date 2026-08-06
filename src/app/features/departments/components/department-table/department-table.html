@@ -2,11 +2,26 @@
   <table class="departments__table">
     <thead class="departments__table-head">
       <tr class="departments__table-row">
-        <th>Code</th>
-        <th>Name</th>
-        <th>Description</th>
+        <th class="department-table__sortable-header" (click)="onSort('code')">
+          <span>Code</span>
+          <mat-icon class="department-table__sort-icon">
+            {{ getSortIcon('code') }}
+          </mat-icon>
+        </th>
+        <th (click)="onSort('name')" class="department-table__sortable-header">
+          <span>Name</span>
+          <mat-icon class="department-table__sort-icon">
+            {{ getSortIcon('name') }}
+          </mat-icon>
+        </th>
+        <th (click)="onSort('description')" class="department-table__sortable-header">
+          <span>Description</span
+          ><mat-icon class="department-table__sort-icon">
+            {{ getSortIcon('description') }}
+          </mat-icon>
+        </th>
         <th>Employees</th>
-        <th>Status</th>
+        <th (click)="onSort('status')">Status</th>
         <th>Actions</th>
       </tr>
     </thead>

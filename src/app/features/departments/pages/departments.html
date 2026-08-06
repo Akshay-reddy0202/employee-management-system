@@ -1,23 +1,66 @@
 <div class="departments">
   <header class="departments__header">
     <h2 class="departments__title">Departments</h2>
-    <button class="departments__add-button" (click)="openCreateDepartmentForm()">Add Department</button>
+    <button class="departments__add-button" (click)="openCreateDepartmentForm()">
+      Add Department
+    </button>
   </header>
   @if (isDepartmentFormOpen()) {
     <app-department-modal>
       <app-department-form
         (cancel)="closeDepartmentForm()"
+        [isSubmitting]="isSubmitting()"
         (save)="save($event)"
         [department]="selectedDepartment()"
       ></app-department-form>
     </app-department-modal>
   }
 
+  <div class="departments__toolbar">
+    <div class="departments__toolbar-search">
+      <mat-icon class="departments__toolbar-icon">search</mat-icon>
+
+      <input
+        type="text"
+        class="departments__toolbar-input"
+        placeholder="Search by department name or code..."
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+
   <section class="departments__content">
-    <app-department-table
-      (edit)="onEditDepartment($event)"
-      (delete)="onDeleteDepartment($event)"
-      [departments]="departments()"
-    ></app-department-table>
+    @if (hasDepartments()) {
+      <app-department-table
+        (edit)="onEditDepartment($event)"
+        (delete)="openDeleteConfirmationDialog($event)"
+        [departments]="sortedDepartments()"
+        [sortColumn]="sortColumn()"
+        [sortDirection]="sortDirection()"
+        (sort)="onSort($event)"
+      >
+        ></app-department-table
+      >
+    } @else {
+      <app-empty-state
+        title="No Departments Found"
+        desc="Create your first department to get started."
+        buttonText="Add Department"
+        icon="business_center"
+        (action)="openCreateDepartmentForm()"
+      ></app-empty-state>
+    }
   </section>
+
+  @if (isConfirmationDialogOpen()) {
+    <app-confirmation-dialog
+      title="Delete"
+      message="Are you sure you want to Delete? "
+      confirmText="Delete"
+      cancelText="Exit"
+      (confirm)="confirmDeleteDepartment()"
+      (cancel)="closeDeleteConfirmationDialog()"
+      variant="danger"
+    ></app-confirmation-dialog>
+  }
 </div>
