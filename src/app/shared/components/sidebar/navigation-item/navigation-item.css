@@ -16,13 +16,9 @@
     color 0.2s ease;
 }
 
-.navigation-item:hover {
-  background-color: var(--sidebar-hover);
-}
-
 .navigation-item--active {
   background-color: var(--sidebar-active-background);
-  color: var(--sidebar-text-active);
+  color: white;
   font-weight: 600;
 }
 

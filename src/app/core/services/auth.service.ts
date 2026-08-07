@@ -2,7 +2,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { SignupRequestInterface } from '../../features/auth/models/signup-request.model';
 import { map, Observable, of, switchMap, throwError } from 'rxjs';
-import { EmployeeInterface } from '../../features/employees/models/employee.model';
+import { EmployeeInterface } from '../../features/employees/interfaces/employee.model';
 import { environment } from '../../../environments/environment';
 import { LoginRequestInterface } from '../../features/auth/models/login-request.model';
 

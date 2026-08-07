@@ -8,7 +8,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { Profile } from './features/profile/profile';
 import { Settings } from './features/settings/settings';
-import { Employees } from './features/employees/employees';
+import { Employees } from './features/employees/pages/employees';
 import { Attendance } from './features/attendance/attendance';
 import { Application } from './features/application/application';
 import { Departments } from './features/departments/pages/departments';

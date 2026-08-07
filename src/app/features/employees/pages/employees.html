@@ -1,0 +1,35 @@
+<div class="employees">
+  <header class="employees__header">
+    <h2 class="employees__title">Employees</h2>
+  </header>
+
+  <div class="employees__toolbar">
+    <div class="employees__search">
+      <input type="text" placeholder="Search employees..." class="employees__search-input" />
+    </div>
+
+    <div class="employees__filters">
+      <div class="employees__filter">
+        <select name="" class="employees__select">
+          <option value="">All Departments</option>
+        </select>
+      </div>
+
+      <div class="employees__filter">
+        <select name="" class="employees__select">
+          <option value="">All Status</option>
+        </select>
+      </div>
+
+      <div class="employees__filter">
+        <select name="" class="employees__select">
+          <option value="">Sort By</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <section class="employees__content">
+    <app-employees-table [employees]="employees()"></app-employees-table>
+  </section>
+</div>

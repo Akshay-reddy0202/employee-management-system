@@ -63,11 +63,16 @@ export class DepartmentForm {
   protected readonly save = output<CreateDepartmentRequest>();
   public readonly department = input<Department | null>(null);
   readonly isSubmitting = input(false);
+  protected readonly unSavedChanges = output<void>();
 
-  onCancel(): void {
-    this.cancel.emit();
+  protected onCancel(): void {
+    if (this.departmentForm.dirty) {
+      this.unSavedChanges.emit();
+    } else {
+      this.cancel.emit();
+    }
   }
-  
+
   constructor() {
     effect(() => {
       const department = this.department();
@@ -79,8 +84,7 @@ export class DepartmentForm {
           description: department.description,
           status: department.status,
         });
-      }
-      else{
+      } else {
         this.departmentForm.reset();
       }
     });

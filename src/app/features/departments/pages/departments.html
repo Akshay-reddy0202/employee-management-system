@@ -12,6 +12,7 @@
         [isSubmitting]="isSubmitting()"
         (save)="save($event)"
         [department]="selectedDepartment()"
+        (unSavedChanges)="onUnsavedChangesDialog()"
       ></app-department-form>
     </app-department-modal>
   }
@@ -61,6 +62,18 @@
       (confirm)="confirmDeleteDepartment()"
       (cancel)="closeDeleteConfirmationDialog()"
       variant="danger"
+    ></app-confirmation-dialog>
+  }
+
+  @if (isUnsavedChangesDialogOpen()) {
+    <app-confirmation-dialog
+      title="Discard Changes"
+      message="You have unsaved changes. "
+      confirmText="Discard"
+      cancelText="Continue Editing"
+      (confirm)="discardChanges()"
+      (cancel)="continueEditing()"
+      variant="warning"
     ></app-confirmation-dialog>
   }
 </div>

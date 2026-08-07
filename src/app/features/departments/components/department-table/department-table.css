@@ -6,32 +6,31 @@
   border-collapse: collapse;
   width: 100%;
 }
+
 .department-table__sortable-header {
   cursor: pointer;
 }
+
 .departments__table th,
 .departments__table td {
   padding: 12px 16px;
   border: 1px solid var(--app-border);
 }
 
-.departemtns__table-head {
+.departments__table-head {
   background: var(--app-surface);
 }
 
 .departments__table-row th {
   font-weight: 600;
   color: var(--app-text-primary);
+  background: var(--app-surface);
 }
 
 .department-table__sort-icon {
   width: 18px;
   height: 18px;
-
   font-size: 18px;
-}
-
-.departments__table-body {
 }
 
 .departments__table-row td {

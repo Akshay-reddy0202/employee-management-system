@@ -1,4 +1,4 @@
-import { Theme } from "../../../core/enums/theme.enum";
+import { Theme } from '../../../core/enums/theme.enum';
 
 export interface EmployeeInterface {
   id?: number;
@@ -10,7 +10,7 @@ export interface EmployeeInterface {
   password: string;
   theme: Theme;
 
-   departmentId?: number | null;
+  departmentId?: number | null;
   designationId?: number | null;
   managerId?: number | null;
   status?: string | null;

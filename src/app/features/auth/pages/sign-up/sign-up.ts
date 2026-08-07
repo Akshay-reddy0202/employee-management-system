@@ -1,7 +1,7 @@
 import { Component, inject, signal, ElementRef, ViewChild, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TermsAndConditions } from '../terms-and-conditions/terms-and-conditions';
+import { TermsAndConditions } from '../../components/terms-and-conditions/terms-and-conditions';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
 import { passwordValidator } from '../../../../shared/validators/password.validator';

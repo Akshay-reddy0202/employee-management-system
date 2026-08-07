@@ -2,7 +2,7 @@ import { Component, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { EmployeeInterface } from '../../../employees/models/employee.model';
+import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { confirmPasswordValidator } from '../../../../shared/validators/confirm-password.validator';
 import { passwordValidator } from '../../../../shared/validators/password.validator';

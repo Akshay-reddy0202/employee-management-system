@@ -2,7 +2,7 @@ import { Component, inject, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeInterface } from '../../../employees/models/employee.model';
+import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 
 @Component({
   selector: 'app-forgot-password',

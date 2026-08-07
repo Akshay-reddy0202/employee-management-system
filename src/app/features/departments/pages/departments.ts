@@ -40,6 +40,7 @@ export class Departments {
   protected readonly searchTerm = signal('');
   private readonly searchSubject = new Subject<string>();
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly isUnsavedChangesDialogOpen = signal(false);
 
   constructor() {
     this.searchSubject
@@ -96,6 +97,19 @@ export class Departments {
         this.sortDirection.set('asc');
         break;
     }
+  }
+
+  protected onUnsavedChangesDialog(): void {
+    this.isUnsavedChangesDialogOpen.set(true);
+  }
+
+  protected continueEditing(): void {
+    this.isUnsavedChangesDialogOpen.set(false);
+  }
+
+  protected discardChanges(): void {
+    this.isUnsavedChangesDialogOpen.set(false);
+    this.closeDepartmentForm();
   }
 
   protected readonly hasDepartments = computed(() => {
