@@ -5,8 +5,9 @@
       Add Department
     </button>
   </header>
+  
   @if (isDepartmentFormOpen()) {
-    <app-department-modal>
+    <app-modal>
       <app-department-form
         (cancel)="closeDepartmentForm()"
         [isSubmitting]="isSubmitting()"
@@ -14,7 +15,7 @@
         [department]="selectedDepartment()"
         (unSavedChanges)="onUnsavedChangesDialog()"
       ></app-department-form>
-    </app-department-modal>
+    </app-modal>
   }
 
   <div class="departments__toolbar">

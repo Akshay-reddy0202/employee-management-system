@@ -1,0 +1,49 @@
+<form
+  class="designation-form"
+  [formGroup]="designationForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+>
+  <div class="designation-form__field">
+    <label class="designation-form__label" for="name"> Designation Name </label>
+
+    <input
+      id="name"
+      type="text"
+      class="designation-form__input"
+      formControlName="name"
+      placeholder="Enter designation name"
+    />
+
+    @if (name.touched && name.invalid) {
+      <span class="designation-form__error"> Designation name is required. </span>
+    }
+  </div>
+
+  <div class="designation-form__field">
+    <label class="designation-form__label" for="status"> Status </label>
+
+    <select id="status" class="designation-form__select" formControlName="status">
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+
+  <div class="designation-form__actions">
+    <button
+      type="button"
+      class="designation-form__button designation-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="submit"
+      class="designation-form__button designation-form__button--primary"
+      [disabled]="designationForm.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form>

@@ -30,6 +30,32 @@
   </div>
 
   <section class="employees__content">
-    <app-employees-table [employees]="employees()"></app-employees-table>
+    <app-employees-table
+      [employees]="employees()"
+      (edit)="onEditEmployee($event)"
+      (view)="onViewEmployee($event)"
+    ></app-employees-table>
   </section>
+
+  @if (employeeFormMode(); as mode) {
+    <app-modal>
+      <app-employees-form
+        [mode]="employeeFormMode()"
+        [employee]="selectedEmployee()"
+        (cancel)="closeEmployeeForm()"
+        (save)="onSaveEmployee($event)"
+      ></app-employees-form>
+    </app-modal>
+  }
+
+  @if (employeeFormMode(); as mode) {
+    <app-modal>
+      <app-employees-form
+        [mode]="employeeFormMode()"
+        [employee]="selectedEmployee()"
+        (cancel)="closeEmployeeForm()"
+        (save)="onSaveEmployee($event)"
+      ></app-employees-form>
+    </app-modal>
+  }
 </div>

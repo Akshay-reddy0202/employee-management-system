@@ -12,7 +12,13 @@ import { DepartmentStatus } from '../../interfaces/department-status.type';
   styleUrl: './department-form.css',
 })
 export class DepartmentForm {
-  departmentForm = new FormGroup({
+  protected readonly cancel = output<void>();
+  protected readonly save = output<CreateDepartmentRequest>();
+  public readonly department = input<Department | null>(null);
+  readonly isSubmitting = input(false);
+  protected readonly unSavedChanges = output<void>();
+
+  protected readonly departmentForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(2)],
@@ -58,12 +64,6 @@ export class DepartmentForm {
     const request: CreateDepartmentRequest = formValue;
     this.save.emit(request);
   }
-
-  protected readonly cancel = output<void>();
-  protected readonly save = output<CreateDepartmentRequest>();
-  public readonly department = input<Department | null>(null);
-  readonly isSubmitting = input(false);
-  protected readonly unSavedChanges = output<void>();
 
   protected onCancel(): void {
     if (this.departmentForm.dirty) {

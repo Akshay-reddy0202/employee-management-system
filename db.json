@@ -7,8 +7,13 @@
       "dateOfBirth": "2005-02-02",
       "emailID": "akshay@gmail.com",
       "password": "Akshay@123",
-      "theme": "dark",
-      "id": "EeRRXIKW76g"
+      "theme": "light",
+      "id": "EeRRXIKW76g",
+      "departmentId": 1,
+      "designationId": 1,
+      "managerId": 1,
+      "status": "12",
+      "joiningDate": "2025-12-12"
     },
     {
       "role": "Admin",
@@ -18,7 +23,12 @@
       "emailID": "john@gmail.com",
       "password": "John@123",
       "theme": "light",
-      "id": "nQy7Hdu7cVQ"
+      "id": "nQy7Hdu7cVQ",
+      "departmentId": null,
+      "designationId": null,
+      "managerId": null,
+      "status": "wew",
+      "joiningDate": "12212-11-01"
     },
     {
       "role": "Admin",
@@ -28,7 +38,12 @@
       "emailID": "vivek@gmail.com",
       "password": "Vivek@1234",
       "theme": "light",
-      "id": "0CEktRwGtDE"
+      "id": "0CEktRwGtDE",
+      "departmentId": null,
+      "designationId": null,
+      "managerId": null,
+      "status": "activee",
+      "joiningDate": "2006-02-02"
     },
     {
       "role": "Employee",
@@ -38,7 +53,12 @@
       "emailID": "rohit@gmail.com",
       "password": "Rohit@123",
       "theme": "light",
-      "id": "dxDbRxqeh4A"
+      "id": "dxDbRxqeh4A",
+      "departmentId": null,
+      "designationId": 324,
+      "managerId": 323,
+      "status": "32",
+      "joiningDate": "0012-03-31"
     },
     {
       "role": "Admin",
@@ -51,6 +71,47 @@
       "id": "dD4M0Ew-62g"
     }
   ],
-  "departments": [],
+  "departments": [
+    {
+      "name": "sf",
+      "code": "sfdfds",
+      "description": "fsdfsd",
+      "status": "Active",
+      "id": "zV6CsKKt23c"
+    }
+  ],
+  "designations": [
+ {
+      "id": "1",
+      "name": "UI Developer",
+      "status": "Active"
+    },
+    {
+      "name": "Intern",
+      "status": "Active",
+      "id": "kTB6vVCpWBI"
+    },
+    {
+      "name": "Java Developer",
+      "status": "Inactive",
+      "id": "qQZTHxsst9c"
+    },
+    {
+      "name": "Database Developer",
+      "status": "Active",
+      "id": "4omxKTD_lmc"
+    },
+    {
+      "name": "QA",
+      "status": "Inactive",
+      "id": "Dhq-BKqCGH4"
+    },
+    {
+      "name": "Data Engineer",
+      "status": "Inactive",
+      "id": "ppCoMAE1CXI"
+    }
+    
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

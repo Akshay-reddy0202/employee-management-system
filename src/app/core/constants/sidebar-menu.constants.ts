@@ -24,13 +24,20 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
   },
   {
     id: 4,
+    label: 'Designations',
+    tooltip: 'Designations',
+    route: '/designations',
+    icon: 'designations',
+  },
+  {
+    id: 5,
     label: 'Attendance',
     tooltip: 'Attendance',
     route: '/attendance',
     icon: 'attendance',
   },
   {
-    id: 5,
+    id: 6,
     label: 'Application',
     tooltip: 'Application',
     route: '/application',

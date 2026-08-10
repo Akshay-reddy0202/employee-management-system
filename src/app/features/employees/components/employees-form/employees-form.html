@@ -1,0 +1,135 @@
+<form class="employee-form" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="employeeId"> Employee ID </label>
+
+    <input
+      id="employeeId"
+      type="text"
+      class="employee-form__input"
+      formControlName="employeeId"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="role"> Role </label>
+
+    <input id="role" type="text" class="employee-form__input" formControlName="role" readonly />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="fullName"> Full Name </label>
+
+    <input
+      id="fullName"
+      type="text"
+      class="employee-form__input"
+      formControlName="fullName"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="dateOfBirth"> Date of Birth </label>
+
+    <input
+      id="dateOfBirth"
+      type="date"
+      class="employee-form__input"
+      formControlName="dateOfBirth"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="emailID"> Email </label>
+
+    <input
+      id="emailID"
+      type="email"
+      class="employee-form__input"
+      formControlName="emailID"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="departmentId"> Department </label>
+
+    <input
+      id="departmentId"
+      type="number"
+      class="employee-form__input"
+      formControlName="departmentId"
+      [readonly]="mode() === 'view'"
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="designationId"> Designation </label>
+
+    <input
+      id="designationId"
+      type="number"
+      class="employee-form__input"
+      formControlName="designationId"
+      [readonly]="mode() === 'view'"
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="managerId"> Manager </label>
+
+    <input
+      id="managerId"
+      type="number"
+      class="employee-form__input"
+      formControlName="managerId"
+      [readonly]="mode() === 'view'"
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="status"> Status </label>
+
+    <input
+      id="status"
+      type="text"
+      class="employee-form__input"
+      formControlName="status"
+      [readonly]="mode() === 'view'"
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="joiningDate"> Joining Date </label>
+
+    <input
+      id="joiningDate"
+      type="date"
+      class="employee-form__input"
+      formControlName="joiningDate"
+      [readonly]="mode() === 'view'"
+    />
+  </div>
+
+  <div class="employee-form__actions">
+    <button
+      type="button"
+      class="employee-form__button employee-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Close
+    </button>
+
+    @if (mode() === 'edit') {
+      <button
+        type="submit"
+        class="employee-form__button employee-form__button--primary"
+        [disabled]="employeeForm.invalid"
+      >
+        Save
+      </button>
+    }
+  </div>
+</form>

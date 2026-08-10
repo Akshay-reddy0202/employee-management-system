@@ -12,6 +12,7 @@
         <th>Actions</th>
       </tr>
     </thead>
+    
     <tbody class="employees__table-body">
       @for (employee of employees(); track employee.id) {
         <tr class="employees__table-row">
@@ -23,8 +24,19 @@
           <td>{{ employee.status }}</td>
           <td>{{ employee.joiningDate }}</td>
           <td class="employees__table-actions">
-            <button type="button" class="employees__action-button employees__action-button--edit">
+            <button
+              type="button"
+              class="employees__action-button employees__action-button--edit"
+              (click)="onEditClick(employee)"
+            >
               <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              type="button"
+              class="employees__action-button employees__action-button--view"
+              (click)="onViewClick(employee)"
+            >
+              <mat-icon>visibility</mat-icon>
             </button>
           </td>
         </tr>

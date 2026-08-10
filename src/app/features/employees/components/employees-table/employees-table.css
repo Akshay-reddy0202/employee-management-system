@@ -32,6 +32,9 @@ td {
 .employees__table-actions {
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  gap: 16px;
 }
 
 .employees__action-button {
@@ -45,7 +48,6 @@ td {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-
 }
 
 .employees__action-button:hover {
@@ -58,6 +60,16 @@ td {
 }
 
 .employees__action-button--edit:hover {
+  background: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+.employees__action-button--view {
+  background: var(--app-primary-subtle);
+  color: var(--app-primary);
+}
+
+.employees__action-button--view:hover {
   background: var(--app-primary);
   color: var(--app-text-inverse);
 }

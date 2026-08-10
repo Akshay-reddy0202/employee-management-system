@@ -1,5 +1,4 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { DepartmentModal } from '../components/department-modal/department-modal';
 import { DepartmentTable } from '../components/department-table/department-table';
 import { DepartmentForm } from '../components/department-form/department-form';
 import { CreateDepartmentRequest } from '../interfaces/create-department-request.interface';
@@ -13,17 +12,11 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { DepartmentSortColumn, SortDirection } from '../interfaces/department-sort.type';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Modal } from '../../../shared/components/modal/modal';
 
 @Component({
   selector: 'app-departments',
-  imports: [
-    DepartmentTable,
-    DepartmentForm,
-    DepartmentModal,
-    ConfirmationDialog,
-    EmptyState,
-    MatIconModule,
-  ],
+  imports: [DepartmentTable, DepartmentForm, Modal, ConfirmationDialog, EmptyState, MatIconModule],
   templateUrl: './departments.html',
   styleUrl: './departments.css',
 })
@@ -166,7 +159,7 @@ export class Departments {
     });
   }
 
-  save(request: CreateDepartmentRequest): void {
+  protected save(request: CreateDepartmentRequest): void {
     if (this.selectedDepartment()) {
       this.updateDepartment(request);
     } else {
