@@ -57,11 +57,16 @@ export class DepartmentForm {
     }
     const formValue = this.departmentForm.getRawValue();
 
-    if (formValue.status === null) {
+    if (!formValue.status) {
       return;
     }
 
-    const request: CreateDepartmentRequest = formValue;
+    const request: CreateDepartmentRequest = {
+      name: formValue.name,
+      code: formValue.code,
+      description: formValue.description,
+      status: formValue.status,
+    };
     this.save.emit(request);
   }
 

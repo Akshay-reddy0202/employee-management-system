@@ -55,26 +55,71 @@
 
   <div class="employee-form__field">
     <label class="employee-form__label" for="departmentId"> Department </label>
-
-    <input
-      id="departmentId"
-      type="number"
-      class="employee-form__input"
-      formControlName="departmentId"
-      [readonly]="mode() === 'view'"
-    />
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isDepartmentDropdownOpen()"
+      (clickOutside)="closeDepartmentDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search department..."
+        [value]="departmentSearchTerm()"
+        (input)="onDepartmentSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openDepartmentDropdown()"
+      />
+      @if (isDepartmentDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (department of filteredDepartments(); track department.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectDepartment(department)"
+              >
+                {{ department.name }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="employee-form__field">
     <label class="employee-form__label" for="designationId"> Designation </label>
 
-    <input
-      id="designationId"
-      type="number"
-      class="employee-form__input"
-      formControlName="designationId"
-      [readonly]="mode() === 'view'"
-    />
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isDesignationDropdownOpen()"
+      (clickOutside)="closeDesignationDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search designation..."
+        [value]="designationSearchTerm()"
+        (input)="onDesignationSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openDesignationDropdown()"
+      />
+      @if (isDesignationDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (designation of filteredDesignations(); track designation.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectDesignation(designation)"
+              >
+                {{ designation.name }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="employee-form__field">

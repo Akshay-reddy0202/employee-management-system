@@ -1,7 +1,7 @@
 import { Theme } from "../enums/theme.enum";
 
 export interface AuthenticatedUserInterface {
-  id: number;
+  id: string;
   employeeId: string;
   role: string;
   fullName: string;

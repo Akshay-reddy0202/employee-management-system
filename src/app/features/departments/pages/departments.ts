@@ -149,7 +149,7 @@ export class Departments {
     });
   }
 
-  private departmentCodeExists(code: string, ignoreDepartmentId?: number): boolean {
+  private departmentCodeExists(code: string, ignoreDepartmentId?: string): boolean {
     return this.departments().some((department) => {
       const isSameCode = department.code.trim().toLowerCase() === code.trim().toLowerCase();
 

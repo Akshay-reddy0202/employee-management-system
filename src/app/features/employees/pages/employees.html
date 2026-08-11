@@ -5,25 +5,42 @@
 
   <div class="employees__toolbar">
     <div class="employees__search">
-      <input type="text" placeholder="Search employees..." class="employees__search-input" />
+      <input
+        type="text"
+        placeholder="Search employees..."
+        class="employees__search-input"
+        (input)="onSearch($event)"
+      />
     </div>
 
     <div class="employees__filters">
       <div class="employees__filter">
-        <select name="" class="employees__select">
+        <select
+          name=""
+          class="employees__select"
+          [value]="selectedDepartmentId()"
+          (change)="onDepartmentFilterChange($event)"
+        >
           <option value="">All Departments</option>
+          @for (department of departments(); track department.id) {
+            <option [value]="department.id">{{ department.name }}</option>
+          }
         </select>
       </div>
 
       <div class="employees__filter">
-        <select name="" class="employees__select">
-          <option value="">All Status</option>
-        </select>
-      </div>
-
-      <div class="employees__filter">
-        <select name="" class="employees__select">
-          <option value="">Sort By</option>
+        <select
+          name=""
+          class="employees__select"
+          [value]="selectedDesignationId()"
+          (change)="onDesignationFilterChange($event)"
+        >
+          <option value="">All Designations</option>
+          @for (designation of designations(); track designation.id) {
+            <option [value]="designation.id">
+              {{ designation.name }}
+            </option>
+          }
         </select>
       </div>
     </div>
@@ -31,9 +48,11 @@
 
   <section class="employees__content">
     <app-employees-table
-      [employees]="employees()"
+      [employees]="displayedEmployees()"
       (edit)="onEditEmployee($event)"
       (view)="onViewEmployee($event)"
+      [designations]="designations()"
+      [departments]="departments()"
     ></app-employees-table>
   </section>
 
@@ -44,18 +63,21 @@
         [employee]="selectedEmployee()"
         (cancel)="closeEmployeeForm()"
         (save)="onSaveEmployee($event)"
+        [designations]="designations()"
+        [departments]="departments()"
+        (unSavedChanges)="onUnSavedChangesDialog()"
       ></app-employees-form>
     </app-modal>
   }
 
-  @if (employeeFormMode(); as mode) {
-    <app-modal>
-      <app-employees-form
-        [mode]="employeeFormMode()"
-        [employee]="selectedEmployee()"
-        (cancel)="closeEmployeeForm()"
-        (save)="onSaveEmployee($event)"
-      ></app-employees-form>
-    </app-modal>
+  @if (isUnsavedChangesDialogOpen()) {
+    <app-confirmation-dialog
+      title="Discard Changes"
+      message="You have unsaved changes."
+      confirmText="Discard"
+      cancelText="Continue Editing"
+      (confirm)="discardChanges()"
+      (cancel)="continueEditing()"
+    ></app-confirmation-dialog>
   }
 </div>

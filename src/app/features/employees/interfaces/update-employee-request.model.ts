@@ -1,7 +1,7 @@
 export interface UpdateEmployeeRequest {
-  departmentId: number | null;
-  designationId: number | null;
-  managerId: number | null;
+  departmentId: string | null;
+  designationId: string | null;
+  managerId: string | null;
   status: string | null;
   joiningDate: string | null;
 }

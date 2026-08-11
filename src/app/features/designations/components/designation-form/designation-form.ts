@@ -21,7 +21,7 @@ export class DesignationForm {
       validators: [Validators.required, Validators.minLength(2)],
     }),
 
-    status: new FormControl('Active', {
+    status: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),

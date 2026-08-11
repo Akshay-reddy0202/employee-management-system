@@ -1,7 +1,7 @@
 import { DepartmentStatus } from './department-status.type';
 
 export interface Department {
-  id: number;
+  id: string;
   code: string;
   name: string;
   description: string;

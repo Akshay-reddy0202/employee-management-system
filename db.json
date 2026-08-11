@@ -9,10 +9,10 @@
       "password": "Akshay@123",
       "theme": "light",
       "id": "EeRRXIKW76g",
-      "departmentId": 1,
-      "designationId": 1,
-      "managerId": 1,
-      "status": "12",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "1",
+      "managerId": null,
+      "status": "Active",
       "joiningDate": "2025-12-12"
     },
     {
@@ -24,11 +24,11 @@
       "password": "John@123",
       "theme": "light",
       "id": "nQy7Hdu7cVQ",
-      "departmentId": null,
-      "designationId": null,
+      "departmentId": "MDht4Z4lmLc",
+      "designationId": "Dhq-BKqCGH4",
       "managerId": null,
-      "status": "wew",
-      "joiningDate": "12212-11-01"
+      "status": "Active",
+      "joiningDate": "2025-02-02"
     },
     {
       "role": "Admin",
@@ -39,10 +39,10 @@
       "password": "Vivek@1234",
       "theme": "light",
       "id": "0CEktRwGtDE",
-      "departmentId": null,
-      "designationId": null,
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "1",
       "managerId": null,
-      "status": "activee",
+      "status": "Active",
       "joiningDate": "2006-02-02"
     },
     {
@@ -54,11 +54,11 @@
       "password": "Rohit@123",
       "theme": "light",
       "id": "dxDbRxqeh4A",
-      "departmentId": null,
-      "designationId": 324,
-      "managerId": 323,
-      "status": "32",
-      "joiningDate": "0012-03-31"
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "qQZTHxsst9c",
+      "managerId": null,
+      "status": "Active",
+      "joiningDate": "2026-03-31"
     },
     {
       "role": "Admin",
@@ -68,20 +68,73 @@
       "emailID": "Rahul@123",
       "password": "Rahul@123",
       "theme": "light",
-      "id": "dD4M0Ew-62g"
+      "id": "dD4M0Ew-62g",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "4omxKTD_lmc",
+      "status": "Active",
+      "joiningDate": "2026-01-12"
     }
   ],
   "departments": [
     {
-      "name": "sf",
-      "code": "sfdfds",
-      "description": "fsdfsd",
+      "name": "Human Resources",
+      "code": "HR",
+      "description": "Hires staff, manages employee benefits, and handles payroll and training.",
       "status": "Active",
-      "id": "zV6CsKKt23c"
+      "id": "okoj80Egy5I"
+    },
+    {
+      "name": "Information Technology",
+      "code": "IT",
+      "description": "Sets up computers, maintains network security, and fixes technical issues.",
+      "status": "Active",
+      "id": "NJumJJvpo_w"
+    },
+    {
+      "name": "Finance and Accounting",
+      "code": "FIN",
+      "description": " Tracks income, creates budgets, pays bills, and manages taxes.",
+      "status": "Active",
+      "id": "7mZU-47KXsQ"
+    },
+    {
+      "name": "Marketing",
+      "code": "MKT",
+      "description": "Creates advertisements, runs social media, and builds brand awareness.",
+      "status": "Active",
+      "id": "OMeh_-eShwQ"
+    },
+    {
+      "name": "Quality Assurance / Control",
+      "code": "QA / QC",
+      "description": "Tests products for defects and ensures safety standards are met.",
+      "status": "Active",
+      "id": "MDht4Z4lmLc"
+    },
+    {
+      "name": "Supply Chain Management",
+      "code": "SCM",
+      "description": " Sources raw materials and organizes the transport of goods.",
+      "status": "Active",
+      "id": "LeLhSTEJjp8"
+    },
+    {
+      "name": "Administration",
+      "code": "Admin",
+      "description": "Manages office supplies, schedules meetings, and handles internal paperwork.",
+      "status": "Active",
+      "id": "5Khb2NmuX3o"
+    },
+    {
+      "name": "Engineering / Research & Development",
+      "code": "ENG / R&D ",
+      "description": " Designs new products and improves existing business technologies.",
+      "status": "Active",
+      "id": "9Oy86SNC91I"
     }
   ],
   "designations": [
- {
+    {
       "id": "1",
       "name": "UI Developer",
       "status": "Active"
@@ -111,7 +164,6 @@
       "status": "Inactive",
       "id": "ppCoMAE1CXI"
     }
-    
   ],
   "$schema": "./node_modules/json-server/schema.json"
 }

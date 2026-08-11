@@ -54,6 +54,74 @@
   cursor: default;
 }
 
+.employee-form__select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.employee-form__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+
+  width: 100%;
+
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+
+  z-index: 100;
+}
+
+.employee-form__dropdown-options {
+  max-height: 168px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.employee-form__dropdown-option {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+
+  color: var(--app-text-primary);
+  background-color: transparent;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.employee-form__dropdown-option:hover {
+  color: var(--app-primary);
+  background-color: var(--app-background);
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar-thumb {
+  background-color: var(--app-border);
+  border-radius: 999px;
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 .employee-form__actions {
   grid-column: 1 / -1;
 

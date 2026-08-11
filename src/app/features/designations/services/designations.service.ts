@@ -10,6 +10,7 @@ import { UpdateDesignationRequest } from '../interfaces/update-designation-reque
 @Injectable({
   providedIn: 'root',
 })
+
 export class DesignationsService {
   private http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
@@ -41,7 +42,7 @@ export class DesignationsService {
   }
 
   public updateDesignations(
-    id: number,
+    id: string,
     designation: UpdateDesignationRequest,
   ): Observable<DesignationInterface> {
     return this.http

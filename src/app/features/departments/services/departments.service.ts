@@ -34,7 +34,7 @@ export class DepartmentsService {
     );
   }
 
-  public updateDepartment(id: number, request: UpdateDepartmentRequest): Observable<Department> {
+  public updateDepartment(id: string, request: UpdateDepartmentRequest): Observable<Department> {
     return this.http.put<Department>(`${this.apiUrl}/departments/${id}`, request).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error('Unable to update department'));
@@ -42,7 +42,7 @@ export class DepartmentsService {
     );
   }
 
-  public deleteDepartment(id: number): Observable<Department> {
+  public deleteDepartment(id: string): Observable<Department> {
     return this.http
       .delete<Department>(`${this.apiUrl}/departments/${id}`, {
         context: new HttpContext().set(SHOW_LOADER, true),

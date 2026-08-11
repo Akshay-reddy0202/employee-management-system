@@ -12,15 +12,15 @@
         <th>Actions</th>
       </tr>
     </thead>
-    
+
     <tbody class="employees__table-body">
       @for (employee of employees(); track employee.id) {
         <tr class="employees__table-row">
           <td>{{ employee.employeeId }}</td>
           <td>{{ employee.fullName }}</td>
-          <td>{{ employee.designation }}</td>
+          <td>{{ getDesignationName(employee.designationId) }}</td>
           <td>{{ employee.manager }}</td>
-          <td>{{ employee.department }}</td>
+          <td>{{ getDepartmentName(employee.departmentId) }}</td>
           <td>{{ employee.status }}</td>
           <td>{{ employee.joiningDate }}</td>
           <td class="employees__table-actions">

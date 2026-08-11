@@ -25,7 +25,7 @@ export class EmployeeService {
       );
   }
 
-  public updateEmployee(id: number, request: UpdateEmployeeRequest): Observable<EmployeeInterface> {
+  public updateEmployee(id: string, request: UpdateEmployeeRequest): Observable<EmployeeInterface> {
     return this.http
       .patch<EmployeeInterface>(`${this.apiUrl}/employees/${id}`, request, {
         context: new HttpContext().set(SHOW_LOADER, true),
