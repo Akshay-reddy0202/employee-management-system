@@ -31,8 +31,26 @@
           <td>{{ department.code }}</td>
           <td>{{ department.name }}</td>
           <td>{{ department.description }}</td>
-          <td></td>
-          <td>{{ department.status }}</td>
+          <td>
+            <span class="departments__table-actions">
+              <button
+                type="button"
+                class="departments__view-button departments__action-button--view"
+                (click)="onViewEmployeesClick(department)"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </span>
+          </td>
+          <td>
+            <span
+              class="departments-table__status"
+              [class.departments-table__status--active]="department.status === 'Active'"
+              [class.departments-table__status--inactive]="department.status === 'Inactive'"
+            >
+              {{ department.status }}
+            </span>
+          </td>
           <td class="departments__table-actions">
             <button
               type="button"

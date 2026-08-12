@@ -7,6 +7,7 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Dashboard',
     route: '/dashboard',
     icon: 'dashboard',
+    roles: ['Admin', 'Employee'],
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Employees',
     route: '/employees',
     icon: 'employees',
+    roles: ['Admin'],
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Departments',
     route: '/departments',
     icon: 'departments',
+    roles: ['Admin'],
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Designations',
     route: '/designations',
     icon: 'designations',
+    roles: ['Admin'],
   },
   {
     id: 5,
@@ -35,6 +39,7 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Attendance',
     route: '/attendance',
     icon: 'attendance',
+    roles: ['Admin', 'Employee'],
   },
   {
     id: 6,
@@ -42,5 +47,6 @@ export const SIDEBAR_MENU: NavigationItemInterface[] = [
     tooltip: 'Application',
     route: '/application',
     icon: 'application',
+    roles: ['Admin', 'Employee'],
   },
 ];

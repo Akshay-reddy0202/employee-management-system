@@ -5,7 +5,7 @@
       Add Department
     </button>
   </header>
-  
+
   @if (isDepartmentFormOpen()) {
     <app-modal>
       <app-department-form
@@ -40,6 +40,7 @@
         [sortColumn]="sortColumn()"
         [sortDirection]="sortDirection()"
         (sort)="onSort($event)"
+        (viewEmployees)="onViewEmployees($event)"
       >
         ></app-department-table
       >
@@ -76,5 +77,11 @@
       (cancel)="continueEditing()"
       variant="warning"
     ></app-confirmation-dialog>
+  }
+
+  @if (isEmployeesDialogOpen()) {
+    <app-modal>
+      <app-department-employees [employees]="departmentEmployees()" (close)="onDepartmentEmployeesTableClose()"> </app-department-employees>
+    </app-modal>
   }
 </div>

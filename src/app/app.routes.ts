@@ -13,6 +13,7 @@ import { Attendance } from './features/attendance/attendance';
 import { Application } from './features/application/application';
 import { Departments } from './features/departments/pages/departments';
 import { Designation } from './features/designations/pages/designation';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -43,9 +44,24 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: Dashboard, data: { title: 'Dashboard' } },
-      { path: 'employees', component: Employees, data: { title: 'Employees' } },
-      { path: 'departments', component: Departments, data: { title: 'Departments' } },
-      { path: 'designations', component: Designation, data: { title: 'Designations' } },
+      {
+        path: 'employees',
+        component: Employees,
+        canActivate: [roleGuard],
+        data: { title: 'Employees', role: 'Admin' },
+      },
+      {
+        path: 'departments',
+        component: Departments,
+        canActivate: [roleGuard],
+        data: { title: 'Departments', role: 'Admin' },
+      },
+      {
+        path: 'designations',
+        component: Designation,
+        canActivate: [roleGuard],
+        data: { title: 'Designations', role: 'Admin' },
+      },
       { path: 'attendance', component: Attendance, data: { title: 'Attendance' } },
       { path: 'application', component: Application, data: { title: 'Application' } },
       { path: 'profile', component: Profile, data: { title: 'Profile' } },

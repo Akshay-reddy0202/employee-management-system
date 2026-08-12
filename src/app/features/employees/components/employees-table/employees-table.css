@@ -29,6 +29,27 @@ td {
   vertical-align: middle;
 }
 
+.employees-table__status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  border-radius: 999px;
+}
+
+.employees-table__status--active {
+  color: var(--app-success);
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+.employees-table__status--inactive {
+  color: var(--app-danger);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
 .employees__table-actions {
   display: flex;
   justify-content: center;

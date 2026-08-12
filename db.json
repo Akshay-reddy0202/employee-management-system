@@ -7,11 +7,11 @@
       "dateOfBirth": "2005-02-02",
       "emailID": "akshay@gmail.com",
       "password": "Akshay@123",
-      "theme": "light",
+      "theme": "dark",
       "id": "EeRRXIKW76g",
       "departmentId": "9Oy86SNC91I",
       "designationId": "1",
-      "managerId": null,
+      "managerId": "0CEktRwGtDE",
       "status": "Active",
       "joiningDate": "2025-12-12"
     },
@@ -26,7 +26,7 @@
       "id": "nQy7Hdu7cVQ",
       "departmentId": "MDht4Z4lmLc",
       "designationId": "Dhq-BKqCGH4",
-      "managerId": null,
+      "managerId": "EeRRXIKW76g",
       "status": "Active",
       "joiningDate": "2025-02-02"
     },
@@ -41,7 +41,7 @@
       "id": "0CEktRwGtDE",
       "departmentId": "9Oy86SNC91I",
       "designationId": "1",
-      "managerId": null,
+      "managerId": "0CEktRwGtDE",
       "status": "Active",
       "joiningDate": "2006-02-02"
     },
@@ -56,7 +56,7 @@
       "id": "dxDbRxqeh4A",
       "departmentId": "9Oy86SNC91I",
       "designationId": "qQZTHxsst9c",
-      "managerId": null,
+      "managerId": "38hj0peYJCA",
       "status": "Active",
       "joiningDate": "2026-03-31"
     },
@@ -72,17 +72,41 @@
       "departmentId": "9Oy86SNC91I",
       "designationId": "4omxKTD_lmc",
       "status": "Active",
-      "joiningDate": "2026-01-12"
+      "joiningDate": "2026-01-12",
+      "managerId": "38hj0peYJCA"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0006",
+      "fullName": "Dhruvesh D",
+      "dateOfBirth": "2002-10-10",
+      "emailID": "dhruveshd@gmail.com",
+      "password": "Dhruvesh@123",
+      "theme": "light",
+      "id": "38hj0peYJCA",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "4omxKTD_lmc",
+      "status": "Active",
+      "joiningDate": "2026-08-01",
+      "managerId": "dD4M0Ew-62g"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0007",
+      "fullName": "Jay W",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-08-10"
     }
   ],
   "departments": [
-    {
-      "name": "Human Resources",
-      "code": "HR",
-      "description": "Hires staff, manages employee benefits, and handles payroll and training.",
-      "status": "Active",
-      "id": "okoj80Egy5I"
-    },
     {
       "name": "Information Technology",
       "code": "IT",

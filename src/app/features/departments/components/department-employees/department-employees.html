@@ -1,0 +1,26 @@
+<section class="department-employees">
+  <header class="department-employees__header">
+
+  </header>
+
+  <table class="department-employees__table">
+    <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (employee of employees(); track employee.id) {
+        <tr>
+          <td>{{ employee.employeeId }}</td>
+          <td>{{ employee.fullName }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div class="department-employees__actions">
+    <button type="button" class="department-employees__button" (click)="onClose()">Close</button>
+  </div>
+</section>

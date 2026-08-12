@@ -17,7 +17,8 @@
   color: var(--app-text-primary);
 }
 
-.employee-form__input {
+.employee-form__input,
+.employee-form__select {
   width: 100%;
   padding: 12px 14px;
 
@@ -40,11 +41,13 @@
   color: var(--app-text-secondary);
 }
 
-.employee-form__input:hover {
+.employee-form__input:hover,
+.employee-form__select:hover {
   border-color: var(--app-primary);
 }
 
-.employee-form__input:focus {
+.employee-form__input:focus,
+.employee-form__select:focus {
   border-color: var(--app-primary);
   box-shadow: 0 0 0 3px rgba(5, 123, 208, 0.15);
 }

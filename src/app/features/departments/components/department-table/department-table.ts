@@ -2,6 +2,7 @@ import { Component, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Department } from '../../interfaces/department.interface';
 import { DepartmentSortColumn, SortDirection } from '../../interfaces/department-sort.type';
+import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 
 @Component({
   selector: 'app-department-table',
@@ -16,6 +17,7 @@ export class DepartmentTable {
   protected readonly delete = output<Department>();
   readonly sortColumn = input<DepartmentSortColumn | null>(null);
   readonly sortDirection = input<SortDirection | null>(null);
+  protected readonly viewEmployees = output<Department>();
 
   onEditClick(department: Department): void {
     this.edit.emit(department);
@@ -35,5 +37,9 @@ export class DepartmentTable {
     }
 
     return this.sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward';
+  }
+
+  protected onViewEmployeesClick(department: Department): void {
+    this.viewEmployees.emit(department);
   }
 }

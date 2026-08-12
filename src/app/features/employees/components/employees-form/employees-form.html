@@ -125,25 +125,56 @@
   <div class="employee-form__field">
     <label class="employee-form__label" for="managerId"> Manager </label>
 
-    <input
-      id="managerId"
-      type="number"
-      class="employee-form__input"
-      formControlName="managerId"
-      [readonly]="mode() === 'view'"
-    />
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isManagerDropdownOpen()"
+      (clickOutside)="closeManagerDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search manager..."
+        [value]="managerSearchTerm()"
+        (input)="onManagerSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openManagerDropdown()"
+      />
+      @if (isManagerDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (manager of filteredManagers(); track manager.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectManager(manager)"
+              >
+                <div class="employee-form__dropdown-option-content">
+                  <span class="employee-form__dropdown-option-name">
+                    {{ manager.fullName }}
+                  </span>
+
+                  <span class="employee-form__dropdown-option-details">
+                    {{ manager.employeeId }}
+                    ·
+                    {{ getDesignationName(manager.designationId) }}
+                  </span>
+                </div>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="employee-form__field">
     <label class="employee-form__label" for="status"> Status </label>
 
-    <input
-      id="status"
-      type="text"
-      class="employee-form__input"
-      formControlName="status"
-      [readonly]="mode() === 'view'"
-    />
+    <select id="status" class="employee-form__select" formControlName="status">
+      <option value=""></option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
   </div>
 
   <div class="employee-form__field">

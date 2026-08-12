@@ -36,4 +36,8 @@ export class EmployeeService {
         }),
       );
   }
+
+  public getEmployeesByDepartment(departmentId: string): Observable<EmployeeInterface[]> {
+    return this.http.get<EmployeeInterface[]>(`${this.apiUrl}/employees?departmentId=${departmentId}`);
+  }
 }

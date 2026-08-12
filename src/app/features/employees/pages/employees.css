@@ -2,19 +2,6 @@
   width: 100%;
 }
 
-.employees__header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 24px;
-}
-
-.employees__title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--app-text-primary);
-}
-
 .employees__toolbar {
   display: flex;
   align-items: center;
@@ -85,7 +72,7 @@
 
   cursor: pointer;
   appearance: none;
- 
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;

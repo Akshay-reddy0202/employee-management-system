@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  HostListener,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { EmployeeInterface } from '../../interfaces/employee.model';
 import { EmployeeFormMode } from '../../interfaces/employees-form-mode.type';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +29,11 @@ export class EmployeesForm {
 
   protected readonly departmentSearchTerm = signal('');
   protected readonly isDepartmentDropdownOpen = signal(false);
+
+  protected readonly managerSearchTerm = signal('');
+  protected readonly isManagerDropdownOpen = signal(false);
+
+  protected readonly employees = input.required<EmployeeInterface[]>();
 
   protected readonly employeeForm = new FormGroup({
     employeeId: new FormControl('', {
@@ -83,6 +79,10 @@ export class EmployeesForm {
         (department) => department.id === employee.departmentId,
       );
 
+      const manager = employee.managerId
+        ? this.employees().find((manager) => manager.id === employee.managerId)
+        : null;
+
       this.employeeForm.patchValue({
         employeeId: employee.employeeId,
         role: employee.role,
@@ -98,6 +98,13 @@ export class EmployeesForm {
 
       this.departmentSearchTerm.set(department?.name ?? '');
       this.designationSearchTerm.set(designation?.name ?? '');
+      this.managerSearchTerm.set(manager?.fullName ?? '');
+
+      if (this.mode() === 'view') {
+        this.employeeForm.controls.status.disable();
+      } else {
+        this.employeeForm.controls.status.enable();
+      }
     });
   }
 
@@ -168,6 +175,54 @@ export class EmployeesForm {
 
   protected closeDesignationDropdown(): void {
     this.isDesignationDropdownOpen.set(false);
+  }
+
+  protected onManagerSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.managerSearchTerm.set(input.value);
+  }
+
+  protected readonly filteredManagers = computed(() => {
+    const searchTerm = this.managerSearchTerm().trim().toLowerCase();
+
+    if (!searchTerm) {
+      return this.employees();
+    }
+    return this.employees().filter((employee) => {
+      const matchesName = employee.fullName.toLowerCase().includes(searchTerm);
+      const matchesEmployeeId = employee.employeeId.toLowerCase().includes(searchTerm);
+      const matchesDesignation = this.getDesignationName(employee.designationId)
+        .toLowerCase()
+        .includes(searchTerm);
+      return matchesName || matchesEmployeeId || matchesDesignation;
+    });
+  });
+
+  protected selectManager(employee: EmployeeInterface): void {
+    this.employeeForm.controls.managerId.setValue(employee.id ?? null);
+    this.managerSearchTerm.set(employee.fullName);
+    this.isManagerDropdownOpen.set(false);
+  }
+
+  protected openManagerDropdown() {
+    if (this.mode() === 'view') {
+      return;
+    }
+    this.isManagerDropdownOpen.set(true);
+  }
+
+  protected closeManagerDropdown(): void {
+    this.isManagerDropdownOpen.set(false);
+  }
+
+  protected getManagerName(managerId: string | null | undefined): string {
+    const manager = this.employees().find((employee) => employee.id === managerId);
+    return manager?.fullName ?? '-';
+  }
+
+  protected getDesignationName(designationId: string | null | undefined): string {
+    const designation = this.designations().find((designation) => designation.id === designationId);
+    return designation?.name ?? '-';
   }
 
   protected onCancel(): void {

@@ -13,10 +13,20 @@ import { DepartmentSortColumn, SortDirection } from '../interfaces/department-so
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Modal } from '../../../shared/components/modal/modal';
-
+import { EmployeeService } from '../../employees/services/employee.service';
+import { EmployeeInterface } from '../../employees/interfaces/employee.model';
+import { DepartmentEmployees } from '../components/department-employees/department-employees';
 @Component({
   selector: 'app-departments',
-  imports: [DepartmentTable, DepartmentForm, Modal, ConfirmationDialog, EmptyState, MatIconModule],
+  imports: [
+    DepartmentTable,
+    DepartmentForm,
+    Modal,
+    ConfirmationDialog,
+    EmptyState,
+    MatIconModule,
+    DepartmentEmployees,
+  ],
   templateUrl: './departments.html',
   styleUrl: './departments.css',
 })
@@ -34,6 +44,9 @@ export class Departments {
   private readonly searchSubject = new Subject<string>();
   private readonly destroyRef = inject(DestroyRef);
   protected readonly isUnsavedChangesDialogOpen = signal(false);
+  private readonly employeeService = inject(EmployeeService);
+  protected readonly departmentEmployees = signal<EmployeeInterface[]>([]);
+  protected readonly isEmployeesDialogOpen = signal(false);
 
   constructor() {
     this.searchSubject
@@ -255,5 +268,19 @@ export class Departments {
   protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchSubject.next(input.value);
+  }
+
+  protected onViewEmployees(department: Department): void {
+    this.employeeService.getEmployeesByDepartment(department.id).subscribe({
+      next: (employees) => {
+        this.departmentEmployees.set(employees);
+        this.isEmployeesDialogOpen.set(true);
+      },
+    });
+  }
+
+  protected onDepartmentEmployeesTableClose(): void {
+    this.isEmployeesDialogOpen.set(false);
+    this.departmentEmployees.set([]);
   }
 }

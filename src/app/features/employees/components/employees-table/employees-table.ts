@@ -40,4 +40,6 @@ export class EmployeesTable {
 
     return manager?.fullName ?? '-';
   }
+
+
 }

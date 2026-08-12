@@ -19,9 +19,17 @@
           <td>{{ employee.employeeId }}</td>
           <td>{{ employee.fullName }}</td>
           <td>{{ getDesignationName(employee.designationId) }}</td>
-          <td>{{ employee.manager }}</td>
+          <td>{{ getManagerName(employee.managerId) }}</td>
           <td>{{ getDepartmentName(employee.departmentId) }}</td>
-          <td>{{ employee.status }}</td>
+          <td>
+            <span
+              class="employees-table__status"
+              [class.employees-table__status--active]="employee.status === 'Active'"
+              [class.employees-table__status--inactive]="employee.status === 'Inactive'"
+            >
+              {{ employee.status }}
+            </span>
+          </td>
           <td>{{ employee.joiningDate }}</td>
           <td class="employees__table-actions">
             <button

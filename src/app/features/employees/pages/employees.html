@@ -1,8 +1,4 @@
 <div class="employees">
-  <header class="employees__header">
-    <h2 class="employees__title">Employees</h2>
-  </header>
-
   <div class="employees__toolbar">
     <div class="employees__search">
       <input
@@ -61,6 +57,7 @@
       <app-employees-form
         [mode]="employeeFormMode()"
         [employee]="selectedEmployee()"
+        [employees]="employees()"
         (cancel)="closeEmployeeForm()"
         (save)="onSaveEmployee($event)"
         [designations]="designations()"
