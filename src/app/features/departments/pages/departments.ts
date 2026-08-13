@@ -16,6 +16,7 @@ import { Modal } from '../../../shared/components/modal/modal';
 import { EmployeeService } from '../../employees/services/employee.service';
 import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 import { DepartmentEmployees } from '../components/department-employees/department-employees';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 @Component({
   selector: 'app-departments',
   imports: [
@@ -26,6 +27,7 @@ import { DepartmentEmployees } from '../components/department-employees/departme
     EmptyState,
     MatIconModule,
     DepartmentEmployees,
+    Pagination,
   ],
   templateUrl: './departments.html',
   styleUrl: './departments.css',
@@ -47,6 +49,9 @@ export class Departments {
   private readonly employeeService = inject(EmployeeService);
   protected readonly departmentEmployees = signal<EmployeeInterface[]>([]);
   protected readonly isEmployeesDialogOpen = signal(false);
+  protected readonly currentPage = signal(1);
+  protected readonly pageSize = signal(10);
+  protected readonly totalDepartments = signal(0);
 
   constructor() {
     this.searchSubject
@@ -152,15 +157,25 @@ export class Departments {
   }
 
   private loadDepartments(): void {
-    this.departmentsService.getDepartments().subscribe({
-      next: (departments) => {
-        this.departments.set(departments);
+    this.departmentsService.getDepartments(this.currentPage(),this.pageSize()).subscribe({
+      next: (response) => {
+        this.departments.set(response.data);
+        this.totalDepartments.set(response.totalCount);
       },
       error: (error) => {
         this.toastr.error(error.message);
       },
     });
   }
+
+  protected onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.loadDepartments();
+  }
+
+  protected readonly totalPages = computed(() =>
+    Math.ceil(this.totalDepartments() / this.pageSize()),
+  );
 
   private departmentCodeExists(code: string, ignoreDepartmentId?: string): boolean {
     return this.departments().some((department) => {

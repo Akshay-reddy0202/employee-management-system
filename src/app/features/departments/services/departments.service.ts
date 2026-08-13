@@ -1,11 +1,13 @@
 import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Department } from '../interfaces/department.interface';
 import { CreateDepartmentRequest } from '../interfaces/create-department-request.interface';
 import { UpdateDepartmentRequest } from '../interfaces/update-department-request.interface';
 import { SHOW_LOADER } from '../../../core/interceptors/loading-token.interceptor';
+import { PaginationResult } from '../../../core/models/paginated-result.interface';
+import { PaginatedApiResponse } from '../../../core/models/paginated-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,28 @@ export class DepartmentsService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
-  public getDepartments(): Observable<Department[]> {
+  public getDepartments(page: number, limit: number): Observable<PaginationResult<Department>> {
+    return this.http
+      .get<PaginatedApiResponse<Department>>(
+        `${this.apiUrl}/departments?_page=${page}&_per_page=${limit}`,
+        {
+          observe: 'body',
+          context: new HttpContext().set(SHOW_LOADER, true),
+        },
+      )
+      .pipe(
+        map((response) => ({
+          data: response.data,
+          totalCount: response.items,
+        })),
+
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error('Departments Not Found'));
+        }),
+      );
+  }
+
+  public getAllDepartments(): Observable<Department[]> {
     return this.http
       .get<Department[]>(`${this.apiUrl}/departments`, {
         context: new HttpContext().set(SHOW_LOADER, true),

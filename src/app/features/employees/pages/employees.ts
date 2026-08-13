@@ -12,10 +12,11 @@ import { DesignationInterface } from '../../designations/interfaces/designation.
 import { DepartmentsService } from '../../departments/services/departments.service';
 import { Department } from '../../departments/interfaces/department.interface';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-employees',
-  imports: [EmployeesTable, EmployeesForm, Modal, ConfirmationDialog],
+  imports: [EmployeesTable, EmployeesForm, Modal, ConfirmationDialog, Pagination],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
@@ -35,6 +36,11 @@ export class Employees {
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
 
+  protected readonly currentPage = signal(1);
+  protected readonly pageSize = signal(10);
+
+  protected readonly totalEmployees = signal(0);
+
   ngOnInit(): void {
     this.loadEmployees();
     this.loadDesignations();
@@ -42,15 +48,25 @@ export class Employees {
   }
 
   private loadEmployees(): void {
-    this.employeesService.getEmployees().subscribe({
-      next: (employees) => {
-        this.employees.set(employees);
+    this.employeesService.getEmployees(this.currentPage(), this.pageSize()).subscribe({
+      next: (response) => {
+        this.employees.set(response.data);
+        this.totalEmployees.set(response.totalCount);
       },
       error: (error) => {
         this.toastr.error(error.message);
       },
     });
   }
+
+  protected onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.loadEmployees();
+  }
+
+  protected readonly totalPages = computed(() =>
+    Math.ceil(this.totalEmployees() / this.pageSize()),
+  );
 
   protected onEditEmployee(employee: EmployeeInterface): void {
     this.selectedEmployee.set(employee);
@@ -100,7 +116,7 @@ export class Employees {
   }
 
   private loadDepartments(): void {
-    this.departmentsService.getDepartments().subscribe({
+    this.departmentsService.getAllDepartments().subscribe({
       next: (departments) => {
         this.departments.set(departments);
       },

@@ -81,7 +81,19 @@
 
   @if (isEmployeesDialogOpen()) {
     <app-modal>
-      <app-department-employees [employees]="departmentEmployees()" (close)="onDepartmentEmployeesTableClose()"> </app-department-employees>
+      <app-department-employees
+        [employees]="departmentEmployees()"
+        (close)="onDepartmentEmployeesTableClose()"
+      >
+      </app-department-employees>
     </app-modal>
   }
+</div>
+
+<div class="departments__pagination">
+  <app-pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination>
 </div>

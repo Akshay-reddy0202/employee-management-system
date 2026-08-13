@@ -1,0 +1,101 @@
+<section class="profile">
+  <div class="profile__card">
+    <header class="profile__header">
+      <h2 class="profile__title">Employee Details</h2>
+
+      <button type="button" class="profile__edit-button" (click)="openProfileForm()">Edit</button>
+    </header>
+
+    <div class="profile__details">
+      <div class="profile__image">
+        <img src="default-avatar.png" alt="Employee Profile Image" class="profile__image-preview" />
+        <button type="button" class="profile__image-button">Change Photo</button>
+      </div>
+
+      <div class="profile__information">
+        <div class="profile__field">
+          <span class="profile__label">Name</span>
+          <span class="profile__value">Akshay</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Employee ID</span>
+          <span class="profile__value">EMP001</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Email</span>
+          <span class="profile__value">akshay@email.com</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Phone Number</span>
+          <span class="profile__value">9876543210</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Department</span>
+          <span class="profile__value">IT</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Designation</span>
+          <span class="profile__value">Developer</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Manager</span>
+          <span class="profile__value">John Doe</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Role</span>
+          <span class="profile__value">Employee</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Date Of Birth</span>
+          <span class="profile__value">12 Jan 2002</span>
+        </div>
+
+        <div class="profile__field profile__field--full-width">
+          <span class="profile__label">Address</span>
+          <span class="profile__value"> Nagpur, Maharashtra </span>
+        </div>
+      </div>
+    </div>
+    <div class="profile__skills">
+      <h3 class="profile__skills-title">Skills</h3>
+
+      <div class="profile__skills-list">
+        <span class="profile__skill">Angular</span>
+        <span class="profile__skill">TypeScript</span>
+        <span class="profile__skill">HTML</span>
+        <span class="profile__skill">CSS</span>
+      </div>
+    </div>
+  </div>
+
+  @if (isProfileFormOpen()) {
+    <app-modal>
+      <app-profile-form
+        (cancel)="closeProfileForm()"
+        (save)="save($event)"
+        (unSavedChanges)="openUnsavedChangesDialog()"
+      ></app-profile-form>
+    </app-modal>
+  }
+
+  @if (isUnsavedChangesDialogOpen()) {
+    <app-confirmation-dialog
+      title="Unsaved Changes"
+      message="You have unsaved changes. Are you sure you want to leave?"
+      confirmText="Discard"
+      cancelText="Continue Editing"
+      (confirm)="discardChanges()"
+      (cancel)="continueEditing()"
+      variant="warning"
+    >
+    </app-confirmation-dialog>
+  }
+</section>

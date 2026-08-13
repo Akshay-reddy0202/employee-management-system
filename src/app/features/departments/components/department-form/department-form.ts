@@ -55,6 +55,7 @@ export class DepartmentForm {
       this.departmentForm.markAllAsTouched();
       return;
     }
+
     const formValue = this.departmentForm.getRawValue();
 
     if (!formValue.status) {

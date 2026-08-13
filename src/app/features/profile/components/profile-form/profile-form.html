@@ -1,0 +1,72 @@
+<form class="profile-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="fullName"> Full Name </label>
+
+    <input id="fullName" type="text" class="profile-form__input" formControlName="fullName" />
+
+    @if (fullName?.touched && fullName?.hasError('required')) {
+      <span class="profile-form__error"> Full Name is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="email"> Email </label>
+
+    <input id="email" type="email" class="profile-form__input" formControlName="email" />
+
+    @if (email?.touched && email?.hasError('required')) {
+      <span class="profile-form__error"> Email is required </span>
+    }
+
+    @if (email?.touched && email?.hasError('email')) {
+      <span class="profile-form__error"> Enter a valid email address </span>
+    }
+  </div>
+
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="phoneNumber"> Phone Number </label>
+
+    <input id="phoneNumber" type="text" class="profile-form__input" formControlName="phoneNumber" />
+
+    @if (phoneNumber?.touched && phoneNumber?.hasError('required')) {
+      <span class="profile-form__error"> Phone Number is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="dateOfBirth"> Date Of Birth </label>
+
+    <input id="dateOfBirth" type="date" class="profile-form__input" formControlName="dateOfBirth" />
+
+    @if (dateOfBirth?.touched && dateOfBirth?.hasError('required')) {
+      <span class="profile-form__error"> Date Of Birth is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field profile-form__field--full-width">
+    <label class="profile-form__label" for="address"> Address </label>
+
+    <textarea
+      id="address"
+      rows="4"
+      class="profile-form__textarea"
+      formControlName="address"
+    ></textarea>
+
+    @if (address?.touched && address?.hasError('required')) {
+      <span class="profile-form__error"> Address is required </span>
+    }
+  </div>
+
+  <div class="profile-form__actions">
+    <button
+      type="button"
+      class="profile-form__button profile-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button type="submit" class="profile-form__button profile-form__button--primary">Save</button>
+  </div>
+</form>
