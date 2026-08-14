@@ -7,13 +7,18 @@
       "dateOfBirth": "2005-02-02",
       "emailID": "akshay@gmail.com",
       "password": "Akshay@123",
-      "theme": "light",
+      "theme": "dark",
       "id": "EeRRXIKW76g",
       "departmentId": "9Oy86SNC91I",
       "designationId": "1",
       "managerId": "0CEktRwGtDE",
       "status": "Active",
-      "joiningDate": "2025-12-12"
+      "joiningDate": "2025-12-12",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular"
+      ]
     },
     {
       "role": "Admin",
@@ -28,7 +33,13 @@
       "designationId": "Dhq-BKqCGH4",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2025-02-02"
+      "joiningDate": "2025-02-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Admin",
@@ -43,7 +54,13 @@
       "designationId": "1",
       "managerId": "0CEktRwGtDE",
       "status": "Active",
-      "joiningDate": "2006-02-02"
+      "joiningDate": "2006-02-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -52,13 +69,19 @@
       "dateOfBirth": "2001-02-02",
       "emailID": "rohit@gmail.com",
       "password": "Rohit@123",
-      "theme": "light",
+      "theme": "dark",
       "id": "dxDbRxqeh4A",
       "departmentId": "9Oy86SNC91I",
       "designationId": "qQZTHxsst9c",
       "managerId": "38hj0peYJCA",
       "status": "Active",
-      "joiningDate": "2026-03-31"
+      "joiningDate": "2026-03-31",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Admin",
@@ -73,7 +96,13 @@
       "designationId": "4omxKTD_lmc",
       "status": "Active",
       "joiningDate": "2026-01-12",
-      "managerId": "38hj0peYJCA"
+      "managerId": "38hj0peYJCA",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -88,7 +117,13 @@
       "designationId": "4omxKTD_lmc",
       "status": "Active",
       "joiningDate": "2026-08-01",
-      "managerId": "dD4M0Ew-62g"
+      "managerId": "dD4M0Ew-62g",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -103,7 +138,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -118,7 +159,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -133,7 +180,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -148,7 +201,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -163,7 +222,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     },
     {
       "role": "Employee",
@@ -178,7 +243,13 @@
       "designationId": "kTB6vVCpWBI",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2026-08-10"
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ]
     }
   ],
   "departments": [

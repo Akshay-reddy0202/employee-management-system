@@ -1,4 +1,10 @@
 <div class="departments">
+  <div class="department__refresh-wrapper">
+    <button type="button" class="department__refresh-button" (click)="refreshDepartments()">
+      <mat-icon> refresh </mat-icon>
+    </button>
+  </div>
+
   <header class="departments__header">
     <h2 class="departments__title">Departments</h2>
     <button class="departments__add-button" (click)="openCreateDepartmentForm()">

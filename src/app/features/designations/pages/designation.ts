@@ -9,10 +9,18 @@ import { CreateDesignationRequest } from '../interfaces/create-designation-reque
 import { UpdateDesignationRequest } from '../interfaces/update-designation-request.model';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-designation',
-  imports: [DesignationTable, DesignationForm, Modal, ConfirmationDialog, EmptyState],
+  imports: [
+    DesignationTable,
+    DesignationForm,
+    Modal,
+    ConfirmationDialog,
+    EmptyState,
+    MatIconModule,
+  ],
   templateUrl: './designation.html',
   styleUrl: './designation.css',
 })
@@ -24,6 +32,10 @@ export class Designation {
   private readonly toastr = inject(ToastrService);
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
+
+  protected refreshDesignations(): void {
+    this.loadDesignations();
+  }
 
   protected openDesignationForm(): void {
     this.selectedDesignation.set(null);
@@ -57,11 +69,10 @@ export class Designation {
     return this.designations().length > 0;
   });
 
-  protected openCreateDesignationForm():void {
+  protected openCreateDesignationForm(): void {
     this.selectedDesignation.set(null);
     this.isDesignationFormOpen.set(true);
   }
-
 
   protected readonly searchedDesignations = computed(() => {
     const designations = [...this.designations()];

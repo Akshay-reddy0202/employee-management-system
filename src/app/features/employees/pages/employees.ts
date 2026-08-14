@@ -13,10 +13,11 @@ import { DepartmentsService } from '../../departments/services/departments.servi
 import { Department } from '../../departments/interfaces/department.interface';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-employees',
-  imports: [EmployeesTable, EmployeesForm, Modal, ConfirmationDialog, Pagination],
+  imports: [EmployeesTable, EmployeesForm, Modal, ConfirmationDialog, Pagination, MatIconModule],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
@@ -35,16 +36,20 @@ export class Employees {
   protected readonly selectedDesignationId = signal('');
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
-
   protected readonly currentPage = signal(1);
   protected readonly pageSize = signal(10);
-
   protected readonly totalEmployees = signal(0);
 
   ngOnInit(): void {
     this.loadEmployees();
     this.loadDesignations();
     this.loadDepartments();
+  }
+
+  protected refreshEmployees(): void {
+    this.loadEmployees();
+    this.loadDepartments();
+    this.loadDesignations();
   }
 
   private loadEmployees(): void {

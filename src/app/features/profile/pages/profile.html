@@ -8,70 +8,87 @@
 
     <div class="profile__details">
       <div class="profile__image">
-        <img src="default-avatar.png" alt="Employee Profile Image" class="profile__image-preview" />
-        <button type="button" class="profile__image-button">Change Photo</button>
+        @if (selectedImageUrl()) {
+          <img [src]="selectedImageUrl()" alt="profile" class="profile__image-preview" />
+        } @else if (profileDetails()?.profileImageUrl) {
+          <img
+            ]src]="profileDetails()?.profileImageUrl"
+            alt="profile"
+            class="profile__image-preview"
+          />
+        } @else {
+          <div class="profile__avatar">
+            {{ profileDetails()?.fullName | initialsPipe }}
+          </div>
+        }
+
+        <button type="button" class="profile__image-button" (click)="fileInput.click()">
+          Change Photo
+        </button>
+
+        <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
       </div>
 
       <div class="profile__information">
         <div class="profile__field">
           <span class="profile__label">Name</span>
-          <span class="profile__value">Akshay</span>
+          <span class="profile__value">{{ profileDetails()?.fullName }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Employee ID</span>
-          <span class="profile__value">EMP001</span>
+          <span class="profile__value">{{ profileDetails()?.employeeId }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Email</span>
-          <span class="profile__value">akshay@email.com</span>
+          <span class="profile__value">{{ profileDetails()?.emailID }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Phone Number</span>
-          <span class="profile__value">9876543210</span>
+          <span class="profile__value">{{ profileDetails()?.phoneNumber }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Department</span>
-          <span class="profile__value">IT</span>
+          <span class="profile__value">{{ profileDetails()?.departmentId }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Designation</span>
-          <span class="profile__value">Developer</span>
+          <span class="profile__value">{{ profileDetails()?.designationId }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Manager</span>
-          <span class="profile__value">John Doe</span>
+          <span class="profile__value">{{ profileDetails()?.managerId }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Role</span>
-          <span class="profile__value">Employee</span>
+          <span class="profile__value">{{ profileDetails()?.role }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Date Of Birth</span>
-          <span class="profile__value">12 Jan 2002</span>
+          <span class="profile__value">{{ profileDetails()?.dateOfBirth }}</span>
         </div>
 
         <div class="profile__field profile__field--full-width">
           <span class="profile__label">Address</span>
-          <span class="profile__value"> Nagpur, Maharashtra </span>
+          <span class="profile__value"> {{ profileDetails()?.address }} </span>
         </div>
       </div>
     </div>
+    
     <div class="profile__skills">
       <h3 class="profile__skills-title">Skills</h3>
 
       <div class="profile__skills-list">
-        <span class="profile__skill">Angular</span>
-        <span class="profile__skill">TypeScript</span>
-        <span class="profile__skill">HTML</span>
-        <span class="profile__skill">CSS</span>
+        @for (skill of profileDetails()?.skills ?? []; track skill) {
+          <span class="profile__skill">{{ skill }}</span>
+        }
       </div>
     </div>
   </div>
@@ -82,6 +99,7 @@
         (cancel)="closeProfileForm()"
         (save)="save($event)"
         (unSavedChanges)="openUnsavedChangesDialog()"
+        [profileDetails]="profileDetails()"
       ></app-profile-form>
     </app-modal>
   }

@@ -1,3 +1,22 @@
+.department__refresh-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-bottom: 8px;
+}
+
+.department__refresh-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  border: none;
+  background: transparent;
+}
+
 .departments {
   width: 100%;
 }

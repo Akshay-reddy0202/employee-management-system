@@ -1,29 +1,5 @@
 <form class="profile-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()" autocomplete="off">
   <div class="profile-form__field">
-    <label class="profile-form__label" for="fullName"> Full Name </label>
-
-    <input id="fullName" type="text" class="profile-form__input" formControlName="fullName" />
-
-    @if (fullName?.touched && fullName?.hasError('required')) {
-      <span class="profile-form__error"> Full Name is required </span>
-    }
-  </div>
-
-  <div class="profile-form__field">
-    <label class="profile-form__label" for="email"> Email </label>
-
-    <input id="email" type="email" class="profile-form__input" formControlName="email" />
-
-    @if (email?.touched && email?.hasError('required')) {
-      <span class="profile-form__error"> Email is required </span>
-    }
-
-    @if (email?.touched && email?.hasError('email')) {
-      <span class="profile-form__error"> Enter a valid email address </span>
-    }
-  </div>
-
-  <div class="profile-form__field">
     <label class="profile-form__label" for="phoneNumber"> Phone Number </label>
 
     <input id="phoneNumber" type="text" class="profile-form__input" formControlName="phoneNumber" />
@@ -48,7 +24,7 @@
 
     <textarea
       id="address"
-      rows="4"
+      rows="3"
       class="profile-form__textarea"
       formControlName="address"
     ></textarea>
@@ -56,6 +32,37 @@
     @if (address?.touched && address?.hasError('required')) {
       <span class="profile-form__error"> Address is required </span>
     }
+  </div>
+
+  <div class="profile-form__field profile-form__field--full-width">
+    <label class="profile-form__label" for="skills"> Skills </label>
+
+    <div class="profile-form__skills-list">
+      @for (skill of skills; track skill) {
+        <span class="profile-form__skill"
+          >{{ skill }}
+          <button type="button" class="profile-form__skill-remove" (click)="removeSkill(skill)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </span>
+      }
+    </div>
+    <div class="profile-form__skill-input-container">
+      <input
+        type="text"
+        class="profile-form__input"
+        [formControl]="skillInput"
+        placeholder="Enter skill"
+      />
+
+      <button
+        type="button"
+        class="profile-form__button profile-form__button--secondary"
+        (click)="addSkill()"
+      >
+        Add Skill
+      </button>
+    </div>
   </div>
 
   <div class="profile-form__actions">

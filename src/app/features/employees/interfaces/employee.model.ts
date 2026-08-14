@@ -15,4 +15,10 @@ export interface EmployeeInterface {
   managerId?: string | null;
   status?: string | null;
   joiningDate?: string | null;
+
+  phoneNumber?: string | null;
+  address?: string | null;
+  skills?: string[];
+
+  profileImageUrl?: string | null;
 }

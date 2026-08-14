@@ -1,4 +1,9 @@
 <section class="designations">
+  <div class="designation__refresh-wrapper">
+    <button type="button" class="designation__refresh-button" (click)="refreshDesignations()">
+      <mat-icon> refresh </mat-icon>
+    </button>
+  </div>
   <header class="designations__header">
     <h2 class="designations__title">Designations</h2>
     <button class="designations__add-button" (click)="openDesignationForm()">

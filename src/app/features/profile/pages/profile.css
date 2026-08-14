@@ -74,6 +74,23 @@
   border: 3px solid var(--app-border);
 }
 
+.profile__avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 140px;
+  height: 140px;
+
+  border-radius: 50%;
+
+  background-color: var(--app-primary-light);
+  color: var(--app-primary);
+
+  font-size: 40px;
+  font-weight: 600;
+}
+
 .profile__image-button {
   padding: 10px 16px;
   cursor: pointer;

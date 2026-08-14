@@ -141,10 +141,9 @@ export class AuthService {
     const currentUser: AuthenticatedUserInterface = {
       id: employee.id!,
       employeeId: employee.employeeId,
-      role: employee.role,
       fullName: employee.fullName,
-      dateOfBirth: employee.dateOfBirth,
-      emailID: employee.emailID,
+      email: employee.emailID,
+      role: employee.role,
       theme: Theme.LIGHT,
     };
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(currentUser));

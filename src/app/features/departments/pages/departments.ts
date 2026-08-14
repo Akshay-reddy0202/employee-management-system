@@ -65,6 +65,10 @@ export class Departments {
     this.loadDepartments();
   }
 
+  protected refreshDepartments(): void {
+    this.loadDepartments();
+  }
+
   protected readonly sortedDepartments = computed(() => {
     const departments = [...this.searchedDepartments()];
     const column = this.sortColumn()!;
@@ -157,7 +161,7 @@ export class Departments {
   }
 
   private loadDepartments(): void {
-    this.departmentsService.getDepartments(this.currentPage(),this.pageSize()).subscribe({
+    this.departmentsService.getDepartments(this.currentPage(), this.pageSize()).subscribe({
       next: (response) => {
         this.departments.set(response.data);
         this.totalDepartments.set(response.totalCount);
