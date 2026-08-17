@@ -54,6 +54,30 @@
   </div>
 
   <div class="employee-form__field">
+    <label for="salary" class="employee-form__label"> Salary </label>
+
+    <input
+      id="salary"
+      type="number"
+      formControlName="salary"
+      placeholder="Enter salary"
+      class="employee-form__input"
+      [readonly]="mode() === 'view'"
+      min="0"
+    />
+
+    @if (salary.invalid && salary.touched) {
+      @if (salary.errors?.['required']) {
+        <span class="employee-form__error"> Salary is required </span>
+      }
+
+      @if (salary.errors?.['min']) {
+        <span class="employee-form__error"> Salary must be greater than 0 </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
     <label class="employee-form__label" for="departmentId"> Department </label>
     <div
       class="employee-form__select-wrapper"
@@ -69,6 +93,7 @@
         [readonly]="mode() === 'view'"
         (focus)="openDepartmentDropdown()"
       />
+
       @if (isDepartmentDropdownOpen()) {
         <div class="employee-form__dropdown">
           <div class="employee-form__dropdown-options">
@@ -85,6 +110,11 @@
         </div>
       }
     </div>
+    @if (departmentId.invalid && departmentId.touched) {
+      @if (departmentId.errors?.['required']) {
+        <span class="employee-form__error"> Department is required </span>
+      }
+    }
   </div>
 
   <div class="employee-form__field">
@@ -104,6 +134,7 @@
         [readonly]="mode() === 'view'"
         (focus)="openDesignationDropdown()"
       />
+
       @if (isDesignationDropdownOpen()) {
         <div class="employee-form__dropdown">
           <div class="employee-form__dropdown-options">
@@ -120,6 +151,11 @@
         </div>
       }
     </div>
+    @if (designationId.invalid && designationId.touched) {
+      @if (designationId.errors?.['required']) {
+        <span class="employee-form__error"> Designation is required </span>
+      }
+    }
   </div>
 
   <div class="employee-form__field">
@@ -139,6 +175,7 @@
         [readonly]="mode() === 'view'"
         (focus)="openManagerDropdown()"
       />
+
       @if (isManagerDropdownOpen()) {
         <div class="employee-form__dropdown">
           <div class="employee-form__dropdown-options">
@@ -165,6 +202,11 @@
         </div>
       }
     </div>
+    @if (managerId.invalid && managerId.touched) {
+      @if (managerId.errors?.['required']) {
+        <span class="employee-form__error"> Manager is required </span>
+      }
+    }
   </div>
 
   <div class="employee-form__field">
@@ -175,6 +217,12 @@
       <option value="Active">Active</option>
       <option value="Inactive">Inactive</option>
     </select>
+
+    @if (status.invalid && status.touched) {
+      @if (status.errors?.['required']) {
+        <span class="employee-form__error"> Status is required </span>
+      }
+    }
   </div>
 
   <div class="employee-form__field">
@@ -187,6 +235,12 @@
       formControlName="joiningDate"
       [readonly]="mode() === 'view'"
     />
+
+    @if (joiningDate.invalid && joiningDate.touched) {
+      @if (joiningDate.errors?.['required']) {
+        <span class="employee-form__error"> Joining date is required </span>
+      }
+    }
   </div>
 
   <div class="employee-form__actions">

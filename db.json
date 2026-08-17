@@ -7,7 +7,7 @@
       "dateOfBirth": "2005-02-02",
       "emailID": "akshay@gmail.com",
       "password": "Akshay@123",
-      "theme": "dark",
+      "theme": "light",
       "id": "EeRRXIKW76g",
       "departmentId": "9Oy86SNC91I",
       "designationId": "1",
@@ -18,7 +18,8 @@
       "address": "Nagpur",
       "skills": [
         "Angular"
-      ]
+      ],
+      "salary": 30000
     },
     {
       "role": "Admin",
@@ -33,13 +34,14 @@
       "designationId": "Dhq-BKqCGH4",
       "managerId": "EeRRXIKW76g",
       "status": "Active",
-      "joiningDate": "2025-02-02",
+      "joiningDate": "2026-02-02",
       "phoneNumber": "9876543210",
       "address": "Nagpur",
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Admin",
@@ -50,17 +52,18 @@
       "password": "Vivek@1234",
       "theme": "light",
       "id": "0CEktRwGtDE",
-      "departmentId": "9Oy86SNC91I",
-      "designationId": "1",
+      "departmentId": "OMeh_-eShwQ",
+      "designationId": "qQZTHxsst9c",
       "managerId": "0CEktRwGtDE",
       "status": "Active",
-      "joiningDate": "2006-02-02",
+      "joiningDate": "2026-02-02",
       "phoneNumber": "9876543210",
       "address": "Nagpur",
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Employee",
@@ -71,7 +74,7 @@
       "password": "Rohit@123",
       "theme": "dark",
       "id": "dxDbRxqeh4A",
-      "departmentId": "9Oy86SNC91I",
+      "departmentId": "NJumJJvpo_w",
       "designationId": "qQZTHxsst9c",
       "managerId": "38hj0peYJCA",
       "status": "Active",
@@ -81,7 +84,8 @@
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Admin",
@@ -92,7 +96,7 @@
       "password": "Rahul@123",
       "theme": "light",
       "id": "dD4M0Ew-62g",
-      "departmentId": "9Oy86SNC91I",
+      "departmentId": "LeLhSTEJjp8",
       "designationId": "4omxKTD_lmc",
       "status": "Active",
       "joiningDate": "2026-01-12",
@@ -102,7 +106,8 @@
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Employee",
@@ -113,7 +118,7 @@
       "password": "Dhruvesh@123",
       "theme": "light",
       "id": "38hj0peYJCA",
-      "departmentId": "9Oy86SNC91I",
+      "departmentId": "5Khb2NmuX3o",
       "designationId": "4omxKTD_lmc",
       "status": "Active",
       "joiningDate": "2026-08-01",
@@ -123,11 +128,78 @@
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Employee",
       "employeeId": "E0007",
+      "fullName": "Jay W",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "MDht4Z4lmLc",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-03-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0008",
+      "fullName": "Alice",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "LeLhSTEJjp8",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-03-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0009",
+      "fullName": "Jason Smith",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "LeLhSTEJjp8",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-01-01",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0010",
       "fullName": "Jay W",
       "dateOfBirth": "2004-01-02",
       "emailID": "jay@gmail.com",
@@ -144,11 +216,34 @@
       "skills": [
         "Angular",
         "TypeScript"
-      ]
+      ],
+      "salary": 50000
     },
     {
       "role": "Employee",
-      "employeeId": "E0007",
+      "employeeId": "E0011",
+      "fullName": "Tommy Cabrio",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-01-2",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0012",
       "fullName": "Jay W",
       "dateOfBirth": "2004-01-02",
       "emailID": "jay@gmail.com",
@@ -165,91 +260,8 @@
       "skills": [
         "Angular",
         "TypeScript"
-      ]
-    },
-    {
-      "role": "Employee",
-      "employeeId": "E0007",
-      "fullName": "Jay W",
-      "dateOfBirth": "2004-01-02",
-      "emailID": "jay@gmail.com",
-      "password": "Jay@1234",
-      "theme": "light",
-      "id": "pJJi5obzH2w",
-      "departmentId": "9Oy86SNC91I",
-      "designationId": "kTB6vVCpWBI",
-      "managerId": "EeRRXIKW76g",
-      "status": "Active",
-      "joiningDate": "2026-08-10",
-      "phoneNumber": "9876543210",
-      "address": "Nagpur",
-      "skills": [
-        "Angular",
-        "TypeScript"
-      ]
-    },
-    {
-      "role": "Employee",
-      "employeeId": "E0007",
-      "fullName": "Jay W",
-      "dateOfBirth": "2004-01-02",
-      "emailID": "jay@gmail.com",
-      "password": "Jay@1234",
-      "theme": "light",
-      "id": "pJJi5obzH2w",
-      "departmentId": "9Oy86SNC91I",
-      "designationId": "kTB6vVCpWBI",
-      "managerId": "EeRRXIKW76g",
-      "status": "Active",
-      "joiningDate": "2026-08-10",
-      "phoneNumber": "9876543210",
-      "address": "Nagpur",
-      "skills": [
-        "Angular",
-        "TypeScript"
-      ]
-    },
-    {
-      "role": "Employee",
-      "employeeId": "E0007",
-      "fullName": "Jay W",
-      "dateOfBirth": "2004-01-02",
-      "emailID": "jay@gmail.com",
-      "password": "Jay@1234",
-      "theme": "light",
-      "id": "pJJi5obzH2w",
-      "departmentId": "9Oy86SNC91I",
-      "designationId": "kTB6vVCpWBI",
-      "managerId": "EeRRXIKW76g",
-      "status": "Active",
-      "joiningDate": "2026-08-10",
-      "phoneNumber": "9876543210",
-      "address": "Nagpur",
-      "skills": [
-        "Angular",
-        "TypeScript"
-      ]
-    },
-    {
-      "role": "Employee",
-      "employeeId": "E0007",
-      "fullName": "Jay W",
-      "dateOfBirth": "2004-01-02",
-      "emailID": "jay@gmail.com",
-      "password": "Jay@1234",
-      "theme": "light",
-      "id": "pJJi5obzH2w",
-      "departmentId": "9Oy86SNC91I",
-      "designationId": "kTB6vVCpWBI",
-      "managerId": "EeRRXIKW76g",
-      "status": "Active",
-      "joiningDate": "2026-08-10",
-      "phoneNumber": "9876543210",
-      "address": "Nagpur",
-      "skills": [
-        "Angular",
-        "TypeScript"
-      ]
+      ],
+      "salary": 50000
     }
   ],
   "departments": [

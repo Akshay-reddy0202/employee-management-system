@@ -10,6 +10,7 @@ export interface EmployeeInterface {
   password: string;
   theme: Theme;
 
+  salary?: number | null;
   departmentId?: string | null;
   designationId?: string | null;
   managerId?: string | null;

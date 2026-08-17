@@ -181,6 +181,12 @@
   cursor: not-allowed;
 }
 
+.employee-form__error {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-warning);
+}
+
 @media (max-width: 768px) {
   .employee-form {
     grid-template-columns: 1fr;

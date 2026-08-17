@@ -5,12 +5,24 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
-
+import { provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { PieChart, LineChart } from 'echarts/charts';
+import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+echarts.use([
+  PieChart,
+  TooltipComponent,
+  LegendComponent,
+  CanvasRenderer,
+  LineChart,
+  GridComponent,
+]);
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideEchartsCore({ echarts }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
     provideAnimations(),
     provideToastr({
       positionClass: 'toast-top-right',

@@ -1,7 +1,7 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { EmployeeInterface } from '../../interfaces/employee.model';
 import { EmployeeFormMode } from '../../interfaces/employees-form-mode.type';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UpdateEmployeeRequest } from '../../interfaces/update-employee-request.model';
 import { Department } from '../../../departments/interfaces/department.interface';
 import { DesignationInterface } from '../../../designations/interfaces/designation.model';
@@ -56,16 +56,68 @@ export class EmployeesForm {
       nonNullable: true,
     }),
 
-    departmentId: new FormControl<string | null>(null),
+    salary: new FormControl<number | null>(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(0)],
+    }),
 
-    designationId: new FormControl<string | null>(null),
+    departmentId: new FormControl<string | null>(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
 
-    managerId: new FormControl<string | null>(null),
+    designationId: new FormControl<string | null>(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
 
-    status: new FormControl<string | null>(null),
+    managerId: new FormControl<string | null>(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
 
-    joiningDate: new FormControl<string | null>(null),
+    status: new FormControl<string | null>(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+
+    joiningDate: new FormControl<string | null>(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
+
+  protected get fullName() {
+    return this.employeeForm.get('fullName');
+  }
+
+  protected get emailID() {
+    return this.employeeForm.get('emailID');
+  }
+
+  protected get salary() {
+    return this.employeeForm.get('salary');
+  }
+
+  protected get departmentId() {
+    return this.employeeForm.get('departmentId');
+  }
+
+  protected get designationId() {
+    return this.employeeForm.get('designationId');
+  }
+
+  protected get managerId() {
+    return this.employeeForm.get('managerId');
+  }
+
+  protected get status() {
+    return this.employeeForm.get('status');
+  }
+
+  protected get joiningDate() {
+    return this.employeeForm.get('joiningDate');
+  }
 
   constructor() {
     effect(() => {
@@ -94,6 +146,7 @@ export class EmployeesForm {
         managerId: employee.managerId,
         status: employee.status,
         joiningDate: employee.joiningDate,
+        salary: employee.salary,
       });
 
       this.departmentSearchTerm.set(department?.name ?? '');
@@ -111,6 +164,7 @@ export class EmployeesForm {
   protected onDepartmentSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.departmentSearchTerm.set(input.value);
+    this.employeeForm.controls.departmentId.setValue(null);
   }
 
   protected readonly filteredDepartments = computed(() => {
@@ -145,6 +199,7 @@ export class EmployeesForm {
   protected onDesignationSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.designationSearchTerm.set(input.value);
+    this.employeeForm.controls.designationId.setValue(null);
   }
 
   protected readonly filteredDesignations = computed(() => {
@@ -180,6 +235,7 @@ export class EmployeesForm {
   protected onManagerSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.managerSearchTerm.set(input.value);
+    this.employeeForm.controls.managerId.setValue(null);
   }
 
   protected readonly filteredManagers = computed(() => {
@@ -241,6 +297,7 @@ export class EmployeesForm {
     const formValue = this.employeeForm.getRawValue();
 
     const request: UpdateEmployeeRequest = {
+      salary: formValue.salary,
       departmentId: formValue.departmentId,
       designationId: formValue.designationId,
       managerId: formValue.managerId,
