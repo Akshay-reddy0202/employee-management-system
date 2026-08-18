@@ -5,6 +5,7 @@ import { Department } from '../../../departments/interfaces/department.interface
 import { DepartmentsService } from '../../../departments/services/departments.service';
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { EChartsCoreOption } from 'echarts/core';
+import { EmployeeStore } from '../../../../core/stores/employee.store';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import { EChartsCoreOption } from 'echarts/core';
 })
 export class Dashboard {
   private readonly employeesService = inject(EmployeeService);
+  private readonly employeeStore = inject(EmployeeStore);
   protected readonly employees = signal<EmployeeInterface[]>([]);
   protected readonly totalEmployees = signal(0);
   protected readonly activeEmployees = signal(0);
@@ -26,6 +28,9 @@ export class Dashboard {
   protected readonly departmentChartOptions = signal<EChartsCoreOption>({});
   protected readonly employeeGrowth = signal<{ month: string; count: number }[]>([]);
   protected readonly employeeGrowthChartOptions = signal({});
+  protected readonly employeeGrowthPercentage = signal(0);
+  protected readonly activeEmployeesPercentage = signal(0);
+
   ngOnInit(): void {
     this.loadEmployees();
     this.loadDepartments();
@@ -39,8 +44,12 @@ export class Dashboard {
         this.totalEmployees.set(response.totalCount);
         this.calculateEmployeeGrowth();
 
-        this.activeEmployees.set(
-          employees.filter((employee) => employee.status === 'Active').length,
+        const activeEmployees = this.employees().filter(
+          (employee) => employee.status === 'Active',
+        ).length;
+        this.activeEmployees.set(activeEmployees);
+        this.activeEmployeesPercentage.set(
+          Number(((activeEmployees / employees.length) * 100).toFixed(1)),
         );
 
         this.totalSalary.set(
@@ -158,6 +167,15 @@ export class Dashboard {
 
     this.employeeGrowth.set(growthData);
     this.buildEmployeeGrowthChart();
+
+    if (growthData.length >= 2) {
+      const currentMonth = growthData[growthData.length - 1];
+      const previousMonth = growthData[growthData.length - 2];
+
+      const percentage = ((currentMonth.count - previousMonth.count) / previousMonth.count) * 100;
+
+      this.employeeGrowthPercentage.set(Math.round(percentage));
+    }
   }
 
   private buildEmployeeGrowthChart(): void {

@@ -34,6 +34,7 @@ export class EmployeesForm {
   protected readonly isManagerDropdownOpen = signal(false);
 
   protected readonly employees = input.required<EmployeeInterface[]>();
+  protected readonly allEmployees = input.required<EmployeeInterface[]>();
 
   protected readonly employeeForm = new FormGroup({
     employeeId: new FormControl('', {
@@ -132,7 +133,7 @@ export class EmployeesForm {
       );
 
       const manager = employee.managerId
-        ? this.employees().find((manager) => manager.id === employee.managerId)
+        ? this.allEmployees().find((manager) => manager.id === employee.managerId)
         : null;
 
       this.employeeForm.patchValue({
@@ -242,9 +243,9 @@ export class EmployeesForm {
     const searchTerm = this.managerSearchTerm().trim().toLowerCase();
 
     if (!searchTerm) {
-      return this.employees();
+      return this.allEmployees();
     }
-    return this.employees().filter((employee) => {
+    return this.allEmployees().filter((employee) => {
       const matchesName = employee.fullName.toLowerCase().includes(searchTerm);
       const matchesEmployeeId = employee.employeeId.toLowerCase().includes(searchTerm);
       const matchesDesignation = this.getDesignationName(employee.designationId)
@@ -272,7 +273,7 @@ export class EmployeesForm {
   }
 
   protected getManagerName(managerId: string | null | undefined): string {
-    const manager = this.employees().find((employee) => employee.id === managerId);
+    const manager = this.allEmployees().find((employee) => employee.id === managerId);
     return manager?.fullName ?? '-';
   }
 

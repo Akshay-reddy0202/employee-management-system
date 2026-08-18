@@ -16,6 +16,7 @@ export class EmployeesTable {
   readonly departments = input.required<Department[]>();
   protected readonly edit = output<EmployeeInterface>();
   protected readonly view = output<EmployeeInterface>();
+  readonly allEmployees = input.required<EmployeeInterface[]>();
 
   protected onEditClick(employee: EmployeeInterface): void {
     this.edit.emit(employee);
@@ -36,10 +37,8 @@ export class EmployeesTable {
   }
 
   protected getManagerName(managerId: string | null | undefined): string {
-    const manager = this.employees().find((employee) => employee.id === managerId);
+    const manager = this.allEmployees().find((employee) => employee.id === managerId);
 
     return manager?.fullName ?? '-';
   }
-
-
 }

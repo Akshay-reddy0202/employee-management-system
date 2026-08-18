@@ -1,8 +1,7 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { DepartmentTable } from '../components/department-table/department-table';
 import { DepartmentForm } from '../components/department-form/department-form';
 import { CreateDepartmentRequest } from '../interfaces/create-department-request.interface';
-import { DepartmentsService } from '../services/departments.service';
 import { Department } from '../interfaces/department.interface';
 import { ToastrService } from 'ngx-toastr';
 import { UpdateDepartmentRequest } from '../interfaces/update-department-request.interface';
@@ -17,6 +16,7 @@ import { EmployeeService } from '../../employees/services/employee.service';
 import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 import { DepartmentEmployees } from '../components/department-employees/department-employees';
 import { Pagination } from '../../../shared/components/pagination/pagination';
+import { DepartmentsStore } from '../../../core/stores/department.store';
 @Component({
   selector: 'app-departments',
   imports: [
@@ -33,9 +33,20 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
   styleUrl: './departments.css',
 })
 export class Departments {
+  private readonly departmentsStore = inject(DepartmentsStore);
+  protected readonly departments = this.departmentsStore.departments;
+
+  protected readonly error = this.departmentsStore.error;
+  protected readonly createSuccess = this.departmentsStore.createSuccess;
+  protected readonly updateSuccess = this.departmentsStore.updateSuccess;
+  protected readonly deleteSuccess = this.departmentsStore.deleteSuccess;
+
+  protected readonly totalDepartments = this.departmentsStore.totalDepartments;
+  protected readonly currentPage = this.departmentsStore.currentPage;
+  protected readonly pageSize = this.departmentsStore.pageSize;
+  protected readonly totalPages = this.departmentsStore.totalPages;
+
   protected readonly isDepartmentFormOpen = signal(false);
-  private readonly departmentsService = inject(DepartmentsService);
-  protected readonly departments = signal<Department[]>([]);
   private readonly toastr = inject(ToastrService);
   protected readonly selectedDepartment = signal<Department | null>(null);
   protected readonly isSubmitting = signal(false);
@@ -49,9 +60,6 @@ export class Departments {
   private readonly employeeService = inject(EmployeeService);
   protected readonly departmentEmployees = signal<EmployeeInterface[]>([]);
   protected readonly isEmployeesDialogOpen = signal(false);
-  protected readonly currentPage = signal(1);
-  protected readonly pageSize = signal(10);
-  protected readonly totalDepartments = signal(0);
 
   constructor() {
     this.searchSubject
@@ -59,14 +67,40 @@ export class Departments {
       .subscribe((value) => {
         this.searchTerm.set(value);
       });
+
+    effect(() => {
+      const error = this.error();
+
+      if (error) {
+        this.toastr.error(error);
+      }
+
+      if (this.createSuccess()) {
+        this.toastr.success('Department created successfully');
+        this.closeDepartmentForm();
+        this.departmentsStore.clearCreateSuccess();
+      }
+
+      if (this.updateSuccess()) {
+        this.toastr.success('Department updated successfully');
+        this.closeDepartmentForm();
+        this.departmentsStore.clearUpdateSuccess();
+      }
+
+      if (this.deleteSuccess()) {
+        this.toastr.success('Department deleted successfully');
+        this.closeDeleteConfirmationDialog();
+        this.departmentsStore.clearDeleteSuccess();
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.loadDepartments();
+    this.departmentsStore.refresh();
   }
 
   protected refreshDepartments(): void {
-    this.loadDepartments();
+    this.departmentsStore.refresh();
   }
 
   protected readonly sortedDepartments = computed(() => {
@@ -160,26 +194,10 @@ export class Departments {
     this.selectedDepartment.set(null);
   }
 
-  private loadDepartments(): void {
-    this.departmentsService.getDepartments(this.currentPage(), this.pageSize()).subscribe({
-      next: (response) => {
-        this.departments.set(response.data);
-        this.totalDepartments.set(response.totalCount);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
-  }
-
   protected onPageChange(page: number): void {
-    this.currentPage.set(page);
-    this.loadDepartments();
+    this.departmentsStore.setCurrentPage(page);
+    this.departmentsStore.loadDepartments();
   }
-
-  protected readonly totalPages = computed(() =>
-    Math.ceil(this.totalDepartments() / this.pageSize()),
-  );
 
   private departmentCodeExists(code: string, ignoreDepartmentId?: string): boolean {
     return this.departments().some((department) => {
@@ -206,23 +224,7 @@ export class Departments {
     }
     this.isSubmitting.set(true);
 
-    this.departmentsService
-      .createDepartment(request)
-      .pipe(
-        finalize(() => {
-          this.isSubmitting.set(false);
-        }),
-      )
-      .subscribe({
-        next: (createdDepartment: Department) => {
-          this.toastr.success('Department created successfully');
-          this.closeDepartmentForm();
-          this.loadDepartments();
-        },
-        error: (error) => {
-          this.toastr.error(error.message);
-        },
-      });
+    this.departmentsStore.createDepartment(request);
   }
 
   private updateDepartment(request: UpdateDepartmentRequest): void {
@@ -237,19 +239,8 @@ export class Departments {
       return;
     }
     this.isSubmitting.set(true);
-    this.departmentsService
-      .updateDepartment(selectedDepartment.id, request)
-      .pipe(finalize(() => this.isSubmitting.set(false)))
-      .subscribe({
-        next: () => {
-          this.toastr.success('Department updated successfully');
-          this.closeDepartmentForm();
-          this.loadDepartments();
-        },
-        error: (error) => {
-          this.toastr.error(error.message);
-        },
-      });
+
+    this.departmentsStore.updateDepartment(selectedDepartment.id, request);
   }
 
   protected confirmDeleteDepartment(): void {
@@ -257,16 +248,7 @@ export class Departments {
     if (!department) {
       return;
     }
-    this.departmentsService.deleteDepartment(department.id).subscribe({
-      next: () => {
-        this.toastr.success('Department deleted successfully');
-        this.closeDeleteConfirmationDialog();
-        this.loadDepartments();
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
+    this.departmentsStore.deleteDepartment(department.id);
   }
 
   protected readonly searchedDepartments = computed(() => {

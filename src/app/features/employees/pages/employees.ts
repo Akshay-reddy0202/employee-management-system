@@ -1,6 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { EmployeesTable } from '../components/employees-table/employees-table';
-import { EmployeeService } from '../services/employee.service';
 import { EmployeeInterface } from '../interfaces/employee.model';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeFormMode } from '../interfaces/employees-form-mode.type';
@@ -14,6 +13,7 @@ import { Department } from '../../departments/interfaces/department.interface';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { MatIconModule } from '@angular/material/icon';
+import { EmployeeStore } from '../../../core/stores/employee.store';
 
 @Component({
   selector: 'app-employees',
@@ -22,9 +22,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './employees.css',
 })
 export class Employees {
-  private readonly employeesService = inject(EmployeeService);
   private readonly toastr = inject(ToastrService);
-  protected readonly employees = signal<EmployeeInterface[]>([]);
+  protected readonly employeeStore = inject(EmployeeStore);
+
   protected readonly selectedEmployee = signal<EmployeeInterface | null>(null);
   protected readonly isEmployeeFormOpen = signal(false);
   protected readonly employeeFormMode = signal<EmployeeFormMode | null>(null);
@@ -36,42 +36,48 @@ export class Employees {
   protected readonly selectedDesignationId = signal('');
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
-  protected readonly currentPage = signal(1);
-  protected readonly pageSize = signal(10);
-  protected readonly totalEmployees = signal(0);
+
+  protected readonly totalEmployees = this.employeeStore.totalEmployees;
+  protected readonly allEmployees = this.employeeStore.allEmployees;
+  protected readonly employees = this.employeeStore.employees;
+  protected readonly currentPage = this.employeeStore.currentPage;
+  protected readonly pageSize = this.employeeStore.pageSize;
+  protected readonly totalPages = this.employeeStore.totalPages;
+
+  constructor() {
+    effect(() => {
+      const error = this.employeeStore.error();
+
+      if (error) {
+        this.toastr.error(error);
+      }
+
+      if (this.employeeStore.updateSuccess()) {
+        this.toastr.success('Employee updated successfully');
+        this.closeEmployeeForm();
+        this.employeeStore.clearUpdateSuccess();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.loadEmployees();
+    this.employeeStore.refresh();
+
     this.loadDesignations();
     this.loadDepartments();
   }
 
   protected refreshEmployees(): void {
-    this.loadEmployees();
+    this.employeeStore.refresh();
+
     this.loadDepartments();
     this.loadDesignations();
   }
 
-  private loadEmployees(): void {
-    this.employeesService.getEmployees(this.currentPage(), this.pageSize()).subscribe({
-      next: (response) => {
-        this.employees.set(response.data);
-        this.totalEmployees.set(response.totalCount);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
-  }
-
   protected onPageChange(page: number): void {
-    this.currentPage.set(page);
-    this.loadEmployees();
+    this.employeeStore.setCurrentPage(page);
+    this.employeeStore.loadEmployees();
   }
-
-  protected readonly totalPages = computed(() =>
-    Math.ceil(this.totalEmployees() / this.pageSize()),
-  );
 
   protected onEditEmployee(employee: EmployeeInterface): void {
     this.selectedEmployee.set(employee);
@@ -96,17 +102,7 @@ export class Employees {
     if (!employee?.id) {
       return;
     }
-
-    this.employeesService.updateEmployee(employee.id, request).subscribe({
-      next: () => {
-        this.toastr.success('Employee Updated Successfully');
-        this.closeEmployeeForm();
-        this.loadEmployees();
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
+    this.employeeStore.updateEmployee(employee.id, request);
   }
 
   private loadDesignations(): void {
@@ -172,7 +168,7 @@ export class Employees {
         (designation) => designation.id === employee.designationId,
       );
 
-      const manager = this.employees().find((manager) => manager.id === employee.managerId);
+      const manager = this.allEmployees().find((manager) => manager.id === employee.managerId);
       const matchesEmployeeId = employee.employeeId.toLowerCase().includes(search);
       const matchesName = employee.fullName.toLowerCase().includes(search);
       const matchesDepartment = department?.name.toLowerCase().includes(search);

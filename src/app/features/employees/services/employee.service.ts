@@ -55,4 +55,12 @@ export class EmployeeService {
       `${this.apiUrl}/employees?departmentId=${departmentId}`,
     );
   }
+
+  public getAllEmployees(): Observable<EmployeeInterface[]> {
+    return this.http.get<EmployeeInterface[]>(`${this.apiUrl}/employees`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error('Employees not Found'));
+      }),
+    );
+  }
 }

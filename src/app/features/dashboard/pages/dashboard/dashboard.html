@@ -22,7 +22,13 @@
           <h2 class="dashboard__stat-card--employeestitle">Total Employees</h2>
         </div>
       </div>
-      <p class="dashboard__stat-card--value">{{ totalEmployees() }}</p>
+      <div class="dashboard__stat-card--wrapper">
+        <p class="dashboard__stat-card--value">{{ totalEmployees() }}</p>
+        <div class="dashboard__stat-card--percentage">
+          <div class="dashboard__stat-card--growth">↗ {{ employeeGrowthPercentage() }}%</div>
+          <p class="dashboard__stat-card--caption">vs last month</p>
+        </div>
+      </div>
     </div>
 
     <div class="dashboard__stat-card">
@@ -75,7 +81,14 @@
           <h2 class="dashboard__stat-card--activetitle">Active Employees</h2>
         </div>
       </div>
-      <p class="dashboard__stat-card--value">{{ activeEmployees() }}</p>
+      <div class="dashboard__stat-card--wrapper">
+        <p class="dashboard__stat-card--value">{{ activeEmployees() }}</p>
+        <div class="dashboard__stat-card--percentage">
+          <div class="dashboard__stat-card--growth">
+            ↗ {{ activeEmployeesPercentage() }}% Workforce Active
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="dashboard__stat-card">

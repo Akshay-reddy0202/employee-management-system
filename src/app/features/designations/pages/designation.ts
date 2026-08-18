@@ -1,15 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { DesignationTable } from '../components/designation-table/designation-table';
 import { DesignationForm } from '../components/designation-form/designation-form';
 import { Modal } from '../../../shared/components/modal/modal';
 import { DesignationInterface } from '../interfaces/designation.model';
 import { ToastrService } from 'ngx-toastr';
-import { DesignationsService } from '../services/designations.service';
 import { CreateDesignationRequest } from '../interfaces/create-designation-request.model';
 import { UpdateDesignationRequest } from '../interfaces/update-designation-request.model';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { MatIconModule } from '@angular/material/icon';
+import { DesignationStore } from '../../../core/stores/designation.store';
 
 @Component({
   selector: 'app-designation',
@@ -25,16 +25,46 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './designation.css',
 })
 export class Designation {
-  protected readonly designations = signal<DesignationInterface[]>([]);
+  private readonly designationStore = inject(DesignationStore);
+  protected readonly designations = this.designationStore.designations;
+  protected readonly error = this.designationStore.error;
+  protected readonly createSuccess = this.designationStore.createSuccess;
+  protected readonly updateSuccess = this.designationStore.updateSuccess;
+
   protected readonly isDesignationFormOpen = signal(false);
   protected readonly selectedDesignation = signal<DesignationInterface | null>(null);
-  private readonly designationsService = inject(DesignationsService);
+
   private readonly toastr = inject(ToastrService);
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
 
+  constructor() {
+    effect(() => {
+      const error = this.designationStore.error();
+      if (error) {
+        this.toastr.error(error);
+      }
+
+      if (this.createSuccess()) {
+        this.toastr.success('Designation created successfully');
+        this.closeDesignationForm();
+        this.designationStore.clearCreateSuccess();
+      }
+
+      if (this.updateSuccess()) {
+        this.toastr.success('Designation updated successfully');
+        this.closeDesignationForm();
+        this.designationStore.clearUpdateSuccess();
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.designationStore.refresh();
+  }
+
   protected refreshDesignations(): void {
-    this.loadDesignations();
+    this.designationStore.refresh();
   }
 
   protected openDesignationForm(): void {
@@ -85,21 +115,6 @@ export class Designation {
     return designations.filter((designation) => designation.name.toLowerCase().includes(search));
   });
 
-  ngOnInit(): void {
-    this.loadDesignations();
-  }
-
-  private loadDesignations(): void {
-    this.designationsService.getDesignations().subscribe({
-      next: (designations) => {
-        this.designations.set(designations);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
-  }
-
   protected save(request: CreateDesignationRequest): void {
     if (this.selectedDesignation()) {
       this.updateDesignation(request);
@@ -109,16 +124,7 @@ export class Designation {
   }
 
   protected createDesignation(request: CreateDesignationRequest): void {
-    this.designationsService.createDesignations(request).subscribe({
-      next: () => {
-        this.toastr.success('Designation Created Successfully');
-        this.closeDesignationForm();
-        this.loadDesignations();
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
+    this.designationStore.createDesignation(request);
   }
 
   protected updateDesignation(request: UpdateDesignationRequest): void {
@@ -126,15 +132,6 @@ export class Designation {
     if (!selectedDesignation?.id) {
       return;
     }
-    this.designationsService.updateDesignations(selectedDesignation.id, request).subscribe({
-      next: () => {
-        this.toastr.success('Designation updated successfully');
-        this.closeDesignationForm();
-        this.loadDesignations();
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
+    this.designationStore.updateDesignation(selectedDesignation.id, request);
   }
 }

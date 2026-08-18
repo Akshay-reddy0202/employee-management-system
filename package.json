@@ -21,6 +21,7 @@
     "@angular/material": "^21.2.14",
     "@angular/platform-browser": "^21.2.19",
     "@angular/router": "^21.2.19",
+    "@ngrx/signals": "^21.1.1",
     "echarts": "^6.1.0",
     "json-server": "^1.0.0-beta.15",
     "ngx-echarts": "^21.0.0",

@@ -51,6 +51,7 @@
   <section class="employees__content">
     <app-employees-table
       [employees]="displayedEmployees()"
+      [allEmployees]="allEmployees()"
       (edit)="onEditEmployee($event)"
       (view)="onViewEmployee($event)"
       [designations]="designations()"
@@ -64,6 +65,7 @@
         [mode]="employeeFormMode()"
         [employee]="selectedEmployee()"
         [employees]="employees()"
+        [allEmployees]="allEmployees()"
         (cancel)="closeEmployeeForm()"
         (save)="onSaveEmployee($event)"
         [designations]="designations()"
