@@ -1,15 +1,20 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { Department } from '../../features/departments/interfaces/department.interface';
 import { computed, inject } from '@angular/core';
-import { DepartmentsService } from '../../features/departments/services/departments.service';
-import { CreateDepartmentRequest } from '../../features/departments/interfaces/create-department-request.interface';
-import { UpdateDepartmentRequest } from '../../features/departments/interfaces/update-department-request.interface';
+import { Department } from '../interfaces/department.interface';
+import { DepartmentsService } from '../services/departments.service';
+import { CreateDepartmentRequest } from '../interfaces/create-department-request.interface';
+import { UpdateDepartmentRequest } from '../interfaces/update-department-request.interface';
+import { EmployeeService } from '../../employees/services/employee.service';
+import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 
 type DepartmentState = {
   departments: Department[];
   allDepartments: Department[];
+  departmentEmployees: EmployeeInterface[];
   departmentsLoading: boolean;
   allDepartmentsLoading: boolean;
+  departmentEmployeesLoading: boolean;
+  departmentsLoaded: boolean;
   updateSuccess: boolean;
   createSuccess: boolean;
   deleteSuccess: boolean;
@@ -22,8 +27,11 @@ type DepartmentState = {
 const initialState: DepartmentState = {
   departments: [],
   allDepartments: [],
+  departmentEmployees: [],
   departmentsLoading: false,
   allDepartmentsLoading: false,
+  departmentEmployeesLoading: false,
+  departmentsLoaded: false,
   updateSuccess: false,
   createSuccess: false,
   deleteSuccess: false,
@@ -43,6 +51,7 @@ export const DepartmentsStore = signalStore(
   })),
   withMethods((store) => {
     const departmentsService = inject(DepartmentsService);
+    const employeesService = inject(EmployeeService);
     return {
       loadDepartments() {
         patchState(store, {
@@ -68,7 +77,10 @@ export const DepartmentsStore = signalStore(
         });
       },
 
-      loadAllDepartments() {
+      loadAllDepartments(forceRefresh = false) {
+        if (store.departmentsLoaded() && !forceRefresh) {
+          return;
+        }
         patchState(store, {
           allDepartmentsLoading: true,
           error: null,
@@ -79,6 +91,7 @@ export const DepartmentsStore = signalStore(
               allDepartments: departments,
               error: null,
               allDepartmentsLoading: false,
+              departmentsLoaded: true,
             });
           },
           error: (error) => {
@@ -98,7 +111,7 @@ export const DepartmentsStore = signalStore(
 
         departmentsService.createDepartment(request).subscribe({
           next: () => {
-            this.loadAllDepartments();
+            this.loadAllDepartments(true);
             this.loadDepartments();
             patchState(store, {
               createSuccess: true,
@@ -121,7 +134,7 @@ export const DepartmentsStore = signalStore(
         departmentsService.updateDepartment(departmentId, request).subscribe({
           next: () => {
             this.loadDepartments();
-            this.loadAllDepartments();
+            this.loadAllDepartments(true);
             patchState(store, {
               updateSuccess: true,
             });
@@ -157,8 +170,30 @@ export const DepartmentsStore = signalStore(
         });
       },
 
+      loadEmployeeByDepartment(departmentId: string) {
+        patchState(store, {
+          departmentEmployeesLoading: true,
+          error: null,
+        });
+
+        employeesService.getEmployeesByDepartment(departmentId).subscribe({
+          next: (employees) => {
+            patchState(store, {
+              departmentEmployees: employees,
+              departmentEmployeesLoading: false,
+            });
+          },
+          error: (error) => {
+            patchState(store, {
+              departmentEmployeesLoading: false,
+              error: error.message,
+            });
+          },
+        });
+      },
+      
       refresh() {
-        this.loadAllDepartments();
+        this.loadAllDepartments(true);
         this.loadDepartments();
       },
 
@@ -185,6 +220,12 @@ export const DepartmentsStore = signalStore(
       clearDeleteSuccess() {
         patchState(store, {
           deleteSuccess: false,
+        });
+      },
+
+      clearDepartmentEmployees() {
+        patchState(store, {
+          departmentEmployees: [],
         });
       },
     };

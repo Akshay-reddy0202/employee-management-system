@@ -52,17 +52,17 @@
 
         <div class="profile__field">
           <span class="profile__label">Department</span>
-          <span class="profile__value">{{ profileDetails()?.departmentId }}</span>
+          <span class="profile__value">{{ departmentName() }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Designation</span>
-          <span class="profile__value">{{ profileDetails()?.designationId }}</span>
+          <span class="profile__value">{{ designationName() }}</span>
         </div>
 
         <div class="profile__field">
           <span class="profile__label">Manager</span>
-          <span class="profile__value">{{ profileDetails()?.managerId }}</span>
+          <span class="profile__value">{{ managerName() }}</span>
         </div>
 
         <div class="profile__field">
@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="profile__skills">
       <h3 class="profile__skills-title">Skills</h3>
 

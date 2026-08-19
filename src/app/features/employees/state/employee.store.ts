@@ -1,14 +1,15 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { EmployeeInterface } from '../../features/employees/interfaces/employee.model';
+import { EmployeeInterface } from '../interfaces/employee.model';
 import { computed, inject } from '@angular/core';
-import { EmployeeService } from '../../features/employees/services/employee.service';
-import { UpdateEmployeeRequest } from '../../features/employees/interfaces/update-employee-request.model';
+import { EmployeeService } from '../services/employee.service';
+import { UpdateEmployeeRequest } from '../interfaces/update-employee-request.model';
 
 type EmployeeState = {
   employees: EmployeeInterface[];
   allEmployees: EmployeeInterface[];
   employeesLoading: boolean;
   allEmployeesLoading: boolean;
+  employeesLoaded: boolean;
   updateSuccess: boolean;
   error: string | null;
   totalEmployees: number;
@@ -21,6 +22,7 @@ const initialState: EmployeeState = {
   allEmployees: [],
   employeesLoading: false,
   allEmployeesLoading: false,
+  employeesLoaded: false,
   updateSuccess: false,
   error: null,
   totalEmployees: 0,
@@ -76,7 +78,10 @@ export const EmployeeStore = signalStore(
         });
       },
 
-      loadAllEmployees() {
+      loadAllEmployees(forceRefresh = false) {
+        if (store.employeesLoaded() && !forceRefresh) {
+          return;
+        }
         patchState(store, {
           allEmployeesLoading: true,
           error: null,
@@ -86,7 +91,7 @@ export const EmployeeStore = signalStore(
             patchState(store, {
               allEmployees: employees,
               error: null,
-
+              employeesLoaded: true,
               allEmployeesLoading: false,
             });
           },
@@ -107,7 +112,7 @@ export const EmployeeStore = signalStore(
         employeeService.updateEmployee(employeeId, request).subscribe({
           next: () => {
             this.loadEmployees();
-            this.loadAllEmployees();
+            this.loadAllEmployees(true);
             patchState(store, {
               updateSuccess: true,
             });
@@ -136,7 +141,7 @@ export const EmployeeStore = signalStore(
       },
 
       refresh() {
-        this.loadAllEmployees();
+        this.loadAllEmployees(true);
         this.loadEmployees();
       },
     };

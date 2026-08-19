@@ -6,14 +6,12 @@ import { EmployeeFormMode } from '../interfaces/employees-form-mode.type';
 import { EmployeesForm } from '../components/employees-form/employees-form';
 import { Modal } from '../../../shared/components/modal/modal';
 import { UpdateEmployeeRequest } from '../interfaces/update-employee-request.model';
-import { DesignationsService } from '../../designations/services/designations.service';
-import { DesignationInterface } from '../../designations/interfaces/designation.model';
-import { DepartmentsService } from '../../departments/services/departments.service';
-import { Department } from '../../departments/interfaces/department.interface';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { MatIconModule } from '@angular/material/icon';
-import { EmployeeStore } from '../../../core/stores/employee.store';
+import { EmployeeStore } from '../state/employee.store';
+import { DesignationStore } from '../../designations/state/designation.store';
+import { DepartmentsStore } from '../../departments/state/department.store';
 
 @Component({
   selector: 'app-employees',
@@ -24,19 +22,23 @@ import { EmployeeStore } from '../../../core/stores/employee.store';
 export class Employees {
   private readonly toastr = inject(ToastrService);
   protected readonly employeeStore = inject(EmployeeStore);
+  private readonly designationStore = inject(DesignationStore);
+  private readonly departmentsStore = inject(DepartmentsStore);
 
   protected readonly selectedEmployee = signal<EmployeeInterface | null>(null);
   protected readonly isEmployeeFormOpen = signal(false);
   protected readonly employeeFormMode = signal<EmployeeFormMode | null>(null);
-  private readonly designationsService = inject(DesignationsService);
-  protected readonly designations = signal<DesignationInterface[]>([]);
-  private readonly departmentsService = inject(DepartmentsService);
-  protected readonly departments = signal<Department[]>([]);
+
+  protected readonly designations = this.designationStore.designations;
+  protected readonly departments = this.departmentsStore.allDepartments;
+
   protected readonly selectedDepartmentId = signal('');
   protected readonly selectedDesignationId = signal('');
   protected readonly searchTerm = signal('');
   protected readonly isUnsavedChangesDialogOpen = signal(false);
 
+  protected readonly updateSuccess = this.employeeStore.updateSuccess;
+  protected readonly error = this.employeeStore.error;
   protected readonly totalEmployees = this.employeeStore.totalEmployees;
   protected readonly allEmployees = this.employeeStore.allEmployees;
   protected readonly employees = this.employeeStore.employees;
@@ -46,13 +48,13 @@ export class Employees {
 
   constructor() {
     effect(() => {
-      const error = this.employeeStore.error();
+      const error = this.error();
 
       if (error) {
         this.toastr.error(error);
       }
 
-      if (this.employeeStore.updateSuccess()) {
+      if (this.updateSuccess()) {
         this.toastr.success('Employee updated successfully');
         this.closeEmployeeForm();
         this.employeeStore.clearUpdateSuccess();
@@ -61,17 +63,13 @@ export class Employees {
   }
 
   ngOnInit(): void {
-    this.employeeStore.refresh();
-
-    this.loadDesignations();
-    this.loadDepartments();
+    this.employeeStore.loadEmployees();
+    this.designationStore.loadDesignations();
+    this.departmentsStore.loadAllDepartments();
   }
 
   protected refreshEmployees(): void {
     this.employeeStore.refresh();
-
-    this.loadDepartments();
-    this.loadDesignations();
   }
 
   protected onPageChange(page: number): void {
@@ -103,28 +101,6 @@ export class Employees {
       return;
     }
     this.employeeStore.updateEmployee(employee.id, request);
-  }
-
-  private loadDesignations(): void {
-    this.designationsService.getDesignations().subscribe({
-      next: (designations) => {
-        this.designations.set(designations);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
-  }
-
-  private loadDepartments(): void {
-    this.departmentsService.getAllDepartments().subscribe({
-      next: (departments) => {
-        this.departments.set(departments);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
   }
 
   protected readonly filteredEmployees = computed(() => {

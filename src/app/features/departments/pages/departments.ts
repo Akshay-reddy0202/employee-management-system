@@ -12,11 +12,10 @@ import { DepartmentSortColumn, SortDirection } from '../interfaces/department-so
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Modal } from '../../../shared/components/modal/modal';
-import { EmployeeService } from '../../employees/services/employee.service';
-import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 import { DepartmentEmployees } from '../components/department-employees/department-employees';
 import { Pagination } from '../../../shared/components/pagination/pagination';
-import { DepartmentsStore } from '../../../core/stores/department.store';
+import { DepartmentsStore } from '../state/department.store';
+
 @Component({
   selector: 'app-departments',
   imports: [
@@ -35,11 +34,13 @@ import { DepartmentsStore } from '../../../core/stores/department.store';
 export class Departments {
   private readonly departmentsStore = inject(DepartmentsStore);
   protected readonly departments = this.departmentsStore.departments;
+  protected readonly departmentEmployees = this.departmentsStore.departmentEmployees;
 
   protected readonly error = this.departmentsStore.error;
   protected readonly createSuccess = this.departmentsStore.createSuccess;
   protected readonly updateSuccess = this.departmentsStore.updateSuccess;
   protected readonly deleteSuccess = this.departmentsStore.deleteSuccess;
+  protected readonly departmentEmployeesLoading = this.departmentsStore.departmentEmployeesLoading;
 
   protected readonly totalDepartments = this.departmentsStore.totalDepartments;
   protected readonly currentPage = this.departmentsStore.currentPage;
@@ -57,8 +58,7 @@ export class Departments {
   private readonly searchSubject = new Subject<string>();
   private readonly destroyRef = inject(DestroyRef);
   protected readonly isUnsavedChangesDialogOpen = signal(false);
-  private readonly employeeService = inject(EmployeeService);
-  protected readonly departmentEmployees = signal<EmployeeInterface[]>([]);
+
   protected readonly isEmployeesDialogOpen = signal(false);
 
   constructor() {
@@ -72,16 +72,19 @@ export class Departments {
       const error = this.error();
 
       if (error) {
+        this.isSubmitting.set(false);
         this.toastr.error(error);
       }
 
       if (this.createSuccess()) {
+        this.isSubmitting.set(false);
         this.toastr.success('Department created successfully');
         this.closeDepartmentForm();
         this.departmentsStore.clearCreateSuccess();
       }
 
       if (this.updateSuccess()) {
+        this.isSubmitting.set(false);
         this.toastr.success('Department updated successfully');
         this.closeDepartmentForm();
         this.departmentsStore.clearUpdateSuccess();
@@ -96,7 +99,7 @@ export class Departments {
   }
 
   ngOnInit(): void {
-    this.departmentsStore.refresh();
+    this.departmentsStore.loadDepartments();
   }
 
   protected refreshDepartments(): void {
@@ -272,16 +275,12 @@ export class Departments {
   }
 
   protected onViewEmployees(department: Department): void {
-    this.employeeService.getEmployeesByDepartment(department.id).subscribe({
-      next: (employees) => {
-        this.departmentEmployees.set(employees);
-        this.isEmployeesDialogOpen.set(true);
-      },
-    });
+    this.departmentsStore.loadEmployeeByDepartment(department.id);
+    this.isEmployeesDialogOpen.set(true);
   }
 
   protected onDepartmentEmployeesTableClose(): void {
     this.isEmployeesDialogOpen.set(false);
-    this.departmentEmployees.set([]);
+    this.departmentsStore.clearDepartmentEmployees();
   }
 }

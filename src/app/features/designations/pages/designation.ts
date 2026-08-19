@@ -9,7 +9,7 @@ import { UpdateDesignationRequest } from '../interfaces/update-designation-reque
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { MatIconModule } from '@angular/material/icon';
-import { DesignationStore } from '../../../core/stores/designation.store';
+import { DesignationStore } from '../state/designation.store';
 
 @Component({
   selector: 'app-designation',
@@ -60,7 +60,7 @@ export class Designation {
   }
 
   ngOnInit(): void {
-    this.designationStore.refresh();
+    this.designationStore.loadDesignations();
   }
 
   protected refreshDesignations(): void {

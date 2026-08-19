@@ -1,13 +1,14 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { DesignationInterface } from '../../features/designations/interfaces/designation.model';
-import { DesignationsService } from '../../features/designations/services/designations.service';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { inject } from '@angular/core';
-import { CreateDesignationRequest } from '../../features/designations/interfaces/create-designation-request.model';
-import { UpdateDesignationRequest } from '../../features/designations/interfaces/update-designation-request.model';
+import { DesignationInterface } from '../interfaces/designation.model';
+import { DesignationsService } from '../services/designations.service';
+import { CreateDesignationRequest } from '../interfaces/create-designation-request.model';
+import { UpdateDesignationRequest } from '../interfaces/update-designation-request.model';
 
 type DesignationState = {
   designations: DesignationInterface[];
   designationsLoading: boolean;
+  designationsLoaded: boolean;
   updateSuccess: boolean;
   createSuccess: boolean;
   error: string | null;
@@ -16,6 +17,7 @@ type DesignationState = {
 const initialState: DesignationState = {
   designations: [],
   designationsLoading: false,
+  designationsLoaded: false,
   updateSuccess: false,
   createSuccess: false,
   error: null,
@@ -30,7 +32,10 @@ export const DesignationStore = signalStore(
     const designationsService = inject(DesignationsService);
 
     return {
-      loadDesignations() {
+      loadDesignations(forceRefresh = false) {
+        if (store.designationsLoaded() && !forceRefresh) {
+          return;
+        }
         patchState(store, {
           designationsLoading: true,
           error: null,
@@ -41,6 +46,7 @@ export const DesignationStore = signalStore(
             patchState(store, {
               designations: response,
               designationsLoading: false,
+              designationsLoaded: true,
               error: null,
             });
           },
@@ -61,7 +67,7 @@ export const DesignationStore = signalStore(
 
         designationsService.createDesignations(designation).subscribe({
           next: () => {
-            this.loadDesignations();
+            this.loadDesignations(true);
             patchState(store, {
               createSuccess: true,
             });
@@ -82,7 +88,7 @@ export const DesignationStore = signalStore(
         });
         designationsService.updateDesignations(designationId, request).subscribe({
           next: () => {
-            this.loadDesignations();
+            this.loadDesignations(true);
             patchState(store, {
               updateSuccess: true,
             });
@@ -97,7 +103,7 @@ export const DesignationStore = signalStore(
       },
 
       refresh() {
-        this.loadDesignations();
+        this.loadDesignations(true);
       },
 
       clearCreateSuccess() {
