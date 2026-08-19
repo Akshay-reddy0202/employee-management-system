@@ -278,6 +278,32 @@
       "managerId": "pJJi5obzH2w",
       "status": "Active",
       "joiningDate": "2026-08-18"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0014",
+      "fullName": "Vivek Tondare",
+      "dateOfBirth": "1000-01-01",
+      "emailID": "vivek.t@gmail.com",
+      "password": "Vivek@123",
+      "theme": "light",
+      "id": "bpkgDLD9bn4",
+      "salary": 0,
+      "departmentId": "NJumJJvpo_w",
+      "designationId": "1",
+      "managerId": "0CEktRwGtDE",
+      "status": "Active",
+      "joiningDate": "2026-08-20"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0015",
+      "fullName": "vickytondare",
+      "dateOfBirth": "2007-01-01",
+      "emailID": "vicky@gmail.com",
+      "password": "Vicky@123",
+      "theme": "light",
+      "id": "_txjNuqNCJ0"
     }
   ],
   "departments": [

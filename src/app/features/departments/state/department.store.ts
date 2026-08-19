@@ -89,6 +89,7 @@ export const DepartmentsStore = signalStore(
           next: (departments) => {
             patchState(store, {
               allDepartments: departments,
+              totalDepartments: departments.length,
               error: null,
               allDepartmentsLoading: false,
               departmentsLoaded: true,
@@ -191,7 +192,7 @@ export const DepartmentsStore = signalStore(
           },
         });
       },
-      
+
       refresh() {
         this.loadAllDepartments(true);
         this.loadDepartments();

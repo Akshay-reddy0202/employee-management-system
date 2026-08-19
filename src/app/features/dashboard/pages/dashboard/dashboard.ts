@@ -10,7 +10,6 @@ import { DashboardStore } from '../../state/dashboard.store';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-
 export class Dashboard {
   private readonly dashboardStore = inject(DashboardStore);
   private readonly employeeStore = inject(EmployeeStore);

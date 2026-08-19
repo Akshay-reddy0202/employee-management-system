@@ -90,6 +90,7 @@ export const EmployeeStore = signalStore(
           next: (employees) => {
             patchState(store, {
               allEmployees: employees,
+              totalEmployees: employees.length,
               error: null,
               employeesLoaded: true,
               allEmployeesLoading: false,
