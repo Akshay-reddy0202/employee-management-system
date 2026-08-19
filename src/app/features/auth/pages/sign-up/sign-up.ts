@@ -10,10 +10,11 @@ import { FullNameDirective } from '../../../../shared/directives/full-name-direc
 import { fullNameValidator } from '../../../../shared/validators/full-name.validator';
 import { ageValidator } from '../../../../shared/validators/age.validator';
 import { AuthService } from '../../../../core/services/auth.service';
+import { EmployeeIdDialog } from '../../../../shared/components/employee-id-dialog/employee-id-dialog';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [ReactiveFormsModule, RouterLink, FullNameDirective, TermsAndConditions],
+  imports: [ReactiveFormsModule,EmployeeIdDialog, RouterLink, FullNameDirective, TermsAndConditions],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css',
 })
@@ -87,6 +88,10 @@ export class SignUp {
   private emailInput = viewChild<ElementRef<HTMLInputElement>>('emailInput');
   private router = inject(Router);
 
+  protected readonly isEmployeeIdDialogOpen = signal(false);
+  protected readonly generatedEmployeeId = signal('');
+  protected readonly isAcknowledged = signal(false);
+
   onSubmit() {
     if (this.signUpForm.invalid) {
       return;
@@ -94,12 +99,10 @@ export class SignUp {
     const formValue = this.signUpForm.getRawValue();
     this.authService.register(formValue).subscribe({
       next: (employee) => {
-        this.toastr.success(
-          `Your Employee ID is ${employee.employeeId}`,
-          'Registration Successful',
-        );
+        this.generatedEmployeeId.set(employee.employeeId);
+        this.isEmployeeIdDialogOpen.set(true);
         this.signUpForm.reset();
-        this.router.navigate(['/sign-in']);
+
       },
       error: (error) => {
         this.toastr.error(error.message, 'Registration Failed');
@@ -110,6 +113,11 @@ export class SignUp {
       },
     });
   }
+
+  protected closeEmployeeIdDialog(): void {
+  this.isEmployeeIdDialogOpen.set(false);
+  this.router.navigate(['/sign-in']);
+}
 
   ngOnInit(): void {
     this.initializeEmailIDListener();

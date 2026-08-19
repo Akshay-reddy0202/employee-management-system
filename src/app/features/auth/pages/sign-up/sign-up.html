@@ -258,4 +258,12 @@
       </div>
     </div>
   </div>
+
+  @if (isEmployeeIdDialogOpen()) {
+    <app-employee-id-dialog
+      [employeeId]="generatedEmployeeId()"
+      (close)="closeEmployeeIdDialog()"
+    />
+  }
+  \
 </section>

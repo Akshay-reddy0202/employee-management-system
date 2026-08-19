@@ -1,0 +1,122 @@
+.employee-id-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(15 23 42 / 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.employee-id-dialog__card {
+  width: 100%;
+  max-width: 500px;
+  padding: 32px;
+  background-color: var(--app-surface);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 10px 10px -5px rgb(0 0 0 / 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.employee-id-dialog__icon {
+  font-size: 48px;
+  text-align: center;
+}
+
+.employee-id-dialog__title {
+  text-align: center;
+  color: var(--app-text-primary);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.employee-id-dialog__description {
+  text-align: center;
+  color: var(--app-text-secondary);
+  line-height: 1.6;
+}
+
+.employee-id-dialog__employee-id-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.employee-id-dialog__label {
+  color: var(--app-text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.employee-id-dialog__employee-id {
+  padding: 16px;
+  border: 2px dashed var(--app-primary);
+  border-radius: 13px;
+  background-color: var(--app-primary-light);
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--app-primary);
+}
+
+.employee-id-dialog__actions {
+  display: flex;
+  gap: 16px;
+}
+
+.employee-id-dialog__action-button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  background-color: var(--app-surface-secondary);
+  color: var(--app-text-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.employee-id-dialog__action-button:hover {
+  background-color: var(--app-border);
+}
+
+.employee-id-dialog__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--app-text-primary);
+  font-size: 15px;
+}
+
+.employee-id-dialog__checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+.employee-id-dialog__continue-button {
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  background-color: var(--app-primary);
+  color: var(--app-text-inverse);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.employee-id-dialog__continue-button:hover:not(:disabled) {
+  background-color: var(--app-primary-hover);
+}
+
+.employee-id-dialog__continue-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

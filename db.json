@@ -304,6 +304,46 @@
       "password": "Vicky@123",
       "theme": "light",
       "id": "_txjNuqNCJ0"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0016",
+      "fullName": "Akki B",
+      "dateOfBirth": "2005-02-02",
+      "emailID": "akkib@gmail.com",
+      "password": "Akkib@123",
+      "theme": "light",
+      "id": "UFHUjRBvD88"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0017",
+      "fullName": "employee ",
+      "dateOfBirth": "2004-01-01",
+      "emailID": "employee@gmail.com",
+      "password": "Employee@123",
+      "theme": "light",
+      "id": "vrAwcI0UgnM"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0018",
+      "fullName": "admin ",
+      "dateOfBirth": "2001-11-11",
+      "emailID": "admin@gmail.com",
+      "password": "Admin@123",
+      "theme": "light",
+      "id": "7L8fJE37jF4"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0019",
+      "fullName": "George",
+      "dateOfBirth": "2001-12-12",
+      "emailID": "george@gmail.com",
+      "password": "George@123",
+      "theme": "light",
+      "id": "uZ4RJltChmk"
     }
   ],
   "departments": [
