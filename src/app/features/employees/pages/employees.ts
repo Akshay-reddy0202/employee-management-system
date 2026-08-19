@@ -64,6 +64,7 @@ export class Employees {
 
   ngOnInit(): void {
     this.employeeStore.loadEmployees();
+    this.employeeStore.loadAllEmployees();
     this.designationStore.loadDesignations();
     this.departmentsStore.loadAllDepartments();
   }
