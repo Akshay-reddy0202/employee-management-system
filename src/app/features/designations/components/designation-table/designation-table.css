@@ -111,3 +111,55 @@
   background-color: var(--app-background);
   border-color: var(--app-border);
 }
+
+@media (max-width: 1024px) {
+  .designation-table__table {
+    min-width: 750px;
+  }
+
+  .designation-table__head th,
+  .designation-table__body td {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .designation-table {
+    overflow-x: auto;
+  }
+
+  .designation-table__table {
+    min-width: 700px;
+  }
+
+  .designation-table__head th,
+  .designation-table__body td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .designation-table__head th {
+    font-size: 12px;
+  }
+
+  .designation-table__action-button {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .designation-table__table {
+    min-width: 650px;
+  }
+
+  .designation-table__head th,
+  .designation-table__body td {
+    padding: 9px 10px;
+  }
+
+  .designation-table__status {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}

@@ -196,3 +196,28 @@
     grid-column: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .employee-form {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .employee-form__input,
+  .employee-form__select {
+    padding: 11px 12px;
+  }
+
+  .employee-form__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 16px;
+  }
+
+  .employee-form__button {
+    width: 100%;
+    padding: 11px 16px;
+  }
+}

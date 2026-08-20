@@ -260,9 +260,7 @@ section {
     width: 100%;
     padding: 32px;
   }
-  .login__title {
-    font-size: 28px;
-  }
+
   .login__heading {
     font-size: 26px;
   }
@@ -278,5 +276,32 @@ section {
   .login__button--primary,
   .login__button--secondary {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+    padding: 12px;
+  }
+
+  .login__card {
+    padding: 0;
+  }
+
+  .login__form {
+    padding: 24px 16px;
+    gap: 20px;
+  }
+
+  .login__heading {
+    font-size: 24px;
+  }
+
+  .login__subtitle {
+    font-size: 13px;
+  }
+
+  .login__options {
+    align-items: flex-start;
   }
 }

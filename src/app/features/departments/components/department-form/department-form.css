@@ -121,3 +121,18 @@
 .department-form__button--secondary:hover {
   background: var(--app-surface-hover);
 }
+
+@media (max-width: 768px) {
+  .department-form {
+    gap: 20px;
+  }
+
+  .department-form__actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .department-form__button {
+    width: 100%;
+  }
+}

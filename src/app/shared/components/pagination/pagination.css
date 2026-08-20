@@ -9,7 +9,7 @@
 .pagination__pages {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .pagination__button,
@@ -39,7 +39,7 @@
 
 .pagination__button:hover:not(:disabled),
 .pagination__page:hover:not(.pagination__page--active) {
-  background-color: var(--app-priamry-hover);
+  background-color: var(--app-primary-hover);
   border-color: var(--app-primary);
 }
 
@@ -51,4 +51,57 @@
 .pagination__button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .pagination__pages {
+    gap: 4px;
+  }
+
+  .pagination__button,
+  .pagination__page {
+    min-width: 40px;
+    height: 40px;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .pagination__button {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .pagination {
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .pagination__pages {
+    gap: 2px;
+    overflow-x: auto;
+    max-width: 70vw;
+    scrollbar-width: none;
+  }
+
+  .pagination__pages::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pagination__button,
+  .pagination__page {
+    min-width: 36px;
+    height: 36px;
+    padding: 4px;
+    font-size: 13px;
+  }
+
+  .pagination__button {
+    padding: 0 8px;
+  }
 }

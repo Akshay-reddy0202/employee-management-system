@@ -78,3 +78,50 @@
   outline: 2px solid var(--app-primary);
   outline-offset: 2px;
 }
+
+@media (max-width: 768px) {
+  .department-employees {
+    padding: 18px;
+  }
+
+  .department-employees__header {
+    margin-bottom: 16px;
+  }
+
+  .department-employees__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .department-employees__table {
+    min-width: 600px;
+  }
+
+  .department-employees__table th,
+  .department-employees__table td {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .department-employees {
+    padding: 12px;
+  }
+
+  .department-employees__header {
+    align-items: flex-start;
+  }
+
+  .department-employees__table {
+    min-width: 550px;
+  }
+
+  .department-employees__actions {
+    margin-top: 16px;
+  }
+
+  .department-employees__button {
+    width: 100%;
+  }
+}

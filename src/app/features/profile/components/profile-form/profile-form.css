@@ -163,3 +163,72 @@
 .profile-form__skill-input-container .profile-form__input {
   flex: 1;
 }
+
+@media (max-width: 768px) {
+  .profile-form {
+    gap: 18px;
+  }
+
+  .profile-form__actions {
+    justify-content: stretch;
+    gap: 10px;
+  }
+
+  .profile-form__button {
+    flex: 1;
+  }
+
+  .profile-form__skill-input-container {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-form {
+    gap: 16px;
+  }
+
+  .profile-form__field {
+    gap: 6px;
+  }
+
+  .profile-form__input,
+  .profile-form__textarea {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .profile-form__textarea {
+    min-height: 90px;
+  }
+
+  .profile-form__actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .profile-form__button {
+    width: 100%;
+    padding: 11px 16px;
+  }
+
+  .profile-form__skills-list {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .profile-form__skill {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .profile-form__skill-input-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .profile-form__skill-input-container .profile-form__input {
+    width: 100%;
+  }
+}

@@ -115,3 +115,40 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .designation-form {
+    gap: 16px;
+  }
+
+  .designation-form__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .designation-form__button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .designation-form {
+    gap: 14px;
+  }
+
+  .designation-form__input,
+  .designation-form__select {
+    padding: 11px 14px;
+    font-size: 14px;
+  }
+
+  .designation-form__actions {
+    margin-top: 0;
+    padding-top: 16px;
+  }
+
+  .designation-form__button {
+    padding: 11px 16px;
+  }
+}

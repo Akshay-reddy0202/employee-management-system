@@ -127,7 +127,7 @@ section {
 }
 
 .signUp__toggle:focus-visible {
-  outline: 1px solid var(---auth-toggle-text);
+  outline: 1px solid var(--auth-toggle-text);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -209,6 +209,9 @@ section {
 }
 
 @media (max-width: 768px) {
+  .signUp {
+    padding: 16px;
+  }
   .signUp__card {
     width: 100%;
   }
@@ -222,6 +225,34 @@ section {
   }
   .signUp__subtitle {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signUp__card {
+    padding: 0;
+  }
+
+  .signUp__form {
+    padding: 24px 16px;
+    gap: 16px;
+  }
+
+  .signUp__heading {
+    font-size: 24px;
+  }
+
+  .signUp__subtitle {
+    font-size: 14px;
+  }
+
+  .signUp__input {
+    height: 46px;
+    padding: 12px;
+  }
+
+  .signUp__button-primary {
+    padding: 14px;
   }
 }
 

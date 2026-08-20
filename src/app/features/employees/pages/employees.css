@@ -128,13 +128,51 @@
   width: 100%;
 }
 
+@media (max-width: 1024px) {
+  .employees__toolbar {
+    gap: 16px;
+  }
+
+  .employees__filters {
+    gap: 16px;
+  }
+}
+
 @media (max-width: 768px) {
   .employees__toolbar {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
+  }
+
+  .employees__search {
+    width: 100%;
   }
 
   .employees__filters {
+    width: 100%;
     flex-direction: column;
+    gap: 12px;
+  }
+
+  .employees__filter {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .employees__toolbar {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .employees__search-input,
+  .employees__select {
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+
+  .employees__filter::after {
+    right: 14px;
   }
 }

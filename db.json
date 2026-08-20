@@ -344,6 +344,16 @@
       "password": "George@123",
       "theme": "light",
       "id": "uZ4RJltChmk"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0020",
+      "fullName": "profile",
+      "dateOfBirth": "2006-11-11",
+      "emailID": "profile@gmail.com",
+      "password": "Profile@123",
+      "theme": "light",
+      "id": "9LVvb3LYkDc"
     }
   ],
   "departments": [

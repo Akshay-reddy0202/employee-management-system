@@ -81,3 +81,69 @@
   background: var(--auth-modal-button-primary-background);
   color: var(--auth-modal-button-primary-text);
 }
+
+@media (max-width: 768px) {
+  .terms {
+    padding: 16px;
+  }
+
+  .terms__card {
+    width: 100%;
+    max-height: 90vh;
+  }
+
+  .terms__header {
+    padding: 18px 20px;
+  }
+
+  .terms__title {
+    font-size: 21px;
+  }
+
+  .terms__content {
+    padding: 20px;
+    line-height: 1.6;
+  }
+
+  .terms__footer {
+    padding: 14px 20px;
+    gap: 10px;
+  }
+
+  .terms__button {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms {
+    padding: 12px;
+  }
+
+  .terms__card {
+    max-height: 92vh;
+    border-radius: 12px;
+  }
+
+  .terms__header {
+    padding: 16px;
+  }
+
+  .terms__title {
+    font-size: 19px;
+  }
+
+  .terms__content {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .terms__footer {
+    flex-direction: column-reverse;
+    padding: 12px 16px;
+  }
+
+  .terms__button {
+    width: 100%;
+  }
+}
