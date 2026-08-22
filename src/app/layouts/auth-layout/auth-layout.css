@@ -43,15 +43,53 @@
   width: 100%;
 }
 
+@media (max-width: 1024px) {
+  .auth {
+    padding: 20px;
+  }
+
+  .auth__container {
+    gap: 16px;
+  }
+
+  .auth__branding {
+    width: 50%;
+  }
+
+  .auth__content {
+    max-width: 560px;
+  }
+}
+
 @media (max-width: 768px) {
+  .auth {
+    padding: 16px;
+  }
+
+  .auth__container {
+    width: 100%;
+    min-height: 100dvh;
+  }
+
   .auth__branding {
     display: none;
   }
 
   .auth__content {
     width: 100%;
+    max-width: 520px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth {
+    padding: 8px;
+  }
+
+  .auth__content {
+    max-width: 100%;
   }
 }

@@ -6,12 +6,14 @@ import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 import { Dashboard } from './features/dashboard/pages/dashboard/dashboard';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
-import { Profile } from './features/profile/profile';
+import { Profile } from './features/profile/pages/profile';
 import { Settings } from './features/settings/settings';
-import { Employees } from './features/employees/employees';
+import { Employees } from './features/employees/pages/employees';
 import { Attendance } from './features/attendance/attendance';
 import { Application } from './features/application/application';
-import { Departments } from './features/departments/departments';
+import { Departments } from './features/departments/pages/departments';
+import { Designation } from './features/designations/pages/designation';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -42,8 +44,24 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: Dashboard, data: { title: 'Dashboard' } },
-      { path: 'employees', component: Employees, data: { title: 'Employees' } },
-      { path: 'departments', component: Departments, data: { title: 'Departments' } },
+      {
+        path: 'employees',
+        component: Employees,
+        canActivate: [roleGuard],
+        data: { title: 'Employees', role: 'Admin' },
+      },
+      {
+        path: 'departments',
+        component: Departments,
+        canActivate: [roleGuard],
+        data: { title: 'Departments', role: 'Admin' },
+      },
+      {
+        path: 'designations',
+        component: Designation,
+        canActivate: [roleGuard],
+        data: { title: 'Designations', role: 'Admin' },
+      },
       { path: 'attendance', component: Attendance, data: { title: 'Attendance' } },
       { path: 'application', component: Application, data: { title: 'Application' } },
       { path: 'profile', component: Profile, data: { title: 'Profile' } },

@@ -1,0 +1,223 @@
+.employee-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.employee-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.employee-form__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text-primary);
+}
+
+.employee-form__input,
+.employee-form__select {
+  width: 100%;
+  padding: 12px 14px;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  color: var(--app-text-primary);
+  background-color: var(--app-surface);
+
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.employee-form__input::placeholder {
+  color: var(--app-text-secondary);
+}
+
+.employee-form__input:hover,
+.employee-form__select:hover {
+  border-color: var(--app-primary);
+}
+
+.employee-form__input:focus,
+.employee-form__select:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px rgba(5, 123, 208, 0.15);
+}
+
+.employee-form__input:read-only {
+  background-color: var(--app-background);
+  cursor: default;
+}
+
+.employee-form__select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.employee-form__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+
+  width: 100%;
+
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+
+  z-index: 100;
+}
+
+.employee-form__dropdown-options {
+  max-height: 168px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.employee-form__dropdown-option {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+
+  color: var(--app-text-primary);
+  background-color: transparent;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.employee-form__dropdown-option:hover {
+  color: var(--app-primary);
+  background-color: var(--app-background);
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar-thumb {
+  background-color: var(--app-border);
+  border-radius: 999px;
+}
+
+.employee-form__dropdown-options::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.employee-form__actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 8px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--app-border);
+}
+
+.employee-form__button {
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.employee-form__button--primary {
+  background-color: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+.employee-form__button--primary:hover {
+  background-color: var(--app-primary-hover);
+}
+
+.employee-form__button--secondary {
+  background-color: var(--app-surface);
+  color: var(--app-text-primary);
+
+  border: 1px solid var(--app-border);
+}
+
+.employee-form__button--secondary:hover {
+  background-color: var(--app-background);
+}
+
+.employee-form__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.employee-form__error {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-warning);
+}
+
+@media (max-width: 768px) {
+  .employee-form {
+    grid-template-columns: 1fr;
+  }
+
+  .employee-form__actions {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .employee-form {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .employee-form__input,
+  .employee-form__select {
+    padding: 11px 12px;
+  }
+
+  .employee-form__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 16px;
+  }
+
+  .employee-form__button {
+    width: 100%;
+    padding: 11px 16px;
+  }
+}

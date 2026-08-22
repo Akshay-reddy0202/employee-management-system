@@ -1,0 +1,63 @@
+<section class="designations">
+  <div class="designation__refresh-wrapper">
+    <button type="button" class="designation__refresh-button" (click)="refreshDesignations()">
+      <mat-icon> refresh </mat-icon>
+    </button>
+  </div>
+  <header class="designations__header">
+    <h2 class="designations__title">Designations</h2>
+    <button class="designations__add-button" (click)="openDesignationForm()">
+      Add Designation
+    </button>
+  </header>
+
+  <div class="designations__toolbar">
+    <div class="designations__search">
+      <input
+        type="text"
+        class="designations__search-input"
+        placeholder="Search designations..."
+        [value]="searchTerm()"
+        (input)="searchTerm.set($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  @if (isDesignationFormOpen()) {
+    <app-modal>
+      <app-designation-form
+        [designation]="selectedDesignation()"
+        (save)="save($event)"
+        (cancel)="closeDesignationForm()"
+        (unSavedChanges)="onUnsavedChangesDialog()"
+      ></app-designation-form>
+    </app-modal>
+  }
+
+  @if (hasDesignations()) {
+    <app-designation-table
+      [designations]="searchedDesignations()"
+      (edit)="editDesignation($event)"
+    ></app-designation-table>
+  } @else {
+    <app-empty-state
+      title="No Desginations Found"
+      desc="Create your first designation to get started."
+      buttonText="Add Designation"
+      icon="user-cog"
+      (action)="openCreateDesignationForm()"
+    >
+    </app-empty-state>
+  }
+
+  @if (isUnsavedChangesDialogOpen()) {
+    <app-confirmation-dialog
+      title="Discard Changes"
+      message="You have unsaved changes. "
+      confirmText="Discard"
+      cancelText="Continue Editing"
+      (confirm)="discardChanges()"
+      (cancel)="continueEditing()"
+    ></app-confirmation-dialog>
+  }
+</section>

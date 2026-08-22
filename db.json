@@ -8,7 +8,18 @@
       "emailID": "akshay@gmail.com",
       "password": "Akshay@123",
       "theme": "light",
-      "id": "EeRRXIKW76g"
+      "id": "EeRRXIKW76g",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "1",
+      "managerId": "0CEktRwGtDE",
+      "status": "Active",
+      "joiningDate": "2025-12-12",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular"
+      ],
+      "salary": 10000
     },
     {
       "role": "Admin",
@@ -18,7 +29,19 @@
       "emailID": "john@gmail.com",
       "password": "John@123",
       "theme": "light",
-      "id": "nQy7Hdu7cVQ"
+      "id": "nQy7Hdu7cVQ",
+      "departmentId": "MDht4Z4lmLc",
+      "designationId": "Dhq-BKqCGH4",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-02-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
     },
     {
       "role": "Admin",
@@ -28,7 +51,19 @@
       "emailID": "vivek@gmail.com",
       "password": "Vivek@1234",
       "theme": "light",
-      "id": "0CEktRwGtDE"
+      "id": "0CEktRwGtDE",
+      "departmentId": "OMeh_-eShwQ",
+      "designationId": "qQZTHxsst9c",
+      "managerId": "0CEktRwGtDE",
+      "status": "Active",
+      "joiningDate": "2026-02-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
     },
     {
       "role": "Employee",
@@ -37,8 +72,20 @@
       "dateOfBirth": "2001-02-02",
       "emailID": "rohit@gmail.com",
       "password": "Rohit@123",
-      "theme": "light",
-      "id": "dxDbRxqeh4A"
+      "theme": "dark",
+      "id": "dxDbRxqeh4A",
+      "departmentId": "NJumJJvpo_w",
+      "designationId": "qQZTHxsst9c",
+      "managerId": "38hj0peYJCA",
+      "status": "Active",
+      "joiningDate": "2026-03-31",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
     },
     {
       "role": "Admin",
@@ -48,7 +95,353 @@
       "emailID": "Rahul@123",
       "password": "Rahul@123",
       "theme": "light",
-      "id": "dD4M0Ew-62g"
+      "id": "dD4M0Ew-62g",
+      "departmentId": "LeLhSTEJjp8",
+      "designationId": "4omxKTD_lmc",
+      "status": "Inactive",
+      "joiningDate": "2026-01-12",
+      "managerId": "38hj0peYJCA",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0006",
+      "fullName": "Dhruvesh D",
+      "dateOfBirth": "2002-10-10",
+      "emailID": "dhruveshd@gmail.com",
+      "password": "Dhruvesh@123",
+      "theme": "light",
+      "id": "38hj0peYJCA",
+      "departmentId": "5Khb2NmuX3o",
+      "designationId": "4omxKTD_lmc",
+      "status": "Active",
+      "joiningDate": "2026-08-01",
+      "managerId": "nQy7Hdu7cVQ",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0007",
+      "fullName": "Jay W",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-01-2",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0008",
+      "fullName": "Alice",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "LeLhSTEJjp8",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-03-02",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0009",
+      "fullName": "Jason Smith",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "LeLhSTEJjp8",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-01-01",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0010",
+      "fullName": "Jay W",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0011",
+      "fullName": "Tommy Cabrio",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-01-2",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0012",
+      "fullName": "Jay W",
+      "dateOfBirth": "2004-01-02",
+      "emailID": "jay@gmail.com",
+      "password": "Jay@1234",
+      "theme": "light",
+      "id": "pJJi5obzH2w",
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "EeRRXIKW76g",
+      "status": "Active",
+      "joiningDate": "2026-08-10",
+      "phoneNumber": "9876543210",
+      "address": "Nagpur",
+      "skills": [
+        "Angular",
+        "TypeScript"
+      ],
+      "salary": 50000
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0013",
+      "fullName": "Josh Brunt",
+      "dateOfBirth": "2002-02-05",
+      "emailID": "josh@gmail.com",
+      "password": "Josh@123",
+      "theme": "light",
+      "id": "_enMAeZ1MhI",
+      "salary": 15000,
+      "departmentId": "7mZU-47KXsQ",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "pJJi5obzH2w",
+      "status": "Active",
+      "joiningDate": "2026-08-18"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0014",
+      "fullName": "Vivek Tondare",
+      "dateOfBirth": "1000-01-01",
+      "emailID": "vivek.t@gmail.com",
+      "password": "Vivek@123",
+      "theme": "light",
+      "id": "bpkgDLD9bn4",
+      "salary": 0,
+      "departmentId": "NJumJJvpo_w",
+      "designationId": "1",
+      "managerId": "0CEktRwGtDE",
+      "status": "Active",
+      "joiningDate": "2026-08-20"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0015",
+      "fullName": "vickytondare",
+      "dateOfBirth": "2007-01-01",
+      "emailID": "vicky@gmail.com",
+      "password": "Vicky@123",
+      "theme": "light",
+      "id": "_txjNuqNCJ0"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0016",
+      "fullName": "Akki B",
+      "dateOfBirth": "2005-02-02",
+      "emailID": "akkib@gmail.com",
+      "password": "Akkib@123",
+      "theme": "light",
+      "id": "UFHUjRBvD88"
+    },
+    {
+      "role": "Employee",
+      "employeeId": "E0017",
+      "fullName": "employee ",
+      "dateOfBirth": "2004-01-01",
+      "emailID": "employee@gmail.com",
+      "password": "Employee@123",
+      "theme": "light",
+      "id": "vrAwcI0UgnM"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0018",
+      "fullName": "admin ",
+      "dateOfBirth": "2001-11-11",
+      "emailID": "admin@gmail.com",
+      "password": "Admin@123",
+      "theme": "light",
+      "id": "7L8fJE37jF4"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0019",
+      "fullName": "George",
+      "dateOfBirth": "2001-12-12",
+      "emailID": "george@gmail.com",
+      "password": "George@123",
+      "theme": "light",
+      "id": "uZ4RJltChmk"
+    },
+    {
+      "role": "Admin",
+      "employeeId": "E0020",
+      "fullName": "profile",
+      "dateOfBirth": "2006-11-11",
+      "emailID": "profile@gmail.com",
+      "password": "Profile@123",
+      "theme": "light",
+      "id": "9LVvb3LYkDc"
+    }
+  ],
+  "departments": [
+    {
+      "name": "Information Technology",
+      "code": "IT",
+      "description": "Sets up computers, maintains network security, and fixes technical issues.",
+      "status": "Active",
+      "id": "NJumJJvpo_w"
+    },
+    {
+      "name": "Finance and Accounting",
+      "code": "FIN",
+      "description": " Tracks income, creates budgets, pays bills, and manages taxes.",
+      "status": "Active",
+      "id": "7mZU-47KXsQ"
+    },
+    {
+      "name": "Marketing",
+      "code": "MKT",
+      "description": "Creates advertisements, runs social media, and builds brand awareness.",
+      "status": "Active",
+      "id": "OMeh_-eShwQ"
+    },
+    {
+      "name": "Quality Assurance / Control",
+      "code": "QA / QC",
+      "description": "Tests products for defects and ensures safety standards are met.",
+      "status": "Active",
+      "id": "MDht4Z4lmLc"
+    },
+    {
+      "name": "Supply Chain Management",
+      "code": "SCM",
+      "description": " Sources raw materials and organizes the transport of goods.",
+      "status": "Active",
+      "id": "LeLhSTEJjp8"
+    },
+    {
+      "name": "Administration",
+      "code": "Admin",
+      "description": "Manages office supplies, schedules meetings, and handles internal paperwork.",
+      "status": "Active",
+      "id": "5Khb2NmuX3o"
+    },
+    {
+      "name": "Engineering / Research & Development",
+      "code": "ENG / R&D ",
+      "description": " Designs new products and improves existing business technologies.",
+      "status": "Active",
+      "id": "9Oy86SNC91I"
+    }
+  ],
+  "designations": [
+    {
+      "id": "1",
+      "name": "UI Developer",
+      "status": "Active"
+    },
+    {
+      "name": "Intern",
+      "status": "Active",
+      "id": "kTB6vVCpWBI"
+    },
+    {
+      "name": "Java Developer",
+      "status": "Inactive",
+      "id": "qQZTHxsst9c"
+    },
+    {
+      "name": "Database Developer",
+      "status": "Active",
+      "id": "4omxKTD_lmc"
+    },
+    {
+      "name": "QA",
+      "status": "Inactive",
+      "id": "Dhq-BKqCGH4"
+    },
+    {
+      "name": "Data Engineer",
+      "status": "Inactive",
+      "id": "ppCoMAE1CXI"
+    },
+    {
+      "name": "Devops Engineer",
+      "status": "Active",
+      "id": "0ADkybyLuP4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

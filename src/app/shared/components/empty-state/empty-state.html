@@ -1,0 +1,13 @@
+<div class="empty-state">
+  <div class="empty__state-card">
+    <mat-icon class="empty-state__icon">
+      {{ icon() }}
+    </mat-icon>
+    <h2 class="empty-state__title">{{ title() }}</h2>
+    <p class="empty-state__desc">{{ desc() }}</p>
+
+    <button type="button" class="empty-state__button" (click)="onAction()">
+      {{ buttonText() }}
+    </button>
+  </div>
+</div>

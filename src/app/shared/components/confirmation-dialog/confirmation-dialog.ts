@@ -25,4 +25,5 @@ export class ConfirmationDialog {
   protected onCancel(): void {
     this.cancel.emit();
   }
+  
 }

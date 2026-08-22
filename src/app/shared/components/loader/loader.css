@@ -42,3 +42,38 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .loader {
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .loader__spinner {
+    width: 60px;
+    height: 60px;
+    border-width: 5px;
+  }
+
+  .loader__text {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .loader {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .loader__spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 4px;
+  }
+
+  .loader__text {
+    font-size: 13px;
+    letter-spacing: 0.25px;
+  }
+}

@@ -16,13 +16,9 @@
     color 0.2s ease;
 }
 
-.navigation-item:hover {
-  background-color: var(--sidebar-hover);
-}
-
 .navigation-item--active {
   background-color: var(--sidebar-active-background);
-  color: var(--sidebar-text-active);
+  color: white;
   font-weight: 600;
 }
 
@@ -70,6 +66,7 @@
   border-radius: 6px;
 
   background-color: var(--sidebar-background);
+  color: var(--sidebar-text);
 
   font-size: 13px;
   font-weight: 500px;
@@ -96,4 +93,54 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(0);
+}
+
+@media (max-width: 1024px) {
+  .navigation-item {
+    gap: 12px;
+    padding: 10px 14px;
+  }
+
+  .navigation-item__label {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation-item {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .navigation-item__icon,
+  .navigation-item__icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .navigation-item__label {
+    font-size: 14px;
+  }
+
+  .navigation-item__tooltip {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navigation-item {
+    gap: 8px;
+    padding: 9px 10px;
+  }
+
+  .navigation-item__icon,
+  .navigation-item__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .navigation-item__label {
+    font-size: 13px;
+  }
 }

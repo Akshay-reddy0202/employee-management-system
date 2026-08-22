@@ -1,0 +1,79 @@
+<form class="profile-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="phoneNumber"> Phone Number </label>
+
+    <input id="phoneNumber" type="text" class="profile-form__input" formControlName="phoneNumber" />
+
+    @if (phoneNumber?.touched && phoneNumber?.hasError('required')) {
+      <span class="profile-form__error"> Phone Number is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field">
+    <label class="profile-form__label" for="dateOfBirth"> Date Of Birth </label>
+
+    <input id="dateOfBirth" type="date" class="profile-form__input" formControlName="dateOfBirth" />
+
+    @if (dateOfBirth?.touched && dateOfBirth?.hasError('required')) {
+      <span class="profile-form__error"> Date Of Birth is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field profile-form__field--full-width">
+    <label class="profile-form__label" for="address"> Address </label>
+
+    <textarea
+      id="address"
+      rows="3"
+      class="profile-form__textarea"
+      formControlName="address"
+    ></textarea>
+
+    @if (address?.touched && address?.hasError('required')) {
+      <span class="profile-form__error"> Address is required </span>
+    }
+  </div>
+
+  <div class="profile-form__field profile-form__field--full-width">
+    <label class="profile-form__label" for="skills"> Skills </label>
+
+    <div class="profile-form__skills-list">
+      @for (skill of skills; track skill) {
+        <span class="profile-form__skill"
+          >{{ skill }}
+          <button type="button" class="profile-form__skill-remove" (click)="removeSkill(skill)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </span>
+      }
+    </div>
+    <div class="profile-form__skill-input-container">
+      <input
+        type="text"
+        class="profile-form__input"
+        [formControl]="skillInput"
+        placeholder="Enter skill"
+      />
+
+      <button
+        type="button"
+        class="profile-form__button profile-form__button--secondary"
+        (click)="addSkill()"
+      >
+        Add Skill
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-form__actions">
+    <button
+      type="button"
+      class="profile-form__button profile-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button type="submit" class="profile-form__button profile-form__button--primary">Save</button>
+  </div>
+</form>

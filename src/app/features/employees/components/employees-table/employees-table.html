@@ -1,0 +1,54 @@
+<section class="employees__content">
+  <table class="employees__table">
+    <thead class="employees__table-head">
+      <tr class="employees__table-row">
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Manager</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Joining Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody class="employees__table-body">
+      @for (employee of employees(); track employee.id) {
+        <tr class="employees__table-row">
+          <td>{{ employee.employeeId }}</td>
+          <td>{{ employee.fullName }}</td>
+          <td>{{ getDesignationName(employee.designationId) }}</td>
+          <td>{{ getManagerName(employee.managerId) }}</td>
+          <td>{{ getDepartmentName(employee.departmentId) }}</td>
+          <td>
+            <span
+              class="employees-table__status"
+              [class.employees-table__status--active]="employee.status === 'Active'"
+              [class.employees-table__status--inactive]="employee.status === 'Inactive'"
+            >
+              {{ employee.status }}
+            </span>
+          </td>
+          <td>{{ employee.joiningDate }}</td>
+          <td class="employees__table-actions">
+            <button
+              type="button"
+              class="employees__action-button employees__action-button--edit"
+              (click)="onEditClick(employee)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              type="button"
+              class="employees__action-button employees__action-button--view"
+              (click)="onViewClick(employee)"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

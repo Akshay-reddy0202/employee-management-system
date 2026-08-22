@@ -1,0 +1,149 @@
+.terms {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+}
+
+.terms__card {
+  width: min(700px, 90%);
+  max-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+  background: var(--auth-modal-background);
+  border-radius: 16px;
+
+  box-shadow: var(--auth-modal-shadow);
+
+  overflow: hidden;
+}
+
+.terms__header {
+  padding: 20px 24px;
+
+  border-bottom: 1px solid var(--auth-modal-heading-border);
+}
+
+.terms__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--auth-modal-heading-color);
+}
+
+.terms__content {
+  flex: 1;
+
+  padding: 24px;
+
+  overflow-y: auto;
+
+  line-height: 1.7;
+}
+
+.terms__paragraph {
+  margin-bottom: 16px;
+
+  color: var(--auth-modal-text);
+}
+
+.terms__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+
+  padding: 16px 24px;
+
+  border-top: 1px solid var(--auth-modal-footer-border);
+}
+
+.terms__button {
+  padding: 12px 24px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.terms__button--secondary {
+  background: var(--auth-modal-button-primary-background);
+  color: var(--color-text-primary);
+}
+
+.terms__button--primary {
+  background: var(--auth-modal-button-primary-background);
+  color: var(--auth-modal-button-primary-text);
+}
+
+@media (max-width: 768px) {
+  .terms {
+    padding: 16px;
+  }
+
+  .terms__card {
+    width: 100%;
+    max-height: 90vh;
+  }
+
+  .terms__header {
+    padding: 18px 20px;
+  }
+
+  .terms__title {
+    font-size: 21px;
+  }
+
+  .terms__content {
+    padding: 20px;
+    line-height: 1.6;
+  }
+
+  .terms__footer {
+    padding: 14px 20px;
+    gap: 10px;
+  }
+
+  .terms__button {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms {
+    padding: 12px;
+  }
+
+  .terms__card {
+    max-height: 92vh;
+    border-radius: 12px;
+  }
+
+  .terms__header {
+    padding: 16px;
+  }
+
+  .terms__title {
+    font-size: 19px;
+  }
+
+  .terms__content {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .terms__footer {
+    flex-direction: column-reverse;
+    padding: 12px 16px;
+  }
+
+  .terms__button {
+    width: 100%;
+  }
+}

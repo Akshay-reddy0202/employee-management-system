@@ -8,6 +8,7 @@ export class ClickOutside {
   readonly enabled = input(true, {
     alias: 'appClickOutside',
   });
+
   readonly clickOutside = output<void>();
 
   private emitClickOutside(): void {
@@ -16,10 +17,11 @@ export class ClickOutside {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target as Node);
     if (!this.enabled()) {
       return;
     }
+
+    const clickedInside = this.elementRef.nativeElement.contains(event.target as Node);
 
     if (!clickedInside) {
       this.emitClickOutside();

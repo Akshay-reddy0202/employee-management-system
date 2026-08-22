@@ -1,0 +1,53 @@
+<div class="employee-id-dialog">
+  <div class="employee-id-dialog__card">
+    <div class="employee-id-dialog__icon">🎉</div>
+
+    <h2 class="employee-id-dialog__title">Account Created Successfully</h2>
+
+    <p class="employee-id-dialog__description">
+      Your Employee ID has been generated successfully. Please save it carefully as it will be
+      required for login and future reference.
+    </p>
+
+    <div class="employee-id-dialog__employee-id-container">
+      <span class="employee-id-dialog__label"> Employee ID </span>
+
+      <div class="employee-id-dialog__employee-id">
+        {{ employeeId() }}
+      </div>
+    </div>
+
+    <div class="employee-id-dialog__actions">
+      <button type="button" class="employee-id-dialog__action-button" (click)="copyEmployeeId()">
+        Copy
+      </button>
+
+      <button
+        type="button"
+        class="employee-id-dialog__action-button"
+        (click)="downloadEmployeeId()"
+      >
+        Download
+      </button>
+    </div>
+
+    <label class="employee-id-dialog__checkbox">
+      <input
+        type="checkbox"
+        [checked]="isAcknowledged()"
+        (change)="isAcknowledged.set($any($event.target).checked)"
+      />
+
+      <span> I confirm that I have copied or downloaded my Employee ID.</span>
+    </label>
+
+    <button
+      type="button"
+      class="employee-id-dialog__continue-button"
+      [disabled]="!isAcknowledged()"
+      (click)="continue()"
+    >
+      Continue to Login
+    </button>
+  </div>
+</div>

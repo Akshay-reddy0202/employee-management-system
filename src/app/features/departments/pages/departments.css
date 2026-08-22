@@ -1,0 +1,162 @@
+.department__refresh-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-bottom: 8px;
+}
+
+.department__refresh-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  border: none;
+  background: transparent;
+}
+
+.departments {
+  width: 100%;
+}
+
+.departments__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.departments__title {
+  font-size: 20px;
+  font-weight: 600;
+
+  color: var(--app-text-primary);
+}
+
+.departments__add-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--app-primary);
+  color: var(--app-text-inverse);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.departments__add-button:hover {
+  background-color: var(--app-primary-hover);
+}
+
+.departments__toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.departments__toolbar-search {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.departments__toolbar-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--app-text-primary);
+
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  outline: none;
+
+  cursor: text;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.departments__toolbar-input:hover {
+  border-color: var(--app-primary);
+}
+
+.departments__toolbar-input:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px rgba(5, 123, 208, 0.15);
+}
+
+.departments__toolbar-input::placeholder {
+  color: var(--app-text-secondary);
+}
+
+.departments__toolbar-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--app-text-secondary);
+
+  pointer-events: none;
+}
+
+.departments__content {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .departments__header {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .departments__title {
+    font-size: 18px;
+  }
+
+  .departments__add-button {
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+
+  .departments__toolbar-search {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .departments__header {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 16px;
+  }
+
+  .departments__add-button {
+    width: 100%;
+  }
+
+  .departments__toolbar {
+    margin-bottom: 16px;
+  }
+
+  .departments__toolbar-input {
+    padding: 11px 14px 11px 40px;
+  }
+
+  .departments__toolbar-icon {
+    left: 12px;
+    font-size: 18px;
+  }
+}

@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ForgotPassword } from '../forgot-password/forgot-password';
-import { ResetPassword } from '../reset-password/reset-password';
+import { ForgotPassword } from '../../components/forgot-password/forgot-password';
+import { ResetPassword } from '../../components/reset-password/reset-password';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { passwordValidator } from '../../../../shared/validators/password.validator';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ThemeService } from '../../../../core/services/theme.service';
-import { EmployeeInterface } from '../../../employees/models/employee.model';
+import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 import { EmployeeIdDirective } from '../../../../shared/directives/employee-id.directive';
 import { employeeIdValidator } from '../../../../shared/validators/employee-id.validator';
 

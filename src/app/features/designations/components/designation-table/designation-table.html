@@ -1,0 +1,40 @@
+<section class="designation-table">
+  <table class="designation-table__table">
+    <thead class="designation-table__head">
+      <tr class="designation-table__row">
+        <th>Designation</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody class="designation-table__body">
+      @for (designation of designations(); track designation.id) {
+        <tr class="designation-table__row">
+          <td>{{ designation.name }}</td>
+
+          <td>
+            <span
+              class="designation-table__status"
+              [class.designation-table__status--active]="designation.status === 'Active'"
+              [class.designation-table__status--inactive]="designation.status === 'Inactive'"
+            >
+              {{ designation.status }}
+            </span>
+          </td>
+
+          <td class="designation-table__actions">
+            <button
+              type="button"
+              class="designation-table__action-button"
+              (click)="onEdit(designation)"
+              aria-label="Edit designation"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

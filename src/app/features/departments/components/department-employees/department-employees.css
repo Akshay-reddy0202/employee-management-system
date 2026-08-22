@@ -1,0 +1,127 @@
+.department-employees {
+  width: 100%;
+  padding: 24px;
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+}
+
+.department-employees__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.department-employees__table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+}
+
+.department-employees__table th,
+.department-employees__table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.department-employees__table th {
+  font-weight: 600;
+  color: var(--app-text-primary);
+  background-color: var(--app-background);
+}
+
+.department-employees__table td {
+  color: var(--app-text-primary);
+  background-color: var(--app-surface);
+}
+
+.department-employees__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.department-employees__table tbody tr:hover td {
+  background-color: var(--app-background);
+}
+
+.department-employees__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.department-employees__button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--app-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.department-employees__button:hover {
+  box-shadow: 0 2px 6px rgba(5, 123, 208, 0.2);
+}
+
+.department-employees__button:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .department-employees {
+    padding: 18px;
+  }
+
+  .department-employees__header {
+    margin-bottom: 16px;
+  }
+
+  .department-employees__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .department-employees__table {
+    min-width: 600px;
+  }
+
+  .department-employees__table th,
+  .department-employees__table td {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .department-employees {
+    padding: 12px;
+  }
+
+  .department-employees__header {
+    align-items: flex-start;
+  }
+
+  .department-employees__table {
+    min-width: 550px;
+  }
+
+  .department-employees__actions {
+    margin-top: 16px;
+  }
+
+  .department-employees__button {
+    width: 100%;
+  }
+}

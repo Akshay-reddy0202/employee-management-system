@@ -1,0 +1,234 @@
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-form__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text-secondary);
+}
+
+.profile-form__input,
+.profile-form__textarea {
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+
+  background-color: var(--app-surface);
+  color: var(--app-text-primary);
+
+  font-size: 14px;
+  outline: none;
+
+  transition: border-color 0.2s ease;
+}
+
+.profile-form__input:focus,
+.profile-form__textarea:focus {
+  border-color: var(--app-primary);
+}
+
+.profile-form__textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.profile-form__error {
+  font-size: 12px;
+  color: var(--app-danger);
+}
+
+.profile-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+.profile-form__button {
+  padding: 10px 16px;
+  cursor: pointer;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-form__button--secondary {
+  border: 1px solid var(--app-border);
+
+  background-color: transparent;
+  color: var(--app-text-primary);
+}
+
+.profile-form__button--secondary:hover {
+  background-color: var(--app-background);
+}
+
+.profile-form__button--primary {
+  background-color: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+.profile-form__button--primary:hover {
+  background-color: var(--app-primary-hover);
+}
+
+.profile-form__skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 12px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+
+  background-color: var(--app-surface);
+}
+
+.profile-form__skill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background-color: var(--app-primary-light);
+  color: var(--app-text-primary);
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.profile-form__skill-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 20px;
+  width: 20px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: transparent;
+  color: inherit;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-form__skill-remove:hover {
+  background-color: var(--app-primary);
+  color: var(--app-text-inverse);
+}
+
+.profile-form__skill-remove mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.profile-form__skill-input-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.profile-form__skill-input-container .profile-form__input {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .profile-form {
+    gap: 18px;
+  }
+
+  .profile-form__actions {
+    justify-content: stretch;
+    gap: 10px;
+  }
+
+  .profile-form__button {
+    flex: 1;
+  }
+
+  .profile-form__skill-input-container {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-form {
+    gap: 16px;
+  }
+
+  .profile-form__field {
+    gap: 6px;
+  }
+
+  .profile-form__input,
+  .profile-form__textarea {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .profile-form__textarea {
+    min-height: 90px;
+  }
+
+  .profile-form__actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .profile-form__button {
+    width: 100%;
+    padding: 11px 16px;
+  }
+
+  .profile-form__skills-list {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .profile-form__skill {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .profile-form__skill-input-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .profile-form__skill-input-container .profile-form__input {
+    width: 100%;
+  }
+}

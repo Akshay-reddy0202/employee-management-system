@@ -66,6 +66,29 @@
   height: auto;
 }
 
+@media (max-width: 1024px) {
+  .authBranding {
+    gap: 20px;
+  }
+
+  .authBranding__title {
+    font-size: 40px;
+  }
+
+  .authBranding__tagline {
+    font-size: 18px;
+  }
+
+  .authBranding__description {
+    max-width: 400px;
+    font-size: 18px;
+  }
+
+  .authBranding__image {
+    width: 420px;
+  }
+}
+
 @media (max-width: 768px) {
   .authBranding {
     display: none;

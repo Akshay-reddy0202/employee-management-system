@@ -1,8 +1,8 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { inject, Service, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { SignupRequestInterface } from '../../features/auth/models/signup-request.model';
 import { map, Observable, of, switchMap, throwError } from 'rxjs';
-import { EmployeeInterface } from '../../features/employees/models/employee.model';
+import { EmployeeInterface } from '../../features/employees/interfaces/employee.model';
 import { environment } from '../../../environments/environment';
 import { LoginRequestInterface } from '../../features/auth/models/login-request.model';
 
@@ -11,7 +11,9 @@ import { SHOW_LOADER } from '../interceptors/loading-token.interceptor';
 import { Router } from '@angular/router';
 import { Theme } from '../enums/theme.enum';
 
-@Service()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
@@ -139,10 +141,9 @@ export class AuthService {
     const currentUser: AuthenticatedUserInterface = {
       id: employee.id!,
       employeeId: employee.employeeId,
-      role: employee.role,
       fullName: employee.fullName,
-      dateOfBirth: employee.dateOfBirth,
-      emailID: employee.emailID,
+      email: employee.emailID,
+      role: employee.role,
       theme: Theme.LIGHT,
     };
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(currentUser));

@@ -6,4 +6,5 @@ export interface NavigationItemInterface {
   route: string;
   icon: NavigationIcon;
   tooltip?: string;
+  roles?:string[]
 }

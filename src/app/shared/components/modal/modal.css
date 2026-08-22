@@ -1,0 +1,65 @@
+.modal {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(15, 23, 42, 0.25);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 1000;
+}
+
+.modal__dialog {
+  width: min(100%, 650px);
+  max-height: 90vh;
+
+  padding: 24px;
+  background: var(--app-background);
+
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+
+  overflow-y: auto;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    padding: 16px;
+  }
+
+  .modal__dialog {
+    width: 100%;
+    max-height: 90vh;
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal {
+    padding: 12px;
+  }
+
+  .modal__dialog {
+    padding: 16px;
+    border-radius: 8px;
+  }
+}

@@ -146,6 +146,7 @@ body {
   /* Background */
 
   --app-background: #ffffff;
+  --app-card: #fefeff;
   --app-surface: #f8fafc;
   --app-surface-secondary: #f1f5f9;
   --app-surface-hover: #eef2f7;
@@ -360,6 +361,7 @@ body {
   /* Background */
 
   --app-background: #0f172a;
+  --app-card:#1e293b;
   --app-surface: #1e293b;
   --app-surface-secondary: #334155;
   --app-surface-hover: #475569;
@@ -444,4 +446,20 @@ body {
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
 
   --focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.department-status-panel {
+  background-color: #ffffff !important;
+}
+
+.department-status-panel .mat-mdc-option {
+  background-color: #ffffff !important;
+}
+
+.department-status-panel .mat-mdc-option:hover {
+  background-color: #f8fafc !important;
+}
+
+.department-status-panel .mat-mdc-option.mdc-list-item--selected {
+  background-color: #eff6ff !important;
 }

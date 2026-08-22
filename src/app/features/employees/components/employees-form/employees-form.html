@@ -1,0 +1,265 @@
+<form class="employee-form" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="employeeId"> Employee ID </label>
+
+    <input
+      id="employeeId"
+      type="text"
+      class="employee-form__input"
+      formControlName="employeeId"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="role"> Role </label>
+
+    <input id="role" type="text" class="employee-form__input" formControlName="role" readonly />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="fullName"> Full Name </label>
+
+    <input
+      id="fullName"
+      type="text"
+      class="employee-form__input"
+      formControlName="fullName"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="dateOfBirth"> Date of Birth </label>
+
+    <input
+      id="dateOfBirth"
+      type="date"
+      class="employee-form__input"
+      formControlName="dateOfBirth"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="emailID"> Email </label>
+
+    <input
+      id="emailID"
+      type="email"
+      class="employee-form__input"
+      formControlName="emailID"
+      readonly
+    />
+  </div>
+
+  <div class="employee-form__field">
+    <label for="salary" class="employee-form__label"> Salary </label>
+
+    <input
+      id="salary"
+      type="number"
+      formControlName="salary"
+      placeholder="Enter salary"
+      class="employee-form__input"
+      [readonly]="mode() === 'view'"
+      min="0"
+    />
+
+    @if (salary.invalid && salary.touched) {
+      @if (salary.errors?.['required']) {
+        <span class="employee-form__error"> Salary is required </span>
+      }
+
+      @if (salary.errors?.['min']) {
+        <span class="employee-form__error"> Salary must be greater than 0 </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="departmentId"> Department </label>
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isDepartmentDropdownOpen()"
+      (clickOutside)="closeDepartmentDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search department..."
+        [value]="departmentSearchTerm()"
+        (input)="onDepartmentSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openDepartmentDropdown()"
+      />
+
+      @if (isDepartmentDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (department of filteredDepartments(); track department.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectDepartment(department)"
+              >
+                {{ department.name }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    @if (departmentId.invalid && departmentId.touched) {
+      @if (departmentId.errors?.['required']) {
+        <span class="employee-form__error"> Department is required </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="designationId"> Designation </label>
+
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isDesignationDropdownOpen()"
+      (clickOutside)="closeDesignationDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search designation..."
+        [value]="designationSearchTerm()"
+        (input)="onDesignationSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openDesignationDropdown()"
+      />
+
+      @if (isDesignationDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (designation of filteredDesignations(); track designation.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectDesignation(designation)"
+              >
+                {{ designation.name }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    @if (designationId.invalid && designationId.touched) {
+      @if (designationId.errors?.['required']) {
+        <span class="employee-form__error"> Designation is required </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="managerId"> Manager </label>
+
+    <div
+      class="employee-form__select-wrapper"
+      [appClickOutside]="isManagerDropdownOpen()"
+      (clickOutside)="closeManagerDropdown()"
+    >
+      <input
+        type="text"
+        class="employee-form__input"
+        placeholder="Search manager..."
+        [value]="managerSearchTerm()"
+        (input)="onManagerSearch($event)"
+        [readonly]="mode() === 'view'"
+        (focus)="openManagerDropdown()"
+      />
+
+      @if (isManagerDropdownOpen()) {
+        <div class="employee-form__dropdown">
+          <div class="employee-form__dropdown-options">
+            @for (manager of filteredManagers(); track manager.id) {
+              <button
+                type="button"
+                class="employee-form__dropdown-option"
+                (click)="selectManager(manager)"
+              >
+                <div class="employee-form__dropdown-option-content">
+                  <span class="employee-form__dropdown-option-name">
+                    {{ manager.fullName }}
+                  </span>
+
+                  <span class="employee-form__dropdown-option-details">
+                    {{ manager.employeeId }}
+                    ·
+                    {{ getDesignationName(manager.designationId) }}
+                  </span>
+                </div>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    @if (managerId.invalid && managerId.touched) {
+      @if (managerId.errors?.['required']) {
+        <span class="employee-form__error"> Manager is required </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="status"> Status </label>
+
+    <select id="status" class="employee-form__select" formControlName="status">
+      <option value=""></option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+
+    @if (status.invalid && status.touched) {
+      @if (status.errors?.['required']) {
+        <span class="employee-form__error"> Status is required </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__field">
+    <label class="employee-form__label" for="joiningDate"> Joining Date </label>
+
+    <input
+      id="joiningDate"
+      type="date"
+      class="employee-form__input"
+      formControlName="joiningDate"
+      [readonly]="mode() === 'view'"
+    />
+
+    @if (joiningDate.invalid && joiningDate.touched) {
+      @if (joiningDate.errors?.['required']) {
+        <span class="employee-form__error"> Joining date is required </span>
+      }
+    }
+  </div>
+
+  <div class="employee-form__actions">
+    <button
+      type="button"
+      class="employee-form__button employee-form__button--secondary"
+      (click)="onCancel()"
+    >
+      Close
+    </button>
+
+    @if (mode() === 'edit') {
+      <button
+        type="submit"
+        class="employee-form__button employee-form__button--primary"
+        [disabled]="employeeForm.invalid"
+      >
+        Save
+      </button>
+    }
+  </div>
+</form>
