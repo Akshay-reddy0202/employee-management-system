@@ -1,8 +1,10 @@
-import { FullName } from './full-name.directive';
+import { NgControl } from '@angular/forms';
+import { FullNameDirective } from './full-name-directive';
 
-describe('FullName', () => {
+describe('FullNameDirective', () => {
   it('should create an instance', () => {
-    const directive = new FullName();
+    const ngControl = { control: null } as NgControl;
+    const directive = new FullNameDirective(ngControl);
     expect(directive).toBeTruthy();
   });
 });

@@ -13,7 +13,7 @@
         >
           <div class="signUp__field">
             <label for="role" class="signUp__label">Role </label>
-            <select name="role" class="signUp__input" formControlName="role">
+            <select id="role" name="role" class="signUp__input" formControlName="role">
               <option value=""></option>
               <option value="Admin">Admin</option>
               <option value="Employee">Employee</option>
@@ -215,8 +215,11 @@
             @if (signUpForm?.hasError('passwordMismatch') && confirmPassword?.touched) {
               <p class="signUp__errors">Passwords do not match.</p>
             }
-            @if (confirmPassword?.hasError('maxlength') && createPassword?.touched) {
+            @if (confirmPassword?.hasError('maxlength') && confirmPassword?.touched) {
               <p class="signUp__errors">Password must not exceed 15 characters</p>
+            }
+            @if (confirmPassword?.hasError('required') && confirmPassword?.touched) {
+              <p class="signUp__errors">This field is required</p>
             }
           </div>
 
@@ -265,5 +268,4 @@
       (close)="closeEmployeeIdDialog()"
     />
   }
-  \
 </section>
