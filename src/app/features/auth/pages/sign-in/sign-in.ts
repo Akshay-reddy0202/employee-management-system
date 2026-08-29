@@ -100,6 +100,7 @@ export class SignIn {
   closeResetPassword(): void {
     this.showResetPassword.set(false);
   }
+  
   onResetPasswordCompleted(): void {
     this.closeResetPassword();
     this.selectedEmployee.set(null);

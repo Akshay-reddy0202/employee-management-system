@@ -14,7 +14,13 @@ import { EmployeeIdDialog } from '../../../../shared/components/employee-id-dial
 
 @Component({
   selector: 'app-sign-up',
-  imports: [ReactiveFormsModule,EmployeeIdDialog, RouterLink, FullNameDirective, TermsAndConditions],
+  imports: [
+    ReactiveFormsModule,
+    EmployeeIdDialog,
+    RouterLink,
+    FullNameDirective,
+    TermsAndConditions,
+  ],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css',
 })
@@ -24,7 +30,7 @@ export class SignUp {
       role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       fullName: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required, Validators.minLength(3), fullNameValidator],
+        validators: [Validators.required, Validators.minLength(3), fullNameValidator()],
       }),
       dateOfBirth: new FormControl('', {
         nonNullable: true,
@@ -102,7 +108,6 @@ export class SignUp {
         this.generatedEmployeeId.set(employee.employeeId);
         this.isEmployeeIdDialogOpen.set(true);
         this.signUpForm.reset();
-
       },
       error: (error) => {
         this.toastr.error(error.message, 'Registration Failed');
@@ -114,10 +119,10 @@ export class SignUp {
     });
   }
 
-  protected closeEmployeeIdDialog(): void {
-  this.isEmployeeIdDialogOpen.set(false);
-  this.router.navigate(['/sign-in']);
-}
+  closeEmployeeIdDialog(): void {
+    this.isEmployeeIdDialogOpen.set(false);
+    this.router.navigate(['/sign-in']);
+  }
 
   ngOnInit(): void {
     this.initializeEmailIDListener();

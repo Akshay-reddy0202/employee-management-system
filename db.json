@@ -303,7 +303,13 @@
       "emailID": "vicky@gmail.com",
       "password": "Vicky@123",
       "theme": "light",
-      "id": "_txjNuqNCJ0"
+      "id": "_txjNuqNCJ0",
+      "salary": 15000,
+      "departmentId": "9Oy86SNC91I",
+      "designationId": "1",
+      "managerId": "pJJi5obzH2w",
+      "status": "Active",
+      "joiningDate": "2026-08-20"
     },
     {
       "role": "Admin",
@@ -313,7 +319,13 @@
       "emailID": "akkib@gmail.com",
       "password": "Akkib@123",
       "theme": "light",
-      "id": "UFHUjRBvD88"
+      "id": "UFHUjRBvD88",
+      "salary": 15000,
+      "departmentId": "7mZU-47KXsQ",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "dxDbRxqeh4A",
+      "status": "Active",
+      "joiningDate": "2026-08-19"
     },
     {
       "role": "Employee",
@@ -323,7 +335,13 @@
       "emailID": "employee@gmail.com",
       "password": "Employee@123",
       "theme": "light",
-      "id": "vrAwcI0UgnM"
+      "id": "vrAwcI0UgnM",
+      "salary": 12000,
+      "departmentId": "7mZU-47KXsQ",
+      "designationId": "kTB6vVCpWBI",
+      "managerId": "nQy7Hdu7cVQ",
+      "status": "Active",
+      "joiningDate": "2026-08-20"
     },
     {
       "role": "Admin",
@@ -333,7 +351,13 @@
       "emailID": "admin@gmail.com",
       "password": "Admin@123",
       "theme": "light",
-      "id": "7L8fJE37jF4"
+      "id": "7L8fJE37jF4",
+      "salary": 11111,
+      "departmentId": "5Khb2NmuX3o",
+      "designationId": "ppCoMAE1CXI",
+      "managerId": "pJJi5obzH2w",
+      "status": "Inactive",
+      "joiningDate": "2026-08-19"
     },
     {
       "role": "Admin",

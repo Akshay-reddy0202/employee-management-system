@@ -1,8 +1,10 @@
-import { EmployeeId } from './employee-id.directive';
+import { NgControl } from '@angular/forms';
+import { EmployeeIdDirective } from './employee-id.directive';
 
-describe('EmployeeId', () => {
+describe('EmployeeIdDirective', () => {
   it('should create an instance', () => {
-    const directive = new EmployeeId();
+    const ngControl = { control: null } as NgControl;
+    const directive = new EmployeeIdDirective(ngControl);
     expect(directive).toBeTruthy();
   });
 });
