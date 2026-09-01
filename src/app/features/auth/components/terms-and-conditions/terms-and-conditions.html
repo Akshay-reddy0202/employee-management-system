@@ -1,10 +1,16 @@
 <section class="terms">
-  <div class="terms__card">
+  <div
+    class="terms__card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="terms-title"
+    cdkTrapFocus
+  >
     <header class="terms__header">
-      <h2 class="terms__title">Terms & Conditions</h2>
+      <h2 class="terms__title" id="terms-title">Terms & Conditions</h2>
     </header>
 
-    <div class="terms__content">
+    <div class="terms__content" #termsContent tabindex="-1">
       <p class="terms__paragraph">
         Welcome to the Employee Management System (EMS). By accessing or using this application, you
         agree to comply with these Terms and Conditions.

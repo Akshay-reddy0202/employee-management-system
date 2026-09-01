@@ -1,4 +1,4 @@
-@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css';
 
 * {
   padding: 0;
@@ -363,7 +363,7 @@ body {
   /* Background */
 
   --app-background: #0f172a;
-  --app-card:#1e293b;
+  --app-card: #1e293b;
   --app-surface: #1e293b;
   --app-surface-secondary: #334155;
   --app-surface-hover: #475569;
