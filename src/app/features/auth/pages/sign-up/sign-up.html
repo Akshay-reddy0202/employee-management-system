@@ -5,21 +5,25 @@
         <h2 class="signUp__heading">Sign Up</h2>
         <p class="signUp__subtitle">Create your employee account</p>
 
-        <form
-          class="signUp__form-content"
-          [formGroup]="signUpForm"
-          (ngSubmit)="onSubmit()"
-          autocomplete="off"
-        >
+        <form class="signUp__form-content" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
           <div class="signUp__field">
             <label for="role" class="signUp__label">Role </label>
-            <select id="role" name="role" class="signUp__input" formControlName="role">
-              <option value=""></option>
+            <select
+              id="role"
+              name="role"
+              class="signUp__input"
+              formControlName="role"
+              [attr.aria-invalid]="role?.invalid && role?.touched"
+              [attr.aria-describedby]="getRoleError()"
+            >
+              <option value="" disabled>Select a role</option>
               <option value="Admin">Admin</option>
               <option value="Employee">Employee</option>
             </select>
             @if (role?.hasError('required') && role?.touched) {
-              <p class="signUp__errors">Please select a role.</p>
+              <p class="signUp__errors" role="alert" id="role-required-error">
+                Please select a role.
+              </p>
             }
           </div>
 
@@ -33,13 +37,20 @@
               placeholder="Enter Your Full Name"
               formControlName="fullName"
               appFullName
+              autocomplete="name"
+              [attr.aria-invalid]="fullName?.invalid && fullName?.touched"
+              [attr.aria-describedby]="getFullNameError()"
             />
             @if (fullName?.touched && fullName?.hasError('required')) {
-              <p class="signUp__errors">This field is required</p>
+              <p class="signUp__errors" role="alert" id="fullName-required-error">
+                This field is required
+              </p>
             }
 
             @if (fullName?.hasError('invalidFullName') && fullName?.touched) {
-              <p class="signUp__errors">Full Name can contain only letters and spaces.</p>
+              <p class="signUp__errors" role="alert" id="fullName-invalid-error">
+                Full Name can contain only letters and spaces.
+              </p>
             }
           </div>
 
@@ -53,16 +64,25 @@
               class="signUp__input"
               placeholder="Enter Email ID"
               formControlName="emailID"
+              autocomplete="email"
+              [attr.aria-invalid]="emailID?.invalid && emailID?.touched"
+              [attr.aria-describedby]="getEmailIdError()"
             />
             @if (emailID?.touched && emailID?.hasError('required')) {
-              <p class="signUp__errors">This field is required</p>
+              <p class="signUp__errors" role="alert" id="emailID-required-error">
+                This field is required
+              </p>
             }
             @if (emailID?.touched && emailID?.hasError('email')) {
-              <p class="signUp__errors">Email Id is not valid</p>
+              <p class="signUp__errors" role="alert" id="emailID-email-error">
+                Email Id is not valid
+              </p>
             }
 
             @if (emailID?.hasError('emailExists')) {
-              <p class="signUp__errors">Email already exists</p>
+              <p class="signUp__errors" role="alert" id="emailID-emailExists-error">
+                Email already exists
+              </p>
             }
           </div>
 
@@ -75,13 +95,20 @@
               class="signUp__input"
               formControlName="dateOfBirth"
               [max]="maxDate"
+              autocomplete="bday"
+              [attr.aria-invalid]="dateOfBirth?.invalid && dateOfBirth?.touched"
+              [attr.aria-describedby]="getDateOfBirthError()"
             />
             @if (dateOfBirth?.touched && dateOfBirth?.hasError('required')) {
-              <p class="signUp__errors">Date of Birth is required</p>
+              <p class="signUp__errors" role="alert" id="dateOfBirth-required-error">
+                Date of Birth is required
+              </p>
             }
 
             @if (dateOfBirth?.touched && dateOfBirth?.hasError('minimumAge')) {
-              <p class="signUp__errors">Employee must be at least 18 years old.</p>
+              <p class="signUp__errors" role="alert" id="dateOfBirth-minimumAge-error">
+                Employee must be at least 18 years old.
+              </p>
             }
           </div>
 
@@ -95,8 +122,17 @@
                 class="signUp__input"
                 placeholder="Create Password"
                 formControlName="createPassword"
+                autocomplete="new-password"
+                [attr.aria-invalid]="createPassword?.invalid && createPassword?.touched"
+                [attr.aria-describedby]="getCreatePasswordError()"
               />
-              <button type="button" class="signUp__toggle" (click)="toggleCreatePassword()">
+              <button
+                type="button"
+                class="signUp__toggle"
+                (click)="toggleCreatePassword()"
+                [attr.aria-label]="showCreatePassword() ? 'Hide Password' : 'Show Password'"
+                [attr.aria-pressed]="showCreatePassword()"
+              >
                 @if (!showCreatePassword()) {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -142,18 +178,22 @@
             </div>
 
             @if (createPassword?.errors?.['invalidPassword'] && createPassword?.touched) {
-              <p class="signUp__errors">
+              <p class="signUp__errors" role="alert" id="createPassword-invalidPassword-error">
                 Password must contain:Uppercase,LowerCase,Number, Special Character,and at least 8
                 characters.
               </p>
             }
 
             @if (createPassword?.hasError('required') && createPassword?.touched) {
-              <p class="signUp__errors">This field is required</p>
+              <p class="signUp__errors" role="alert" id="createPassword-required-error">
+                This field is required
+              </p>
             }
 
             @if (createPassword?.hasError('maxlength') && createPassword?.touched) {
-              <p class="signUp__errors">Password must not exceed 15 characters</p>
+              <p class="signUp__errors" role="alert" id="createPassword-maxlength-error">
+                Password must not exceed 15 characters
+              </p>
             }
           </div>
 
@@ -167,8 +207,17 @@
                 class="signUp__input"
                 placeholder="Confirm Password"
                 formControlName="confirmPassword"
+                autocomplete="new-password"
+                [attr.aria-invalid]="confirmPassword?.invalid && confirmPassword?.touched"
+                [attr.aria-describedby]="getConfirmPasswordError()"
               />
-              <button type="button" class="signUp__toggle" (click)="toggleConfirmPassword()">
+              <button
+                type="button"
+                class="signUp__toggle"
+                (click)="toggleConfirmPassword()"
+                [attr.aria-label]="showConfirmPassword() ? 'Hide Password' : 'Show Password'"
+                [attr.aria-pressed]="showConfirmPassword()"
+              >
                 @if (!showConfirmPassword()) {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -213,24 +262,33 @@
               </button>
             </div>
             @if (signUpForm?.hasError('passwordMismatch') && confirmPassword?.touched) {
-              <p class="signUp__errors">Passwords do not match.</p>
+              <p class="signUp__errors" role="alert" id="confirmPassword-passwordMismatch-error">
+                Passwords do not match.
+              </p>
             }
             @if (confirmPassword?.hasError('maxlength') && confirmPassword?.touched) {
-              <p class="signUp__errors">Password must not exceed 15 characters</p>
+              <p class="signUp__errors" role="alert" id="confirmPassword-maxlength-error">
+                Password must not exceed 15 characters
+              </p>
             }
             @if (confirmPassword?.hasError('required') && confirmPassword?.touched) {
-              <p class="signUp__errors">This field is required</p>
+              <p class="signUp__errors" role="alert" id="confirmPassword-required-error">
+                This field is required
+              </p>
             }
           </div>
 
           <div class="signUp__checkbox">
             <div class="signUp__checkbox-group">
               <input
+                #termsCheckbox
                 type="checkbox"
                 id="termsAndConditions"
                 name="checkbox"
                 formControlName="checkbox"
                 class="signUp__checkbox-input"
+                [attr.aria-invalid]="checkbox?.invalid && checkbox?.touched"
+                [attr.aria-describedby]="getCheckboxError()"
                 (change)="onCheckboxChange($event)"
               />
               <label for="termsAndConditions" class="signUp__checkbox-label"
@@ -239,7 +297,9 @@
             </div>
 
             @if (checkbox?.hasError('required') && checkbox?.touched) {
-              <p class="signUp__errors">Accept all the terms and condtions</p>
+              <p class="signUp__errors" role="alert" id="checkbox-requiredTrue-error">
+                Accept all the terms and condtions
+              </p>
             }
 
             @if (isTermsModalOpen()) {

@@ -5,12 +5,7 @@
         <h2 class="login__heading">Welcome Back</h2>
         <p class="login__subtitle">Sign in to Continue</p>
 
-        <form
-          class="login__form-content"
-          [formGroup]="loginForm"
-          (ngSubmit)="onSubmit()"
-          autocomplete="off"
-        >
+        <form class="login__form-content" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="login__field">
             <label for="employeeId" class="login__label">Employee ID</label>
             <input
@@ -20,18 +15,25 @@
               class="login__input"
               placeholder="Enter Employee ID"
               formControlName="employeeId"
+              autocomplete="username"
               appEmployeeId
+              [attr.aria-invalid]="employeeId?.invalid && employeeId?.touched"
+              [attr.aria-describedby]="getEmployeeIdError()"
             />
             @if (employeeId?.hasError('maxlength') && employeeId?.touched) {
-              <p class="login__error">
+              <p class="login__error" role="alert" id="employeeId-maxlength-error">
                 Employee ID must contain only "E" followed by up to 4 digits.
               </p>
             }
             @if (employeeId?.hasError('invalidEmployeeId') && employeeId?.touched) {
-              <p class="login__error">Employee ID must start with 'E' followed by numbers only.</p>
+              <p class="login__error" role="alert" id="employeeId-invalid-error">
+                Employee ID must start with 'E' followed by numbers only.
+              </p>
             }
             @if (employeeId?.hasError('required') && employeeId?.touched) {
-              <p class="login__error">This field is required</p>
+              <p class="login__error" role="alert" id="employeeId-required-error">
+                This field is required
+              </p>
             }
           </div>
 
@@ -45,11 +47,15 @@
                 placeholder="Enter Password"
                 name="password"
                 formControlName="password"
+                autocomplete="current-password"
+                [attr.aria-invalid]="password?.invalid && password?.touched"
+                [attr.aria-describedby]="getPasswordError()"
               />
               <button
                 type="button"
                 class="login__toggle"
-                aria-label="show password"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+                [attr.aria-pressed]="showPassword()"
                 (click)="togglePassword()"
               >
                 @if (!showPassword()) {
@@ -97,15 +103,19 @@
             </div>
 
             @if (password?.hasError('required') && password?.touched) {
-              <p class="login__error">This field is required</p>
+              <p class="login__error" role="alert" id="password-required-error">
+                This field is required
+              </p>
             }
 
             @if (password?.hasError('maxlength') && password?.touched) {
-              <p class="login__error">Password must not exceed 15 characters</p>
+              <p class="login__error" role="alert" id="password-maxlength-error">
+                Password must not exceed 15 characters
+              </p>
             }
 
             @if (password?.errors?.['invalidPassword'] && password?.touched) {
-              <p class="login__error">
+              <p class="login__error" role="alert" id="password-invalid-error">
                 Password must contain:Uppercase,LowerCase,Number, Special Character,and at least 8
                 characters.
               </p>
@@ -135,6 +145,7 @@
 
             <div class="login-forgotPassword">
               <button
+                #forgotPasswordButton
                 type="button"
                 (click)="onForgotPasswordClick($event)"
                 class="login__forgotPassword-button"
@@ -163,7 +174,7 @@
             </button>
           </div>
 
-          <div class="login__divider">
+          <div class="login__divider" aria-hidden="true">
             <div class="login__divider-line"></div>
             <span class="login__divider-text">OR</span>
             <div class="login__divider-line"></div>

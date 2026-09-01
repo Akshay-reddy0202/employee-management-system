@@ -88,8 +88,8 @@ section {
   color: var(--auth-input-placeholder);
 }
 
-.signUp__input:focus {
-  outline: none;
+.signUp__input:focus-visible {
+  outline: 1px solid var(--auth-input-border-focus);
   box-shadow: var(--auth-input-focus-shadow);
 }
 
@@ -127,7 +127,7 @@ section {
 }
 
 .signUp__toggle:focus-visible {
-  outline: 1px solid var(--auth-toggle-text);
+  outline: 1px solid var(--auth-input-border-focus);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -153,6 +153,13 @@ section {
   font-weight: normal;
   font-size: 14px;
   color: var(--auth-label-color);
+}
+
+.signUp__checkbox-input:focus-visible {
+  outline: 1px solid var(--auth-input-border-focus);
+  box-shadow: var(--auth-input-focus-shadow);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .signUp__actions {
@@ -206,6 +213,14 @@ section {
   font-size: 14px;
   font-weight: 500;
   color: var(--auth-error-color);
+}
+
+.signUp__button-primary:focus-visible,
+.signUp__button-secondary:focus-visible {
+  outline: 1px solid var(--auth-input-border-focus);
+  box-shadow: var(--auth-input-focus-shadow);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {

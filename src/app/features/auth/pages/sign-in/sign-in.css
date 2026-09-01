@@ -86,7 +86,7 @@ section {
 }
 
 .login__input:focus {
-  outline: none;
+  outline: 1px solid;
   box-shadow: var(--auth-input-focus-shadow);
 }
 
@@ -147,16 +147,22 @@ section {
   gap: 8px;
 }
 
-.login__remember-label {
-  font-weight: normal;
-  font-size: 14px;
-  color: var(--auth-label-color);
-}
-
 .login__checkbox-group {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.login__checkbox:focus-visible {
+  outline: 1px solid var(--auth-label-color);
+  border-radius: 4px;
+  outline-offset: 2px;
+}
+
+.login__remember-label {
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--auth-label-color);
 }
 
 .login__forgotPassword {
@@ -173,6 +179,12 @@ section {
 
 .login__forgotPassword-button:hover {
   color: var(--auth-link-hover);
+}
+
+.login__forgotPassword-button:focus-visible {
+  outline: 1px solid var(--auth-link-color);
+  border-radius: 4px;
+  outline-offset: 2px;
 }
 
 .login__actions {
@@ -235,6 +247,12 @@ section {
 .login__button--secondary:hover {
   outline: none;
   background-color: var(--auth-button-secondary-hover);
+}
+
+.login__button--primary:focus-visible,
+.login__button--secondary:focus-visible {
+  outline: 2px solid var(--auth-toggle-text);
+  outline-offset: 2px;
 }
 
 .login__error {

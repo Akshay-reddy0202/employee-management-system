@@ -1,9 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ForgotPassword } from '../../components/forgot-password/forgot-password';
 import { ResetPassword } from '../../components/reset-password/reset-password';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { passwordValidator } from '../../../../shared/validators/password.validator';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ThemeService } from '../../../../core/services/theme.service';
@@ -68,6 +68,8 @@ export class SignIn {
   }
 
   showPassword = signal(false);
+  private readonly forgotPasswordButton =
+    viewChild<ElementRef<HTMLButtonElement>>('forgotPasswordButton');
 
   togglePassword() {
     this.showPassword.update((value) => !value);
@@ -86,6 +88,8 @@ export class SignIn {
 
   closeForgotPassword(): void {
     this.showForgotPassword.set(false);
+
+    this.forgotPasswordButton()?.nativeElement.focus();
   }
 
   showResetPassword = signal(false);
@@ -99,10 +103,50 @@ export class SignIn {
 
   closeResetPassword(): void {
     this.showResetPassword.set(false);
+    this.selectedEmployee.set(null);
+    this.forgotPasswordButton()?.nativeElement.focus();
   }
-  
+
   onResetPasswordCompleted(): void {
     this.closeResetPassword();
     this.selectedEmployee.set(null);
+  }
+
+  getEmployeeIdError(): string {
+    if (!this.employeeId?.touched) {
+      return '';
+    }
+
+    if (this.employeeId?.hasError('maxlength')) {
+      return 'employeeId-maxlength-error';
+    }
+
+    if (this.employeeId?.hasError('invalidEmployeeId')) {
+      return 'employeeId-invalid-error';
+    }
+
+    if (this.employeeId?.hasError('required')) {
+      return 'employeeId-required-error';
+    }
+    return '';
+  }
+
+  getPasswordError(): string {
+    if (!this.password?.touched) {
+      return '';
+    }
+
+    if (this.password?.hasError('maxlength')) {
+      return 'password-maxlength-error';
+    }
+
+    if (this.password?.hasError('required')) {
+      return 'password-required-error';
+    }
+
+    if (this.password?.hasError('invalidPassword')) {
+      return 'password-invalid-error';
+    }
+    return '';
   }
 }

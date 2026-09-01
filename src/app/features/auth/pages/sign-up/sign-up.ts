@@ -98,6 +98,8 @@ export class SignUp {
   protected readonly generatedEmployeeId = signal('');
   protected readonly isAcknowledged = signal(false);
 
+  private readonly termsCheckbox = viewChild<ElementRef<HTMLInputElement>>('termsCheckbox');
+
   onSubmit() {
     if (this.signUpForm.invalid) {
       return;
@@ -163,6 +165,7 @@ export class SignUp {
 
   closeTermsModal(): void {
     this.isTermsModalOpen.set(false);
+    this.termsCheckbox()?.nativeElement.focus();
   }
 
   // acceptTerms(): void {
@@ -206,5 +209,120 @@ export class SignUp {
         this.emailInput()?.nativeElement.focus();
       });
     }
+  }
+
+  getFullNameError(): string {
+    if (!this.fullName?.touched) {
+      return '';
+    }
+
+    if (this.fullName?.hasError('required')) {
+      return 'fullName-required-error';
+    }
+
+    if (this.fullName?.hasError('invalidFullName')) {
+      return 'fullName-invalid-error';
+    }
+
+    return '';
+  }
+
+  getEmailIdError(): string {
+    if (!this.emailID?.touched) {
+      return '';
+    }
+
+    if (this.emailID?.hasError('required')) {
+      return 'emailID-required-error';
+    }
+
+    if (this.emailID?.hasError('email')) {
+      return 'emailID-email-error';
+    }
+
+    if (this.emailID?.hasError('emailExists')) {
+      return 'emailID-emailExists-error';
+    }
+
+    return '';
+  }
+
+  getDateOfBirthError(): string {
+    if (!this.dateOfBirth?.touched) {
+      return '';
+    }
+
+    if (this.dateOfBirth?.hasError('required')) {
+      return 'dateOfBirth-required-error';
+    }
+
+    if (this.dateOfBirth?.hasError('minimumAge')) {
+      return 'dateOfBirth-minimumAge-error';
+    }
+
+    return '';
+  }
+
+  getCreatePasswordError(): string {
+    if (!this.createPassword?.touched) {
+      return '';
+    }
+
+    if (this.createPassword?.hasError('required')) {
+      return 'createPassword-required-error';
+    }
+
+    if (this.createPassword?.hasError('invalidPassword')) {
+      return 'createPassword-invalidPassword-error';
+    }
+
+    if (this.createPassword?.hasError('maxlength')) {
+      return 'createPassword-maxlength-error';
+    }
+
+    return '';
+  }
+
+  getConfirmPasswordError(): string {
+    if (!this.confirmPassword?.touched) {
+      return '';
+    }
+
+    if (this.confirmPassword?.hasError('required')) {
+      return 'confirmPassword-required-error';
+    }
+
+    if (this.confirmPassword?.hasError('maxlength')) {
+      return 'confirmPassword-maxlength-error';
+    }
+
+    if (this.confirmPassword?.hasError('passwordMismatch')) {
+      return 'confirmPassword-passwordMismatch-error';
+    }
+    return '';
+  }
+
+  getRoleError(): string {
+    if (!this.role?.touched) {
+      return '';
+    }
+
+    if (this.role?.hasError('required')) {
+      return 'role-required-error';
+    }
+
+    return '';
+  }
+
+  getCheckboxError(): string {
+    if (!this.checkbox?.touched) {
+      return '';
+    }
+
+    if (this.checkbox?.hasError('requiredTrue')) {
+      return 'checkbox-requiredTrue-error';
+    }
+
+    return '';
   }
 }
