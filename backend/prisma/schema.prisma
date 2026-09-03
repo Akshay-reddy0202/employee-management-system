@@ -11,3 +11,86 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  Admin
+  Employee
+}
+
+enum Status {
+  Active
+  Inactive
+}
+
+enum Theme {
+  light
+  dark
+}
+
+model Department {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  code        String  @unique
+  description String?
+
+  employees Employee[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("departments")
+}
+
+model Designation {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  employees Employee[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("designations")
+}
+
+model Employee {
+  id String @id @default(cuid())
+
+  employeeId String @unique
+
+  fullName String
+  emailID  String @unique
+  password String
+
+  role   Role   @default(Employee)
+  status Status @default(Active)
+  theme  Theme  @default(light)
+
+  dateOfBirth DateTime?
+  joiningDate DateTime  @default(now())
+
+  phoneNumber String?
+  address     String?
+
+  salary Float? @default(0)
+
+  skills          String[] @default([])
+  profileImageUrl String?
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+
+  designationId String?
+  designation   Designation? @relation(fields: [designationId], references: [id], onDelete: SetNull)
+
+  managerId String?
+  manager   Employee? @relation("ManagementHierarchy", fields: [managerId], references: [id], onDelete: SetNull)
+
+  subordinates Employee[] @relation("ManagementHierarchy")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("employees")
+}
