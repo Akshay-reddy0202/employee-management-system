@@ -3,6 +3,9 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middleware/error.middleware.js";
+import authRoutes from "./modules/auth/auth.routes.js";
+import departmentRoutes from "./modules/departments/department.routes.js";
+import designationRoutes from "./modules/designations/designation.routes.js";
 
 const app = express();
 
@@ -17,6 +20,10 @@ app.get("/health", (_req, res) => {
     message: "server is running",
   });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/departments", departmentRoutes);
+app.use("/api/designations", designationRoutes);
 
 app.use(errorMiddleware);
 export default app;

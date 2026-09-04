@@ -27,11 +27,22 @@ enum Theme {
   dark
 }
 
+enum DepartmentStatus {
+  Active
+  Inactive
+}
+
+enum DesignationStatus {
+  Active
+  Inactive
+}
+
 model Department {
-  id          String  @id @default(cuid())
-  name        String  @unique
-  code        String  @unique
+  id          String           @id @default(cuid())
+  name        String           @unique
+  code        String           @unique
   description String?
+  status      DepartmentStatus @default(Active)
 
   employees Employee[]
 
@@ -42,9 +53,10 @@ model Department {
 }
 
 model Designation {
-  id          String  @id @default(cuid())
-  name        String  @unique
+  id          String            @id @default(cuid())
+  name        String            @unique
   description String?
+  status      DesignationStatus @default(Active)
 
   employees Employee[]
 
@@ -62,6 +74,12 @@ model Employee {
   fullName String
   emailID  String @unique
   password String
+
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+
+  refreshTokenHash    String?
+  refreshTokenExpires DateTime?
 
   role   Role   @default(Employee)
   status Status @default(Active)
