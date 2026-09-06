@@ -6,6 +6,9 @@ import { errorMiddleware } from "./middleware/error.middleware.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import departmentRoutes from "./modules/departments/department.routes.js";
 import designationRoutes from "./modules/designations/designation.routes.js";
+import employeeRoutes from "./modules/employees/employee.routes.js";
+import profileRoutes from "./modules/profile/profile.routes.js";
+import dashboardRoutes from "./modules/dashboard/dashboard.routes.js";
 
 const app = express();
 
@@ -24,6 +27,9 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/designations", designationRoutes);
+app.use("/api/employees", employeeRoutes);
+app.use("/api/profile",profileRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(errorMiddleware);
 export default app;

@@ -5,10 +5,24 @@ import {
   createDesignationSchema,
   updateDesignationSchema,
 } from "./designation.schema.js";
+import { authenticate } from "../../middleware/auth.middleware.js";
+import { authorize } from "../../middleware/authorize.middleware.js";
 
 const router = Router();
 
-router.post("/", validate(createDesignationSchema), create);
-router.get("/", getAll);
-router.patch("/:id", validate(updateDesignationSchema), update);
+router.post(
+  "/",
+  authenticate,
+  authorize("Admin"),
+  validate(createDesignationSchema),
+  create,
+);
+router.get("/", authenticate, getAll);
+router.patch(
+  "/:id",
+  authenticate,
+  authorize("Admin"),
+  validate(updateDesignationSchema),
+  update,
+);
 export default router;

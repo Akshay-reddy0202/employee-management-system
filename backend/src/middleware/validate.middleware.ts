@@ -1,5 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
+
 import { AppError } from "../utils/app.error.js";
+
 import { z } from "zod";
 
 type RequestSchema = z.ZodObject<{
@@ -7,6 +9,18 @@ type RequestSchema = z.ZodObject<{
   params: z.ZodType;
   query: z.ZodType;
 }>;
+
+declare global {
+  namespace Express {
+    interface Request {
+      validated?: {
+        body: unknown;
+        params: unknown;
+        query: unknown;
+      };
+    }
+  }
+}
 
 export const validate = (schema: RequestSchema) => {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -25,6 +39,8 @@ export const validate = (schema: RequestSchema) => {
       );
       return;
     }
+
+    req.validated = result.data;
 
     next();
   };
