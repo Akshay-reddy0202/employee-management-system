@@ -8,6 +8,8 @@ export const updateProfileSchema = z.object({
       address: z.string().trim().optional(),
 
       phoneNumber: z.string().trim().optional(),
+
+      dateOfBirth: z.coerce.date().optional(),
     })
     .refine(
       (data) => Object.values(data).some((value) => value !== undefined),

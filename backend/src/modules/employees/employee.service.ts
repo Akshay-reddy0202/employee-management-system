@@ -60,6 +60,10 @@ export const getAllEmployees = async (data: GetEmployeesInput) => {
         id: true,
         employeeId: true,
         fullName: true,
+        emailID: true,
+        role: true,
+        dateOfBirth: true,
+        salary: true,
         status: true,
         joiningDate: true,
 

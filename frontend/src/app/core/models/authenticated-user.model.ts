@@ -5,6 +5,7 @@ export interface AuthenticatedUserInterface {
   employeeId: string;
   role: string;
   fullName: string;
-  email: string;
-  theme: Theme;
+  email?: string;
+  emailID?: string;
+  theme?: Theme;
 }

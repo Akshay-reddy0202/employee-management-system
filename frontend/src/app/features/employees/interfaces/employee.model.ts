@@ -5,10 +5,10 @@ export interface EmployeeInterface {
   role: string;
   employeeId: string;
   fullName: string;
-  dateOfBirth: string;
+  dateOfBirth?: string;
   emailID: string;
-  password: string;
-  theme: Theme;
+  password?: string;
+  theme?: Theme;
 
   salary?: number | null;
   departmentId?: string | null;
@@ -16,6 +16,10 @@ export interface EmployeeInterface {
   managerId?: string | null;
   status?: string | null;
   joiningDate?: string | null;
+
+  department?: { id?: string; name: string; code?: string } | null;
+  designation?: { id?: string; name: string } | null;
+  manager?: { id?: string; employeeId?: string; fullName: string } | null;
 
   phoneNumber?: string | null;
   address?: string | null;

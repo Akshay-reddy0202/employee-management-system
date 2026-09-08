@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { EmployeesTable } from '../components/employees-table/employees-table';
 import { EmployeeInterface } from '../interfaces/employee.model';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { EmployeeStore } from '../state/employee.store';
 import { DesignationStore } from '../../designations/state/designation.store';
 import { DepartmentsStore } from '../../departments/state/department.store';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-employees',
@@ -35,6 +37,8 @@ export class Employees {
   protected readonly selectedDepartmentId = signal('');
   protected readonly selectedDesignationId = signal('');
   protected readonly searchTerm = signal('');
+  private readonly searchSubject = new Subject<string>();
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly isUnsavedChangesDialogOpen = signal(false);
 
   protected readonly updateSuccess = this.employeeStore.updateSuccess;
@@ -47,6 +51,12 @@ export class Employees {
   protected readonly totalPages = this.employeeStore.totalPages;
 
   constructor() {
+    this.searchSubject
+      .pipe(debounceTime(400), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.employeeStore.setSearchTerm(value);
+      });
+
     effect(() => {
       const error = this.error();
 
@@ -64,7 +74,6 @@ export class Employees {
 
   ngOnInit(): void {
     this.employeeStore.loadEmployees();
-    this.employeeStore.loadAllEmployees();
     this.designationStore.loadDesignations();
     this.departmentsStore.loadAllDepartments();
   }
@@ -75,10 +84,10 @@ export class Employees {
 
   protected onPageChange(page: number): void {
     this.employeeStore.setCurrentPage(page);
-    this.employeeStore.loadEmployees();
   }
 
   protected onEditEmployee(employee: EmployeeInterface): void {
+    this.employeeStore.loadAllEmployees();
     this.selectedEmployee.set(employee);
     this.isEmployeeFormOpen.set(true);
     this.employeeFormMode.set('edit');
@@ -104,69 +113,26 @@ export class Employees {
     this.employeeStore.updateEmployee(employee.id, request);
   }
 
-  protected readonly filteredEmployees = computed(() => {
-    const departmentId = this.selectedDepartmentId();
-    const designationId = this.selectedDesignationId();
-
-    return this.employees().filter((employee) => {
-      const matchesDepartment = !departmentId || employee.departmentId === departmentId;
-      const matchesDesignation = !designationId || employee.designationId === designationId;
-
-      return matchesDepartment && matchesDesignation;
-    });
-  });
-
   protected onDepartmentFilterChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedDepartmentId.set(select.value);
+    this.employeeStore.setDepartmentFilter(select.value);
   }
 
   protected onDesignationFilterChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedDesignationId.set(select.value);
+    this.employeeStore.setDesignationFilter(select.value);
   }
 
   protected onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
+    this.searchSubject.next(input.value);
   }
 
-  protected readonly filteredTable = computed(() => {
-    const search = this.searchTerm().trim().toLowerCase();
-    if (!search) {
-      return this.employees();
-    }
-
-    return this.employees().filter((employee) => {
-      const department = this.departments().find(
-        (department) => department.id === employee.departmentId,
-      );
-      const designation = this.designations().find(
-        (designation) => designation.id === employee.designationId,
-      );
-
-      const manager = this.allEmployees().find((manager) => manager.id === employee.managerId);
-      const matchesEmployeeId = employee.employeeId.toLowerCase().includes(search);
-      const matchesName = employee.fullName.toLowerCase().includes(search);
-      const matchesDepartment = department?.name.toLowerCase().includes(search);
-      const matchesDesignation = designation?.name.toLowerCase().includes(search);
-      const matchesManager = manager?.fullName.toLowerCase().includes(search);
-
-      return (
-        matchesEmployeeId ||
-        matchesName ||
-        matchesDepartment ||
-        matchesDesignation ||
-        matchesManager
-      );
-    });
-  });
-
   protected readonly displayedEmployees = computed(() => {
-    const filteredEmployees = this.filteredEmployees();
-    const filteredTable = this.filteredTable();
-
-    return filteredEmployees.filter((employee) => filteredTable.includes(employee));
+    return this.employees();
   });
 
   protected onUnSavedChangesDialog(): void {

@@ -4,7 +4,6 @@ import { Department } from '../interfaces/department.interface';
 import { DepartmentsService } from '../services/departments.service';
 import { CreateDepartmentRequest } from '../interfaces/create-department-request.interface';
 import { UpdateDepartmentRequest } from '../interfaces/update-department-request.interface';
-import { EmployeeService } from '../../employees/services/employee.service';
 import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 
 type DepartmentState = {
@@ -51,20 +50,40 @@ export const DepartmentsStore = signalStore(
   })),
   withMethods((store) => {
     const departmentsService = inject(DepartmentsService);
-    const employeesService = inject(EmployeeService);
+
+    const slicePage = (items: Department[], page: number, pageSize: number): Department[] => {
+      const start = (page - 1) * pageSize;
+      return items.slice(start, start + pageSize);
+    };
+
     return {
-      loadDepartments() {
+      loadDepartments(forceRefresh = false) {
+        if (store.departmentsLoaded() && !forceRefresh) {
+          patchState(store, {
+            departments: slicePage(store.allDepartments(), store.currentPage(), store.pageSize()),
+            totalDepartments: store.allDepartments().length,
+            departmentsLoading: false,
+            error: null,
+          });
+          return;
+        }
+
         patchState(store, {
           departmentsLoading: true,
           error: null,
         });
 
-        departmentsService.getDepartments(store.currentPage(), store.pageSize()).subscribe({
-          next: (response) => {
+        departmentsService.getAllDepartments().subscribe({
+          next: (departments) => {
+            const maxPage = Math.max(1, Math.ceil(departments.length / store.pageSize()));
+            const currentPage = Math.min(store.currentPage(), maxPage);
             patchState(store, {
-              departments: response.data,
-              totalDepartments: response.totalCount,
+              allDepartments: departments,
+              departments: slicePage(departments, currentPage, store.pageSize()),
+              totalDepartments: departments.length,
+              currentPage,
               departmentsLoading: false,
+              departmentsLoaded: true,
               error: null,
             });
           },
@@ -87,9 +106,13 @@ export const DepartmentsStore = signalStore(
         });
         departmentsService.getAllDepartments().subscribe({
           next: (departments) => {
+            const maxPage = Math.max(1, Math.ceil(departments.length / store.pageSize()));
+            const currentPage = Math.min(store.currentPage(), maxPage);
             patchState(store, {
               allDepartments: departments,
+              departments: slicePage(departments, currentPage, store.pageSize()),
               totalDepartments: departments.length,
+              currentPage,
               error: null,
               allDepartmentsLoading: false,
               departmentsLoaded: true,
@@ -112,8 +135,7 @@ export const DepartmentsStore = signalStore(
 
         departmentsService.createDepartment(request).subscribe({
           next: () => {
-            this.loadAllDepartments(true);
-            this.loadDepartments();
+            this.loadDepartments(true);
             patchState(store, {
               createSuccess: true,
             });
@@ -134,8 +156,7 @@ export const DepartmentsStore = signalStore(
         });
         departmentsService.updateDepartment(departmentId, request).subscribe({
           next: () => {
-            this.loadDepartments();
-            this.loadAllDepartments(true);
+            this.loadDepartments(true);
             patchState(store, {
               updateSuccess: true,
             });
@@ -177,8 +198,14 @@ export const DepartmentsStore = signalStore(
           error: null,
         });
 
-        employeesService.getEmployeesByDepartment(departmentId).subscribe({
-          next: (employees) => {
+        departmentsService.getDepartmentById(departmentId).subscribe({
+          next: (department) => {
+            const employees = (department.employees || []).map((emp) => ({
+              id: emp.id,
+              employeeId: emp.employeeId,
+              fullName: emp.fullName,
+            })) as EmployeeInterface[];
+
             patchState(store, {
               departmentEmployees: employees,
               departmentEmployeesLoading: false,
@@ -194,16 +221,24 @@ export const DepartmentsStore = signalStore(
       },
 
       refresh() {
-        this.loadAllDepartments(true);
-        this.loadDepartments();
+        this.loadDepartments(true);
       },
 
       setCurrentPage(page: number) {
-        patchState(store, { currentPage: page });
+        patchState(store, {
+          currentPage: page,
+          departments: slicePage(store.allDepartments(), page, store.pageSize()),
+        });
       },
 
       setPageSize(pageSize: number) {
-        patchState(store, { pageSize });
+        const maxPage = Math.max(1, Math.ceil(store.totalDepartments() / pageSize));
+        const currentPage = Math.min(store.currentPage(), maxPage);
+        patchState(store, {
+          pageSize,
+          currentPage,
+          departments: slicePage(store.allDepartments(), currentPage, pageSize),
+        });
       },
 
       clearUpdateSuccess() {

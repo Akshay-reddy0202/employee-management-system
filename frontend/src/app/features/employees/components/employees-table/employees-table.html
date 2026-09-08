@@ -18,9 +18,9 @@
         <tr class="employees__table-row">
           <td>{{ employee.employeeId }}</td>
           <td>{{ employee.fullName }}</td>
-          <td>{{ getDesignationName(employee.designationId) }}</td>
-          <td>{{ getManagerName(employee.managerId) }}</td>
-          <td>{{ getDepartmentName(employee.departmentId) }}</td>
+          <td>{{ employee.designation?.name || getDesignationName(employee.designationId) }}</td>
+          <td>{{ employee.manager?.fullName || '-' }}</td>
+          <td>{{ employee.department?.name || getDepartmentName(employee.departmentId) }}</td>
           <td>
             <span
               class="employees-table__status"
@@ -30,7 +30,7 @@
               {{ employee.status }}
             </span>
           </td>
-          <td>{{ employee.joiningDate }}</td>
+          <td>{{ employee.joiningDate ? (employee.joiningDate | date: 'mediumDate') : '-' }}</td>
           <td class="employees__table-actions">
             <button
               type="button"

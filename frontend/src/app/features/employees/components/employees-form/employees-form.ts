@@ -125,34 +125,40 @@ export class EmployeesForm {
       const employee = this.employee();
 
       const designation = this.designations().find(
-        (designation) => designation.id === employee.designationId,
+        (designation) =>
+          designation.name === employee.designation?.name ||
+          (employee.designationId ? designation.id === employee.designationId : false),
       );
 
       const department = this.departments().find(
-        (department) => department.id === employee.departmentId,
+        (department) =>
+          department.name === employee.department?.name ||
+          (employee.departmentId ? department.id === employee.departmentId : false),
       );
 
-      const manager = employee.managerId
-        ? this.allEmployees().find((manager) => manager.id === employee.managerId)
-        : null;
+      const manager = this.allEmployees().find(
+        (manager) =>
+          manager.fullName === employee.manager?.fullName ||
+          (employee.managerId ? manager.id === employee.managerId : false),
+      );
 
       this.employeeForm.patchValue({
         employeeId: employee.employeeId,
         role: employee.role,
         fullName: employee.fullName,
-        dateOfBirth: employee.dateOfBirth,
+        dateOfBirth: employee.dateOfBirth ? employee.dateOfBirth.split('T')[0] : '',
         emailID: employee.emailID,
-        departmentId: employee.departmentId,
-        designationId: employee.designationId,
-        managerId: employee.managerId,
+        departmentId: department?.id ?? employee.departmentId ?? null,
+        designationId: designation?.id ?? employee.designationId ?? null,
+        managerId: manager?.id ?? employee.managerId ?? null,
         status: employee.status,
-        joiningDate: employee.joiningDate,
+        joiningDate: employee.joiningDate ? employee.joiningDate.split('T')[0] : '',
         salary: employee.salary,
       });
 
-      this.departmentSearchTerm.set(department?.name ?? '');
-      this.designationSearchTerm.set(designation?.name ?? '');
-      this.managerSearchTerm.set(manager?.fullName ?? '');
+      this.departmentSearchTerm.set(employee.department?.name ?? department?.name ?? '');
+      this.designationSearchTerm.set(employee.designation?.name ?? designation?.name ?? '');
+      this.managerSearchTerm.set(employee.manager?.fullName ?? manager?.fullName ?? '');
 
       if (this.mode() === 'view') {
         this.employeeForm.controls.status.disable();
@@ -291,6 +297,11 @@ export class EmployeesForm {
   }
 
   protected onSubmit(): void {
+    if (!this.employeeForm.dirty) {
+      this.cancel.emit();
+      return;
+    }
+
     if (this.employeeForm.invalid) {
       this.employeeForm.markAllAsTouched();
       return;

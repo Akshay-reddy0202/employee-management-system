@@ -1,39 +1,28 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ProfileForm } from '../components/profile-form/profile-form';
 import { Modal } from '../../../shared/components/modal/modal';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
-import { ProfileService } from '../services/profile.service';
+import { ProfileStore } from '../state/profile.store';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
-import { EmployeeInterface } from '../../employees/interfaces/employee.model';
 import { UpdateProfileRequest } from '../interfaces/update-profile-request.interface';
 import { InitialsPipePipe } from '../../../shared/pipes/initials.pipe';
-import { EmployeeStore } from '../../employees/state/employee.store';
-import { DesignationStore } from '../../designations/state/designation.store';
-import { DepartmentsStore } from '../../departments/state/department.store';
 
 @Component({
   selector: 'app-profile',
-  imports: [ProfileForm, Modal, ConfirmationDialog, InitialsPipePipe],
+  imports: [ProfileForm, Modal, ConfirmationDialog, InitialsPipePipe, DatePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class Profile {
   protected readonly isProfileFormOpen = signal(false);
   protected readonly isUnsavedChangesDialogOpen = signal(false);
-  private readonly profileService = inject(ProfileService);
-  protected readonly profileDetails = signal<EmployeeInterface | null>(null);
+  private readonly profileStore = inject(ProfileStore);
+  protected readonly profileDetails = this.profileStore.profile;
   private readonly toastr = inject(ToastrService);
   protected readonly authService = inject(AuthService);
   protected readonly selectedImageUrl = signal<string | null>(null);
-
-  private readonly employeeStore = inject(EmployeeStore);
-  private readonly designationStore = inject(DesignationStore);
-  private readonly departmentStore = inject(DepartmentsStore);
-
-  protected readonly employees = this.employeeStore.allEmployees;
-  protected readonly designations = this.designationStore.designations;
-  protected readonly departments = this.departmentStore.allDepartments;
 
   protected openProfileForm(): void {
     this.isProfileFormOpen.set(true);
@@ -57,74 +46,28 @@ export class Profile {
   }
 
   ngOnInit(): void {
-    this.loadProfile();
-    this.employeeStore.loadAllEmployees();
-    this.designationStore.loadDesignations();
-    this.departmentStore.loadAllDepartments();
+    this.profileStore.loadProfile();
   }
 
   protected readonly departmentName = computed(() => {
-    const profile = this.profileDetails();
-
-    if (!profile) {
-      return '';
-    }
-    return (
-      this.departments().find((department) => department.id === profile.departmentId)?.name ?? '-'
-    );
+    return this.profileDetails()?.department?.name ?? '-';
   });
 
   protected readonly designationName = computed(() => {
-    const profile = this.profileDetails();
-
-    if (!profile) {
-      return '';
-    }
-    return (
-      this.designations().find((designation) => designation.id === profile.designationId)?.name ??
-      '-'
-    );
+    return this.profileDetails()?.designation?.name ?? '-';
   });
 
   protected readonly managerName = computed(() => {
-    const profile = this.profileDetails();
-
-    if (!profile) {
-      return '';
-    }
-
-    return this.employees().find((employee) => employee.id === profile.managerId)?.fullName ?? '-';
+    return this.profileDetails()?.manager?.fullName ?? '-';
   });
 
-  private loadProfile(): void {
-    const currentUser = this.authService.loggedInUser();
-    if (!currentUser) {
-      return;
-    }
-    this.profileService.getProfile(currentUser.id).subscribe({
-      next: (profile) => {
-        this.profileDetails.set(profile);
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-      },
-    });
-  }
-
   protected save(request: UpdateProfileRequest): void {
-    const currentUser = this.authService.loggedInUser();
-
-    if (!currentUser) {
-      return;
-    }
-
-    this.profileService.updateProfile(currentUser.id, request).subscribe({
-      next: (employee) => {
-        this.profileDetails.set(employee);
+    this.profileStore.updateProfile(request, {
+      onSuccess: () => {
         this.closeProfileForm();
-        this.toastr.success('profile updated successfully');
+        this.toastr.success('Profile updated successfully');
       },
-      error: (error) => {
+      onError: (error) => {
         this.toastr.error(error.message);
       },
     });
@@ -139,7 +82,28 @@ export class Profile {
 
     const file = input.files[0];
 
-    const imageUrl = URL.createObjectURL(file);
-    this.selectedImageUrl.set(imageUrl);
+    this.profileStore.uploadProfileImage(file, {
+      onSuccess: (imageUrl) => {
+        this.selectedImageUrl.set(imageUrl);
+        this.toastr.success('Profile photo updated successfully');
+        input.value = '';
+      },
+      onError: (error) => {
+        this.toastr.error(error.message);
+        input.value = '';
+      },
+    });
+  }
+
+  protected removeProfilePhoto(): void {
+    this.profileStore.removeProfileImage({
+      onSuccess: () => {
+        this.selectedImageUrl.set(null);
+        this.toastr.success('Profile photo removed successfully');
+      },
+      onError: (error) => {
+        this.toastr.error(error.message);
+      },
+    });
   }
 }

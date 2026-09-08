@@ -1,28 +1,21 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgxEchartsDirective } from 'ngx-echarts';
-import { EmployeeStore } from '../../../employees/state/employee.store';
-import { DepartmentsStore } from '../../../departments/state/department.store';
 import { DashboardStore } from '../../state/dashboard.store';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgxEchartsDirective],
+  imports: [NgxEchartsDirective, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
-  private readonly dashboardStore = inject(DashboardStore);
-  private readonly employeeStore = inject(EmployeeStore);
-  private readonly departmentsStore = inject(DepartmentsStore);
+export class Dashboard implements OnInit {
+  protected readonly dashboardStore = inject(DashboardStore);
 
-  protected readonly employees = this.employeeStore.allEmployees;
-  protected readonly departments = this.departmentsStore.allDepartments;
-
-  protected readonly totalDepartments = this.departmentsStore.totalDepartments;
-
-  protected readonly totalEmployees = this.employeeStore.totalEmployees;
-  protected readonly activeEmployees = this.employeeStore.activeEmployees;
-  protected readonly totalSalary = this.employeeStore.totalSalaryExpense;
+  protected readonly totalEmployees = this.dashboardStore.totalEmployees;
+  protected readonly totalDepartments = this.dashboardStore.totalDepartments;
+  protected readonly activeEmployees = this.dashboardStore.activeEmployees;
+  protected readonly totalSalary = this.dashboardStore.totalSalary;
 
   protected readonly recentEmployees = this.dashboardStore.recentEmployees;
   protected readonly departmentDistribution = this.dashboardStore.departmentDistribution;
@@ -34,12 +27,6 @@ export class Dashboard {
   protected readonly employeeGrowthChartOptions = this.dashboardStore.employeeGrowthChartOptions;
 
   ngOnInit(): void {
-    this.employeeStore.loadAllEmployees();
-    this.departmentsStore.loadAllDepartments();
-  }
-
-  protected getDepartmentName(departmentId: string | null | undefined): string {
-    const department = this.departments().find((department) => department.id === departmentId);
-    return department?.name ?? '-';
+    this.dashboardStore.loadDashboard();
   }
 }

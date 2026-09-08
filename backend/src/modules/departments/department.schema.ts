@@ -62,9 +62,9 @@ export const idParamSchema = z.object({
     id: z.string().trim().min(1, "ID is required"),
   }),
 
-  body: z.object({}),
+  body: z.object({}).default({}),
 
-  query: z.object({}),
+  query: z.object({}).default({}),
 });
 
 export type CreateDepartmentInput = z.infer<

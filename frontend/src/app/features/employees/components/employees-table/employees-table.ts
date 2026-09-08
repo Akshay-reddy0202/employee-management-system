@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { EmployeeInterface } from '../../interfaces/employee.model';
 import { DesignationInterface } from '../../../designations/interfaces/designation.model';
@@ -6,7 +7,7 @@ import { Department } from '../../../departments/interfaces/department.interface
 
 @Component({
   selector: 'app-employees-table',
-  imports: [MatIconModule],
+  imports: [MatIconModule, DatePipe],
   templateUrl: './employees-table.html',
   styleUrl: './employees-table.css',
 })
@@ -16,7 +17,6 @@ export class EmployeesTable {
   readonly departments = input.required<Department[]>();
   protected readonly edit = output<EmployeeInterface>();
   protected readonly view = output<EmployeeInterface>();
-  readonly allEmployees = input.required<EmployeeInterface[]>();
 
   protected onEditClick(employee: EmployeeInterface): void {
     this.edit.emit(employee);
@@ -34,11 +34,5 @@ export class EmployeesTable {
   protected getDepartmentName(departmentId: string | null | undefined): string {
     const department = this.departments().find((department) => department.id === departmentId);
     return department?.name ?? '-';
-  }
-
-  protected getManagerName(managerId: string | null | undefined): string {
-    const manager = this.allEmployees().find((employee) => employee.id === managerId);
-
-    return manager?.fullName ?? '-';
   }
 }

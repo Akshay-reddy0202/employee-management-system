@@ -51,7 +51,6 @@
   <section class="employees__content">
     <app-employees-table
       [employees]="displayedEmployees()"
-      [allEmployees]="allEmployees()"
       (edit)="onEditEmployee($event)"
       (view)="onViewEmployee($event)"
       [designations]="designations()"

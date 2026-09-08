@@ -12,7 +12,7 @@
           <img [src]="selectedImageUrl()" alt="profile" class="profile__image-preview" />
         } @else if (profileDetails()?.profileImageUrl) {
           <img
-            ]src]="profileDetails()?.profileImageUrl"
+            [src]="profileDetails()?.profileImageUrl"
             alt="profile"
             class="profile__image-preview"
           />
@@ -22,9 +22,20 @@
           </div>
         }
 
-        <button type="button" class="profile__image-button" (click)="fileInput.click()">
-          Change Photo
-        </button>
+        <div class="profile__image-actions">
+          <button type="button" class="profile__image-button" (click)="fileInput.click()">
+            Change Photo
+          </button>
+          @if (profileDetails()?.profileImageUrl || selectedImageUrl()) {
+            <button
+              type="button"
+              class="profile__image-button profile__image-button--remove"
+              (click)="removeProfilePhoto()"
+            >
+              Remove Photo
+            </button>
+          }
+        </div>
 
         <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
       </div>
@@ -77,7 +88,12 @@
 
         <div class="profile__field">
           <span class="profile__label">Date Of Birth</span>
-          <span class="profile__value">{{ profileDetails()?.dateOfBirth }}</span>
+          <span class="profile__value">{{ profileDetails()?.dateOfBirth ? (profileDetails()?.dateOfBirth | date: 'mediumDate') : '-' }}</span>
+        </div>
+
+        <div class="profile__field">
+          <span class="profile__label">Joining Date</span>
+          <span class="profile__value">{{ profileDetails()?.joiningDate ? (profileDetails()?.joiningDate | date: 'mediumDate') : '-' }}</span>
         </div>
 
         <div class="profile__field profile__field--full-width">

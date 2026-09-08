@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { SignIn } from './features/auth/pages/sign-in/sign-in';
 import { SignUp } from './features/auth/pages/sign-up/sign-up';
+import { ResetPassword } from './features/auth/components/reset-password/reset-password';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 import { Dashboard } from './features/dashboard/pages/dashboard/dashboard';
@@ -34,6 +35,13 @@ export const routes: Routes = [
         component: SignUp,
         data: {
           title: 'Sign Up',
+        },
+      },
+      {
+        path: 'reset-password',
+        component: ResetPassword,
+        data: {
+          title: 'Reset Password',
         },
       },
     ],

@@ -10,7 +10,6 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
@@ -31,7 +30,7 @@ export class ForgotPassword {
     return this.forgotPasswordForm.get('emailID');
   }
 
-  continue = output<EmployeeInterface>();
+  continue = output<void>();
   cancel = output<void>();
 
   private readonly authService = inject(AuthService);
@@ -63,17 +62,14 @@ export class ForgotPassword {
   onContinue() {
     const email = this.forgotPasswordForm.getRawValue().emailID;
 
-    this.authService.getEmployeeByEmail(email).subscribe({
-      next: (employee) => {
-        if (!employee) {
-          this.toastr.error('Email does not exist');
-          return;
-        }
-        this.toastr.success('Email Verified', 'Success');
-        this.continue.emit(employee);
+    this.authService.forgotPassword(email).subscribe({
+      next: (response) => {
+        this.toastr.success(response.message, 'Success');
+        this.cancel.emit();
       },
-      error: () => {
-        this.toastr.error('Something went wrong', 'Error');
+      error: (error) => {
+        const message = error.error?.message || error.message || 'Something went wrong';
+        this.toastr.error(message, 'Error');
       },
     });
   }

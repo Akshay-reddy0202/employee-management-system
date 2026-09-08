@@ -113,7 +113,13 @@
         </svg>
         <h2 class="dashboard__stat-card--title">Salary Expenses</h2>
       </div>
-      <p class="dashboard__stat-card--value">₹{{ totalSalary().toLocaleString('en-IN') }}</p>
+      <p class="dashboard__stat-card--value">
+        @if (totalSalary() !== null) {
+          ₹{{ totalSalary()!.toLocaleString('en-IN') }}
+        } @else {
+          N/A
+        }
+      </p>
     </div>
   </div>
 
@@ -138,30 +144,22 @@
       <table class="dashboard__employees-table">
         <thead>
           <tr>
+            <th>Employee ID</th>
             <th>Name</th>
             <th>Department</th>
+            <th>Designation</th>
             <th>Joining Date</th>
-            <th>Salary</th>
-            <th>Status</th>
           </tr>
         </thead>
 
         <tbody>
           @for (employee of recentEmployees(); track employee.id) {
             <tr>
+              <td>{{ employee.employeeId }}</td>
               <td>{{ employee.fullName }}</td>
-              <td>{{ getDepartmentName(employee.departmentId) }}</td>
-              <td>{{ employee.joiningDate }}</td>
-              <td>₹{{ employee.salary?.toLocaleString('en-IN') }}</td>
-              <td>
-                <span
-                  class="dashboard__employee-status"
-                  [class.dashboard__employee-status--active]="employee.status === 'Active'"
-                  [class.dashboard__employee-status--inactive]="employee.status === 'Inactive'"
-                >
-                  {{ employee.status }}
-                </span>
-              </td>
+              <td>{{ employee.department?.name ?? '-' }}</td>
+              <td>{{ employee.designation?.name ?? '-' }}</td>
+              <td>{{ employee.joiningDate ? (employee.joiningDate | date: 'mediumDate') : '-' }}</td>
             </tr>
           }
         </tbody>

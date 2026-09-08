@@ -28,7 +28,7 @@ export class SignIn {
       validators: [Validators.required, passwordValidator, Validators.maxLength(15)],
     }),
 
-    checkbox: new FormControl(false, { nonNullable: true, validators: [Validators.requiredTrue] }),
+    checkbox: new FormControl(false, { nonNullable: true }),
   });
 
   get employeeId() {
@@ -54,15 +54,17 @@ export class SignIn {
     }
     const formValue = this.loginForm.getRawValue();
     this.authService.login(formValue).subscribe({
-      next: (employee) => {
-        this.authService.saveCurrentUser(employee);
-        this.themeService.setTheme(employee.theme);
+      next: (data) => {
+        if (data.employee.theme) {
+          this.themeService.setTheme(data.employee.theme);
+        }
         this.toastr.success('Login Success', 'Success');
         this.loginForm.reset();
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
-        this.toastr.error(error.message, 'Login Failed');
+        const message = error.error?.message || error.message || 'Login Failed';
+        this.toastr.error(message, 'Login Failed');
       },
     });
   }

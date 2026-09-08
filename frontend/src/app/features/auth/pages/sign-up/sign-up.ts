@@ -1,9 +1,8 @@
-import { Component, inject, signal, ElementRef, ViewChild, viewChild } from '@angular/core';
+import { Component, inject, signal, ElementRef, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TermsAndConditions } from '../../components/terms-and-conditions/terms-and-conditions';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
 import { passwordValidator } from '../../../../shared/validators/password.validator';
 import { confirmPasswordValidator } from '../../../../shared/validators/confirm-password.validator';
 import { FullNameDirective } from '../../../../shared/directives/full-name-directive';
@@ -106,14 +105,17 @@ export class SignUp {
     }
     const formValue = this.signUpForm.getRawValue();
     this.authService.register(formValue).subscribe({
-      next: (employee) => {
-        this.generatedEmployeeId.set(employee.employeeId);
+      next: (data) => {
+        this.generatedEmployeeId.set(data.employeeId);
         this.isEmployeeIdDialogOpen.set(true);
         this.signUpForm.reset();
       },
       error: (error) => {
-        this.toastr.error(error.message, 'Registration Failed');
-        this.emailID?.reset();
+        const message = error.error?.message || error.message || 'Registration Failed';
+        this.toastr.error(message, 'Registration Failed');
+        if (error.status === 409 || message.toLowerCase().includes('email')) {
+          this.emailID?.setErrors({ emailExists: true });
+        }
         setTimeout(() => {
           this.emailInput()?.nativeElement.focus();
         });
@@ -124,10 +126,6 @@ export class SignUp {
   closeEmployeeIdDialog(): void {
     this.isEmployeeIdDialogOpen.set(false);
     this.router.navigate(['/sign-in']);
-  }
-
-  ngOnInit(): void {
-    this.initializeEmailIDListener();
   }
 
   showCreatePassword = signal(false);
@@ -176,39 +174,6 @@ export class SignUp {
   cancelTerms(): void {
     this.signUpForm.get('checkbox')?.setValue(true);
     this.closeTermsModal();
-  }
-
-  private initializeEmailIDListener(): void {
-    const emailControl = this.emailID;
-
-    if (!emailControl) {
-      return;
-    }
-
-    emailControl?.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        filter(() => emailControl.valid),
-        switchMap((email: string) => this.authService.checkEmailExists(email)),
-      )
-      .subscribe((emailExists) => {
-        this.handleEmailExists(emailExists);
-      });
-  }
-
-  private handleEmailExists(emailExists: boolean): void {
-    if (emailExists) {
-      this.toastr.error('Email already exists');
-
-      this.emailID?.setErrors({
-        emailExists: true,
-      });
-
-      setTimeout(() => {
-        this.emailInput()?.nativeElement.focus();
-      });
-    }
   }
 
   getFullNameError(): string {

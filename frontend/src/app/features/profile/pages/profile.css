@@ -91,6 +91,12 @@
   font-weight: 600;
 }
 
+.profile__image-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .profile__image-button {
   padding: 10px 16px;
   cursor: pointer;
@@ -106,9 +112,18 @@
     color 0.2s ease;
 }
 
-.profile__edit-button:hover {
+.profile__image-button:hover {
   background-color: var(--app-primary-hover);
   color: var(--app-text-inverse);
+}
+
+.profile__image-button--remove {
+  background-color: var(--app-danger);
+  color: var(--app-text-inverse);
+}
+
+.profile__image-button--remove:hover {
+  opacity: 0.9;
 }
 
 .profile__information {

@@ -138,9 +138,6 @@
                 />
                 <label for="remember_me" class="login__remember-label">Remember Me</label>
               </div>
-              @if (checkbox?.hasError('required') && checkbox?.touched) {
-                <p class="login__error login__error-full">Accept all the terms and condtions</p>
-              }
             </div>
 
             <div class="login-forgotPassword">
@@ -154,7 +151,6 @@
               </button>
               @if (showForgotPassword()) {
                 <app-forgot-password
-                  (continue)="openResetPassword($event)"
                   (cancel)="closeForgotPassword()"
                 ></app-forgot-password>
               }

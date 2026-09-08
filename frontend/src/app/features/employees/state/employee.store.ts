@@ -10,11 +10,15 @@ type EmployeeState = {
   employeesLoading: boolean;
   allEmployeesLoading: boolean;
   employeesLoaded: boolean;
+  allEmployeesLoaded: boolean;
   updateSuccess: boolean;
   error: string | null;
   totalEmployees: number;
   currentPage: number;
   pageSize: number;
+  searchTerm: string;
+  selectedDepartmentId: string;
+  selectedDesignationId: string;
 };
 
 const initialState: EmployeeState = {
@@ -23,11 +27,15 @@ const initialState: EmployeeState = {
   employeesLoading: false,
   allEmployeesLoading: false,
   employeesLoaded: false,
+  allEmployeesLoaded: false,
   updateSuccess: false,
   error: null,
   totalEmployees: 0,
   currentPage: 1,
   pageSize: 10,
+  searchTerm: '',
+  selectedDepartmentId: '',
+  selectedDesignationId: '',
 };
 
 export const EmployeeStore = signalStore(
@@ -54,32 +62,45 @@ export const EmployeeStore = signalStore(
   withMethods((store) => {
     const employeeService = inject(EmployeeService);
     return {
-      loadEmployees() {
+      loadEmployees(forceRefresh = false) {
+        if (store.employeesLoaded() && !forceRefresh) {
+          return;
+        }
+
         patchState(store, {
           employeesLoading: true,
           error: null,
         });
 
-        employeeService.getEmployees(store.currentPage(), store.pageSize()).subscribe({
-          next: (response) => {
-            patchState(store, {
-              employees: response.data,
-              totalEmployees: response.totalCount,
-              employeesLoading: false,
-              error: null,
-            });
-          },
-          error: (error) => {
-            patchState(store, {
-              employeesLoading: false,
-              error: error.message,
-            });
-          },
-        });
+        employeeService
+          .getEmployees({
+            page: store.currentPage(),
+            pageSize: store.pageSize(),
+            search: store.searchTerm(),
+            departmentId: store.selectedDepartmentId(),
+            designationId: store.selectedDesignationId(),
+          })
+          .subscribe({
+            next: (response) => {
+              patchState(store, {
+                employees: response.data,
+                totalEmployees: response.totalCount,
+                employeesLoaded: true,
+                employeesLoading: false,
+                error: null,
+              });
+            },
+            error: (error) => {
+              patchState(store, {
+                employeesLoading: false,
+                error: error.message,
+              });
+            },
+          });
       },
 
       loadAllEmployees(forceRefresh = false) {
-        if (store.employeesLoaded() && !forceRefresh) {
+        if (store.allEmployeesLoaded() && !forceRefresh) {
           return;
         }
         patchState(store, {
@@ -90,9 +111,8 @@ export const EmployeeStore = signalStore(
           next: (employees) => {
             patchState(store, {
               allEmployees: employees,
-              totalEmployees: employees.length,
+              allEmployeesLoaded: true,
               error: null,
-              employeesLoaded: true,
               allEmployeesLoading: false,
             });
           },
@@ -111,10 +131,13 @@ export const EmployeeStore = signalStore(
           error: null,
         });
         employeeService.updateEmployee(employeeId, request).subscribe({
-          next: () => {
-            this.loadEmployees();
-            this.loadAllEmployees(true);
+          next: (updatedEmployee) => {
+            this.loadEmployees(true);
+            const updatedAll = store.allEmployees().map((emp) =>
+              emp.id === employeeId ? { ...emp, ...updatedEmployee } : emp,
+            );
             patchState(store, {
+              allEmployees: updatedAll,
               updateSuccess: true,
             });
           },
@@ -127,12 +150,29 @@ export const EmployeeStore = signalStore(
         });
       },
 
+      setSearchTerm(searchTerm: string) {
+        patchState(store, { searchTerm, currentPage: 1 });
+        this.loadEmployees(true);
+      },
+
+      setDepartmentFilter(selectedDepartmentId: string) {
+        patchState(store, { selectedDepartmentId, currentPage: 1 });
+        this.loadEmployees(true);
+      },
+
+      setDesignationFilter(selectedDesignationId: string) {
+        patchState(store, { selectedDesignationId, currentPage: 1 });
+        this.loadEmployees(true);
+      },
+
       setCurrentPage(page: number) {
         patchState(store, { currentPage: page });
+        this.loadEmployees(true);
       },
 
       setPageSize(pageSize: number) {
-        patchState(store, { pageSize });
+        patchState(store, { pageSize, currentPage: 1 });
+        this.loadEmployees(true);
       },
 
       clearUpdateSuccess() {
@@ -142,8 +182,10 @@ export const EmployeeStore = signalStore(
       },
 
       refresh() {
-        this.loadAllEmployees(true);
-        this.loadEmployees();
+        this.loadEmployees(true);
+        if (store.allEmployeesLoaded()) {
+          this.loadAllEmployees(true);
+        }
       },
     };
   }),

@@ -2,7 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { InitialsPipePipe } from '../../pipes/initials.pipe';
 import { ClickOutside } from '../../directives/click-outside';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 
 @Component({

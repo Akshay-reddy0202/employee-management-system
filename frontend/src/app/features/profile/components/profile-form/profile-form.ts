@@ -39,7 +39,7 @@ export class ProfileForm {
       const profileDetails = this.profileDetails();
       this.profileForm.patchValue({
         phoneNumber: profileDetails.phoneNumber ?? '',
-        dateOfBirth: profileDetails.dateOfBirth ?? '',
+        dateOfBirth: profileDetails.dateOfBirth ? profileDetails.dateOfBirth.split('T')[0] : '',
         address: profileDetails.address ?? '',
       });
       this.skills = [...(profileDetails.skills ?? [])];

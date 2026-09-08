@@ -115,6 +115,14 @@ export class Designation {
     return designations.filter((designation) => designation.name.toLowerCase().includes(search));
   });
 
+  private designationNameExists(name: string, ignoreDesignationId?: string): boolean {
+    return this.designations().some((designation) => {
+      const isSameName = designation.name.trim().toLowerCase() === name.trim().toLowerCase();
+      const isDifferent = designation.id !== ignoreDesignationId;
+      return isSameName && isDifferent;
+    });
+  }
+
   protected save(request: CreateDesignationRequest): void {
     if (this.selectedDesignation()) {
       this.updateDesignation(request);
@@ -124,12 +132,20 @@ export class Designation {
   }
 
   protected createDesignation(request: CreateDesignationRequest): void {
+    if (this.designationNameExists(request.name)) {
+      this.toastr.error('A designation with this name already exists');
+      return;
+    }
     this.designationStore.createDesignation(request);
   }
 
   protected updateDesignation(request: UpdateDesignationRequest): void {
     const selectedDesignation = this.selectedDesignation();
     if (!selectedDesignation?.id) {
+      return;
+    }
+    if (request.name && this.designationNameExists(request.name, selectedDesignation.id)) {
+      this.toastr.error('A designation with this name already exists');
       return;
     }
     this.designationStore.updateDesignation(selectedDesignation.id, request);

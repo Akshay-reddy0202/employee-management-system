@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { confirmPasswordValidator } from '../../../../shared/validators/confirm-password.validator';
@@ -46,10 +46,13 @@ export class ResetPassword {
     return this.resetPasswordForm.get('confirmPassword');
   }
 
-  employee = input.required<EmployeeInterface>();
+  employee = input<EmployeeInterface | null>(null);
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
+  readonly token = signal<string | null>(null);
   showCreatePassword = signal(false);
   showConfirmPassword = signal(false);
   private readonly createPasswordInput =
@@ -61,20 +64,35 @@ export class ResetPassword {
     });
   }
 
+  ngOnInit(): void {
+    const queryToken = this.activatedRoute.snapshot.queryParamMap.get('token');
+    if (queryToken) {
+      this.token.set(queryToken);
+    }
+  }
+
   onSubmit() {
     if (this.resetPasswordForm.invalid) {
       return;
     }
-    const employee = this.employee();
-    const newPassword = this.resetPasswordForm.getRawValue().createPassword;
 
-    this.authService.resetPassword(employee.employeeId, newPassword).subscribe({
-      next: () => {
+    const token = this.token();
+    if (!token) {
+      this.toastr.error('Password reset token is missing or invalid. Please request a new link.', 'Error');
+      return;
+    }
+
+    const { createPassword, confirmPassword } = this.resetPasswordForm.getRawValue();
+
+    this.authService.resetPasswordWithToken(token, createPassword, confirmPassword).subscribe({
+      next: (response) => {
+        this.toastr.success(response.message || 'Password reset successfully', 'Success');
         this.onCompleted();
         this.router.navigate(['/sign-in']);
       },
       error: (error) => {
-        this.toastr.error(error.message, 'password update failed');
+        const message = error.error?.message || error.message || 'Password update failed';
+        this.toastr.error(message, 'Error');
       },
     });
   }
@@ -92,6 +110,7 @@ export class ResetPassword {
 
   onCancel(): void {
     this.cancel.emit();
+    this.router.navigate(['/sign-in']);
   }
 
   @HostListener('document:keydown.escape')
@@ -100,7 +119,6 @@ export class ResetPassword {
   }
 
   onCompleted(): void {
-    this.toastr.success('Password reset successfully', 'Success');
     this.completed.emit();
   }
 
@@ -109,7 +127,7 @@ export class ResetPassword {
       return '';
     }
 
-    if (this.createPassword?.hasError('reuqired')) {
+    if (this.createPassword?.hasError('required')) {
       return 'createPassword-required-error';
     }
 
@@ -129,7 +147,7 @@ export class ResetPassword {
       return '';
     }
 
-    if (this.confirmPassword?.hasError('reuqired')) {
+    if (this.confirmPassword?.hasError('required')) {
       return 'confirmPassword-required-error';
     }
 

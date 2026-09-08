@@ -90,6 +90,7 @@ export const updateMyProfile = async (
       emailID: true,
       phoneNumber: true,
       address: true,
+      profileImageUrl: true,
       skills: true,
 
       role: true,
@@ -98,6 +99,7 @@ export const updateMyProfile = async (
 
       dateOfBirth: true,
       joiningDate: true,
+      salary: true,
 
       department: {
         select: {
