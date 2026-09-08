@@ -5,12 +5,11 @@ type EmployeeGrowth = {
   employees: bigint;
 };
 
-export const getDashboardData = async () => {
+export const getDashboardData = async (role: string) => {
   const [
     totalEmployees,
     totalActiveEmployees,
     totalDepartments,
-    salaryAggregation,
     departments,
     recentEmployees,
     employeeGrowth,
@@ -24,12 +23,6 @@ export const getDashboardData = async () => {
     }),
 
     prisma.department.count(),
-
-    prisma.employee.aggregate({
-      _sum: {
-        salary: true,
-      },
-    }),
 
     prisma.department.findMany({
       select: {
@@ -59,7 +52,6 @@ export const getDashboardData = async () => {
         id: true,
         employeeId: true,
         fullName: true,
-        profileImageUrl: true,
         joiningDate: true,
 
         department: {
@@ -100,12 +92,24 @@ export const getDashboardData = async () => {
     `,
   ]);
 
+  let totalSalary: number | undefined;
+  if (role === "Admin") {
+    const salaryAggregation = await prisma.employee.aggregate({
+      _sum: {
+        salary: true,
+      },
+    });
+    totalSalary = salaryAggregation._sum.salary ?? 0;
+  }
+
   return {
     summary: {
       totalEmployees,
       totalActiveEmployees,
       totalDepartments,
-      totalSalary: salaryAggregation._sum.salary ?? 0,
+      ...(role === "Admin" && {
+        totalSalary,
+      }),
     },
 
     departmentDistribution: departments.map((department) => ({

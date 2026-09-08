@@ -9,6 +9,7 @@ import {
 } from "./department.controller.js";
 import {
   createDepartmentSchema,
+  idParamSchema,
   updateDepartmentSchema,
 } from "./department.schema.js";
 import { authenticate } from "../../middleware/auth.middleware.js";
@@ -24,7 +25,7 @@ router.post(
   create,
 );
 router.get("/", authenticate, getAll);
-router.get("/:id", authenticate, getById);
+router.get("/:id", authenticate, validate(idParamSchema), getById);
 router.patch(
   "/:id",
   authenticate,
@@ -32,5 +33,11 @@ router.patch(
   validate(updateDepartmentSchema),
   update,
 );
-router.delete("/:id", authenticate, authorize("Admin"), remove);
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("Admin"),
+  validate(idParamSchema),
+  remove,
+);
 export default router;

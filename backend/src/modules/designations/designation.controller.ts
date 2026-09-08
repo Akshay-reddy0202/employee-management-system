@@ -1,15 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
-
 import {
   createDesignation,
   getAllDesignations,
   updateDesignation,
 } from "./designation.service.js";
-import { success } from "zod";
-
-type DesignationParams = {
-  id: string;
-};
+import type {
+  CreateDesignationInput,
+  UpdateDesignationInput,
+  DesignationParams,
+} from "./designation.schema.js";
 
 export const create = async (
   req: Request,
@@ -17,7 +16,15 @@ export const create = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const designation = await createDesignation(req.body);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const designation = await createDesignation(
+      validatedData.body as CreateDesignationInput,
+    );
 
     res.status(201).json({
       success: true,
@@ -53,7 +60,18 @@ export const update = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const designation = await updateDesignation(req.params.id, req.body);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const params = validatedData.params as DesignationParams;
+
+    const designation = await updateDesignation(
+      params.id,
+      validatedData.body as UpdateDesignationInput,
+    );
 
     res.status(200).json({
       success: true,

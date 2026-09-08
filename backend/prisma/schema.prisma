@@ -93,8 +93,9 @@ model Employee {
 
   salary Float? @default(0)
 
-  skills          String[] @default([])
-  profileImageUrl String?
+  skills               String[] @default([])
+  profileImageUrl      String?
+  profileImagePublicId String?
 
   departmentId String?
   department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)

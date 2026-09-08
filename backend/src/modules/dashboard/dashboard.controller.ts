@@ -3,12 +3,12 @@ import type { NextFunction, Request, Response } from "express";
 import { getDashboardData } from "./dashboard.service.js";
 
 export const getDashboard = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const dashboardData = await getDashboardData();
+    const dashboardData = await getDashboardData(req.user!.role);
 
     res.status(200).json({
       success: true,

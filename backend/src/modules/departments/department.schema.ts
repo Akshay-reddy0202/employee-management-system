@@ -56,3 +56,25 @@ export const updateDepartmentSchema = z.object({
 
   query: z.object({}).default({}),
 });
+
+export const idParamSchema = z.object({
+  params: z.object({
+    id: z.string().trim().min(1, "ID is required"),
+  }),
+
+  body: z.object({}),
+
+  query: z.object({}),
+});
+
+export type CreateDepartmentInput = z.infer<
+  typeof createDepartmentSchema.shape.body
+>;
+
+export type UpdateDepartmentInput = z.infer<
+  typeof updateDepartmentSchema.shape.body
+>;
+
+export type DepartmentParams = z.infer<
+  typeof updateDepartmentSchema.shape.params
+>;

@@ -55,7 +55,18 @@ export const getDepartmentById = async (departmentId: string) => {
   const department = await prisma.department.findUnique({
     where: { id: departmentId },
     include: {
-      employees: true,
+      employees: {
+        select: {
+          id: true,
+          employeeId: true,
+          fullName: true,
+          designation: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
   });
 

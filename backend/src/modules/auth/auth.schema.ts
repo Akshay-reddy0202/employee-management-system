@@ -51,16 +51,6 @@ export const loginSchema = z.object({
   query: z.object({}).default({}),
 });
 
-export const refreshTokenSchema = z.object({
-  body: z.object({
-    refreshToken: z.string().min(1, "Refresh token is required"),
-  }),
-
-  params: z.object({}).default({}),
-
-  query: z.object({}).default({}),
-});
-
 export const forgotPasswordSchema = z.object({
   body: z.object({
     emailID: z
@@ -97,12 +87,4 @@ export const resetPasswordSchema = z.object({
   query: z.object({}).default({}),
 });
 
-export const logoutSchema = z.object({
-  body: z.object({
-    refreshToken: z.string().min(1, "Refresh token is required"),
-  }),
-
-  params: z.object({}).default({}),
-
-  query: z.object({}).default({}),
-});
+export type RegisterEmployeeInput = z.infer<typeof registerSchema.shape.body>;

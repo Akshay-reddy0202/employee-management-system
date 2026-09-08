@@ -6,10 +6,11 @@ import {
   getDepartmentById,
   updateDepartment,
 } from "./department.service.js";
-
-type DepartmentParams = {
-  id: string;
-};
+import type {
+  CreateDepartmentInput,
+  UpdateDepartmentInput,
+  DepartmentParams,
+} from "./department.schema.js";
 
 export const create = async (
   req: Request,
@@ -17,7 +18,15 @@ export const create = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const department = await createDepartment(req.body);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const department = await createDepartment(
+      validatedData.body as CreateDepartmentInput,
+    );
 
     res.status(201).json({
       success: true,
@@ -48,12 +57,20 @@ export const getAll = async (
 };
 
 export const getById = async (
-  req: Request<DepartmentParams>,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const department = await getDepartmentById(req.params.id);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const params = validatedData.params as DepartmentParams;
+
+    const department = await getDepartmentById(params.id);
 
     res.status(200).json({
       success: true,
@@ -66,12 +83,23 @@ export const getById = async (
 };
 
 export const update = async (
-  req: Request<DepartmentParams>,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const department = await updateDepartment(req.params.id, req.body);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const params = validatedData.params as DepartmentParams;
+
+    const department = await updateDepartment(
+      params.id,
+      validatedData.body as UpdateDepartmentInput,
+    );
 
     res.status(200).json({
       success: true,
@@ -84,12 +112,20 @@ export const update = async (
 };
 
 export const remove = async (
-  req: Request<DepartmentParams>,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    await deleteDepartment(req.params.id);
+    const validatedData = req.validated;
+
+    if (!validatedData) {
+      throw new Error("Validated request data is missing");
+    }
+
+    const params = validatedData.params as DepartmentParams;
+
+    await deleteDepartment(params.id);
 
     res.status(200).json({
       success: true,

@@ -8,6 +8,7 @@ import {
 } from "../../utils/tokens.js";
 import { env } from "../../config/env.js";
 import crypto from "crypto";
+import { getRefreshTokenExpiresAt } from "../../utils/token-expiry.js";
 
 type RegisterEmployeeInput = {
   role: "Admin" | "Employee";
@@ -37,16 +38,13 @@ export const registerEmployee = async (data: RegisterEmployeeInput) => {
     throw new AppError("An employee with this email already exists", 409);
   }
 
-  const lastEmployee = await prisma.employee.findFirst({
-    orderBy: { createdAt: "desc" },
-    select: { employeeId: true },
-  });
+  const sequenceResult = await prisma.$queryRaw<
+    { nextval: bigint }[]
+  >`SELECT nextval('employee_seq')`;
 
-  const lastEmployeeNumber = lastEmployee
-    ? Number(lastEmployee.employeeId.replace("E", ""))
-    : 0;
+  const employeeNumber = Number(sequenceResult[0].nextval);
 
-  const nextEmployeeId = `E${String(lastEmployeeNumber + 1).padStart(4, "0")}`;
+  const nextEmployeeId = `E${String(employeeNumber).padStart(4, "0")}`;
 
   const hashedPassword = await bcrypt.hash(data.password, 12);
 
@@ -108,14 +106,14 @@ export const loginEmployee = async (data: loginEmployeeInput) => {
   };
 
   const accessToken = generateAccessToken(tokenPayload);
-
   const refreshToken = generateRefreshToken(tokenPayload);
+
   const refreshTokenHash = crypto
     .createHash("sha256")
     .update(refreshToken)
     .digest("hex");
 
-  const refreshTokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const refreshTokenExpires = getRefreshTokenExpiresAt();
   await prisma.employee.update({
     where: {
       id: employee.id,
@@ -154,6 +152,7 @@ export const refreshAccessToken = async (refreshToken: string) => {
     const employee = await prisma.employee.findFirst({
       where: {
         id: decodedToken.id,
+        status: "Active",
         refreshTokenHash,
         refreshTokenExpires: {
           gt: new Date(),
@@ -162,17 +161,39 @@ export const refreshAccessToken = async (refreshToken: string) => {
     });
 
     if (!employee) {
-      throw new AppError("Invalid or expired refresh token", 401);
+      throw new AppError(
+        "Invalid or expired refresh token, or account is inactive",
+        401,
+      );
     }
 
-    const accessToken = generateAccessToken({
+    const tokenPayload = {
       id: employee.id,
       employeeId: employee.employeeId,
       role: employee.role,
+    };
+
+    const accessToken = generateAccessToken(tokenPayload);
+    const newRefreshToken = generateRefreshToken(tokenPayload);
+
+    const newRefreshTokenHash = crypto
+      .createHash("sha256")
+      .update(newRefreshToken)
+      .digest("hex");
+
+    await prisma.employee.update({
+      where: {
+        id: employee.id,
+      },
+      data: {
+        refreshTokenHash: newRefreshTokenHash,
+        refreshTokenExpires: getRefreshTokenExpiresAt(),
+      },
     });
 
     return {
       accessToken,
+      refreshToken: newRefreshToken,
     };
   } catch (error) {
     if (error instanceof AppError) {
@@ -189,7 +210,7 @@ export const forgotPassword = async (emailID: string) => {
   });
 
   if (!employee) {
-    throw new AppError("No account found with this email address", 404);
+    return null;
   }
 
   const resetToken = crypto.randomBytes(32).toString("hex");
@@ -240,6 +261,8 @@ export const resetPassword = async (token: string, password: string) => {
       password: hashedPassword,
       passwordResetToken: null,
       passwordResetExpires: null,
+      refreshTokenHash: null,
+      refreshTokenExpires: null,
     },
   });
 };
@@ -250,22 +273,9 @@ export const logoutEmployee = async (refreshToken: string): Promise<void> => {
     .update(refreshToken)
     .digest("hex");
 
-  const employee = await prisma.employee.findFirst({
+  await prisma.employee.updateMany({
     where: {
       refreshTokenHash,
-      refreshTokenExpires: {
-        gt: new Date(),
-      },
-    },
-  });
-
-  if (!employee) {
-    throw new AppError("Invalid or expired refresh token", 401);
-  }
-
-  await prisma.employee.update({
-    where: {
-      id: employee.id,
     },
     data: {
       refreshTokenHash: null,

@@ -14,6 +14,7 @@ type UpdateEmployeeInput = {
   departmentId?: string;
   designationId?: string;
   salary?: number;
+  status?: "Active" | "Inactive";
   joiningDate?: Date;
 };
 
@@ -59,38 +60,26 @@ export const getAllEmployees = async (data: GetEmployeesInput) => {
         id: true,
         employeeId: true,
         fullName: true,
-        emailID: true,
-        role: true,
         status: true,
-        theme: true,
-        dateOfBirth: true,
         joiningDate: true,
 
         department: {
           select: {
-            id: true,
             name: true,
-            code: true,
           },
         },
 
         designation: {
           select: {
-            id: true,
             name: true,
           },
         },
 
         manager: {
           select: {
-            id: true,
-            employeeId: true,
             fullName: true,
           },
         },
-
-        createdAt: true,
-        updatedAt: true,
       },
     }),
 
@@ -157,12 +146,21 @@ export const updateEmployee = async (id: string, data: UpdateEmployeeInput) => {
     }
   }
 
+  const dataToUpdate = {
+    ...data,
+
+    ...(data.status === "Inactive" && {
+      refreshTokenHash: null,
+      refreshTokenExpires: null,
+    }),
+  };
+
   const updatedEmployee = await prisma.employee.update({
     where: {
       id,
     },
 
-    data,
+    data: dataToUpdate,
 
     select: {
       id: true,

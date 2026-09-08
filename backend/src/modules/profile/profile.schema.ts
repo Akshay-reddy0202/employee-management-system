@@ -5,8 +5,6 @@ export const updateProfileSchema = z.object({
     .object({
       skills: z.array(z.string().trim()).optional(),
 
-      profileImageUrl: z.string().trim().optional(),
-
       address: z.string().trim().optional(),
 
       phoneNumber: z.string().trim().optional(),

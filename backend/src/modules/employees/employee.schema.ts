@@ -32,6 +32,8 @@ export const updateEmployeeSchema = z.object({
       designationId: z.string().trim().min(1).optional(),
 
       salary: z.coerce.number().positive().optional(),
+      
+      status: z.enum(["Active", "Inactive"]).optional(),
 
       joiningDate: z.coerce.date().optional(),
     })
