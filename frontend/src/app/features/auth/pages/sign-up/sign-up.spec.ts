@@ -2,10 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { SignUp } from './sign-up';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
 import { of, throwError } from 'rxjs';
 
 describe('SignUp', () => {
@@ -14,7 +13,6 @@ describe('SignUp', () => {
 
   const authServiceMock = {
     register: vi.fn(),
-    checkEmailExists: vi.fn(),
   };
 
   const toastrServiceMock = {
@@ -862,11 +860,17 @@ describe('SignUp', () => {
         checkbox: true,
       };
 
-      const employee = {
+      const registerResponse = {
+        id: '1',
         employeeId: 'E0001',
-      } as EmployeeInterface;
+        fullName: 'Akshay Reddy',
+        emailID: 'akshay@gmail.com',
+        role: 'Admin',
+        status: 'Active',
+        createdAt: '2026-09-09',
+      };
 
-      authServiceMock.register.mockReturnValue(of(employee));
+      authServiceMock.register.mockReturnValue(of(registerResponse));
       component.signUpForm.setValue(formValue);
 
       component.onSubmit();
@@ -915,7 +919,7 @@ describe('SignUp', () => {
         'Registration Failed',
       );
 
-      expect(component.emailID?.value).toBe('');
+      expect(component.emailID?.hasError('emailExists')).toBe(true);
     });
 
     it('should call onSubmit when the form is submitted', () => {
@@ -931,7 +935,7 @@ describe('SignUp', () => {
   });
 
   describe('registration fails', () => {
-    it('should handle registration error when registration fails', () => {
+    it('should handle registration error with status 409', () => {
       const formValue = {
         role: 'Admin',
         fullName: 'Akshay Reddy',
@@ -943,7 +947,10 @@ describe('SignUp', () => {
       };
 
       const error = {
-        message: 'Email already registered',
+        status: 409,
+        error: {
+          message: 'An employee with this email already exists',
+        },
       };
 
       authServiceMock.register.mockReturnValue(throwError(() => error));
@@ -955,11 +962,11 @@ describe('SignUp', () => {
       expect(authServiceMock.register).toHaveBeenCalledWith(formValue);
 
       expect(toastrServiceMock.error).toHaveBeenCalledWith(
-        'Email already registered',
+        'An employee with this email already exists',
         'Registration Failed',
       );
 
-      expect(component.emailID?.value).toBe('');
+      expect(component.emailID?.hasError('emailExists')).toBe(true);
       expect(component['isEmployeeIdDialogOpen']()).toBe(false);
     });
   });
@@ -970,11 +977,17 @@ describe('SignUp', () => {
     });
 
     it('should display the employee ID dialog after successful registration', () => {
-      const employee = {
+      const registerResponse = {
+        id: '1',
         employeeId: 'E0001',
-      } as EmployeeInterface;
+        fullName: 'Akshay Reddy',
+        emailID: 'akshay@gmail.com',
+        role: 'Admin',
+        status: 'Active',
+        createdAt: '2026-09-09',
+      };
 
-      authServiceMock.register.mockReturnValue(of(employee));
+      authServiceMock.register.mockReturnValue(of(registerResponse));
 
       component.signUpForm.setValue({
         role: 'Admin',
@@ -993,46 +1006,47 @@ describe('SignUp', () => {
     });
   });
 
-  describe('Email existence listener', () => {
-    it('should check whether the email already exists', () => {
-      authServiceMock.checkEmailExists.mockReturnValue(of(true));
+  describe('Registration error handling', () => {
+    it('should set emailExists error when error message contains email', () => {
+      const formValue = {
+        role: 'Admin',
+        fullName: 'Akshay Reddy',
+        dateOfBirth: '2003-02-02',
+        emailID: 'akshay@gmail.com',
+        createPassword: 'Password@123',
+        confirmPassword: 'Password@123',
+        checkbox: true,
+      };
 
-      component.emailID?.setValue('akshay@gmail.com');
+      authServiceMock.register.mockReturnValue(
+        throwError(() => ({ message: 'This email is already in use' })),
+      );
 
-      vi.advanceTimersByTime(500);
+      component.signUpForm.setValue(formValue);
+      component.onSubmit();
 
-      expect(authServiceMock.checkEmailExists).toHaveBeenCalledWith('akshay@gmail.com');
-    });
-
-    it('should display an error when the email already exists', () => {
-      authServiceMock.checkEmailExists.mockReturnValue(of(true));
-
-      component.emailID?.setValue('akshay@gmail.com');
-
-      vi.advanceTimersByTime(500);
-      fixture.detectChanges();
-
-      expect(toastrServiceMock.error).toHaveBeenCalledWith('Email already exists');
       expect(component.emailID?.hasError('emailExists')).toBe(true);
     });
 
-    it('should not set email exists error when the email does not exist', () => {
-      authServiceMock.checkEmailExists.mockReturnValue(of(false));
+    it('should not set emailExists error when error is unrelated to email', () => {
+      const formValue = {
+        role: 'Admin',
+        fullName: 'Akshay Reddy',
+        dateOfBirth: '2003-02-02',
+        emailID: 'akshay@gmail.com',
+        createPassword: 'Password@123',
+        confirmPassword: 'Password@123',
+        checkbox: true,
+      };
 
-      component.emailID?.setValue('akshay@gmail.com');
+      authServiceMock.register.mockReturnValue(
+        throwError(() => ({ message: 'Internal Server Error' })),
+      );
 
-      vi.advanceTimersByTime(500);
-      fixture.detectChanges();
+      component.signUpForm.setValue(formValue);
+      component.onSubmit();
 
-      expect(component.emailID?.hasError('emailExists')).toBe(false);
-    });
-
-    it('should not check whether the email exists when the email is invalid', () => {
-      component.emailID?.setValue('invalid-email');
-
-      vi.advanceTimersByTime(500);
-
-      expect(authServiceMock.checkEmailExists).not.toHaveBeenCalled();
+      expect(component.emailID?.hasError('emailExists')).toBeFalsy();
     });
   });
 });

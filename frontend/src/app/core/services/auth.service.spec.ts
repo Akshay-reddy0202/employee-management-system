@@ -8,8 +8,13 @@ import { provideRouter, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { SignupRequestInterface } from '../../features/auth/models/signup-request.model';
 import { LoginRequestInterface } from '../../features/auth/models/login-request.model';
-import { delayWhen } from 'rxjs';
 import { AuthenticatedUserInterface } from '../models/authenticated-user.model';
+import {
+  AuthApiResponse,
+  LoginResponseData,
+  RefreshTokenResponseData,
+  RegisterResponseData,
+} from '../../features/auth/models/login-response.model';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -46,107 +51,8 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('checkEmailExists', () => {
-    it('should check whether the email exists', () => {
-      const emailID = 'akshay@gmail.com';
-      service.checkEmailExists(emailID).subscribe();
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees?emailID=${emailID}`);
-
-      expect(request.request.method).toBe('GET');
-      request.flush([]);
-    });
-
-    it('should return false when the email does not exist', () => {
-      const emailID = 'akshay@gmail.com';
-      service.checkEmailExists(emailID).subscribe((result) => {
-        expect(result).toBe(false);
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees?emailID=${emailID}`);
-      request.flush([]);
-    });
-
-    it('should return true when the email exists', () => {
-      const emailID = 'akshay@gmail.com';
-      const employee = {
-        employeeId: 'E0001',
-        emailID: 'akshay@gmail.com',
-      };
-      service.checkEmailExists(emailID).subscribe((result) => {
-        expect(result).toBe(true);
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees?emailID=${emailID}`);
-      request.flush([employee]);
-    });
-  });
-
-  describe('getLastEmployee', () => {
-    it('should return null when there are no employees', () => {
-      service['getLastEmployee']().subscribe((result) => {
-        expect(result).toBeNull();
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees`);
-      expect(request.request.method).toBe('GET');
-
-      request.flush([]);
-    });
-
-    it('should return the employee with the highest employee ID', () => {
-      const employees = [
-        {
-          employeeId: 'E0002',
-          fullName: 'Employee Two',
-        },
-        {
-          employeeId: 'E0007',
-          fullName: 'Employee Seven',
-        },
-        {
-          employeeId: 'E0004',
-          fullName: 'Employee Four',
-        },
-      ] as EmployeeInterface[];
-
-      service['getLastEmployee']().subscribe((result) => {
-        expect(result?.employeeId).toBe('E0007');
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees`);
-      expect(request.request.method).toBe('GET');
-      request.flush(employees);
-    });
-  });
-
-  describe('generatesNextEmployeeId', () => {
-    it('should generate E0001 when there is no previous employee', () => {
-      const result = service['generateNextEmployeeId'](null);
-
-      expect(result).toBe('E0001');
-    });
-
-    it('should generate the next employee ID when a previous employee exists', () => {
-      const result = service['generateNextEmployeeId']('E0001');
-
-      expect(result).toBe('E0002');
-    });
-
-    it('should correctly increment a larger employee ID', () => {
-      const result = service['generateNextEmployeeId']('E0015');
-
-      expect(result).toBe('E0016');
-    });
-
-    it('should maintain four-digit formatting when generating the next employee ID', () => {
-      const result = service['generateNextEmployeeId']('E0099');
-
-      expect(result).toBe('E0100');
-    });
-  });
-
   describe('register', () => {
-    it('should return an error when the email already exists', () => {
+    it('should send a POST request to register an employee and return registered data', () => {
       const signUpForm: SignupRequestInterface = {
         role: 'Admin',
         fullName: 'Akshay Reddy',
@@ -157,415 +63,186 @@ describe('AuthService', () => {
         checkbox: true,
       };
 
-      service.register(signUpForm).subscribe({
-        next: () => {
-          throw new Error('Expected an error');
-        },
-        error: (error) => {
-          expect(error.message).toBe('Email already exists');
-        },
-      });
-
-      const emailRequest = httpMock.expectOne(
-        `${environment.apiUrl}/employees?emailID=${signUpForm.emailID}`,
-      );
-      expect(emailRequest.request.method).toBe('GET');
-
-      emailRequest.flush([
-        {
-          employeeId: 'E0001',
-          emailID: 'akshay@gmail.com',
-        },
-      ]);
-    });
-
-    it('should get the last employee and register a new employee when the email does not exist', () => {
-      const signUpForm: SignupRequestInterface = {
-        role: 'Admin',
-        fullName: 'Akshay Reddy',
-        dateOfBirth: '2003-02-02',
-        emailID: 'akshay@gmail.com',
-        createPassword: 'Password@123',
-        confirmPassword: 'Password@123',
-        checkbox: true,
-      };
-
-      service.register(signUpForm).subscribe((result) => {
-        expect(result.employeeId).toBe('E0003');
-        expect(result.emailID).toBe('akshay@gmail.com');
-      });
-
-      const emailRequest = httpMock.expectOne(
-        `${environment.apiUrl}/employees?emailID=${signUpForm.emailID}`,
-      );
-
-      expect(emailRequest.request.method).toBe('GET');
-
-      emailRequest.flush([]);
-
-      const employeesRequest = httpMock.expectOne(`${environment.apiUrl}/employees`);
-
-      expect(employeesRequest.request.method).toBe('GET');
-
-      employeesRequest.flush([
-        {
-          id: 1,
-          employeeId: 'E0001',
-          emailID: 'first@gmail.com',
-        },
-        {
-          id: 2,
-          employeeId: 'E0002',
-          emailID: 'second@gmail.com',
-        },
-      ]);
-
-      const postRequest = httpMock.expectOne(`${environment.apiUrl}/employees`);
-
-      expect(postRequest.request.method).toBe('POST');
-
-      expect(postRequest.request.body).toEqual({
-        role: 'Admin',
-        employeeId: 'E0003',
-        fullName: 'Akshay Reddy',
-        dateOfBirth: '2003-02-02',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        theme: Theme.LIGHT,
-      });
-
-      postRequest.flush({
-        id: 3,
-        role: 'Admin',
-        employeeId: 'E0003',
-        fullName: 'Akshay Reddy',
-        dateOfBirth: '2003-02-02',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        theme: Theme.LIGHT,
-      });
-    });
-
-    it('should generate E0001 when there are no employees', () => {
-      const signUpForm: SignupRequestInterface = {
-        role: 'Admin',
-        fullName: 'Akshay Reddy',
-        dateOfBirth: '2003-02-02',
-        emailID: 'akshay@gmail.com',
-        createPassword: 'Password@123',
-        confirmPassword: 'Password@123',
-        checkbox: true,
-      };
-
-      service.register(signUpForm).subscribe();
-
-      const emailRequest = httpMock.expectOne(
-        `${environment.apiUrl}/employees?emailID=${signUpForm.emailID}`,
-      );
-
-      emailRequest.flush([]);
-
-      const employeesRequest = httpMock.expectOne(`${environment.apiUrl}/employees`);
-
-      employeesRequest.flush([]);
-
-      const postRequest = httpMock.expectOne(`${environment.apiUrl}/employees`);
-
-      expect(postRequest.request.body.employeeId).toBe('E0001');
-
-      postRequest.flush({
-        ...signUpForm,
-        id: 1,
-        employeeId: 'E0001',
-        password: signUpForm.createPassword,
-        theme: Theme.LIGHT,
-      });
-    });
-  });
-
-  describe('checkEmployeeIdExists', () => {
-    it('should check whether the employee id exists', () => {
-      const employeeId = 'E0001';
-      service['checkEmployeeIdExists'](employeeId).subscribe();
-
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
-
-      expect(request.request.method).toBe('GET');
-      request.flush([]);
-    });
-
-    it('should return the employees matching the employee ID', () => {
-      const employeeId = 'E0001';
-
-      const employees = [
-        {
-          id: '1',
+      const mockResponse: AuthApiResponse<RegisterResponseData> = {
+        success: true,
+        message: 'Employee registered successfully',
+        data: {
+          id: 'emp-1',
           employeeId: 'E0001',
           fullName: 'Akshay Reddy',
           emailID: 'akshay@gmail.com',
+          role: 'Admin',
+          status: 'Active',
+          createdAt: '2026-09-09T00:00:00.000Z',
         },
-      ] as EmployeeInterface[];
+      };
 
-      service['checkEmployeeIdExists'](employeeId).subscribe((result) => {
-        expect(result).toEqual(employees);
+      service.register(signUpForm).subscribe((result) => {
+        expect(result).toEqual(mockResponse.data);
       });
 
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/register`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        role: signUpForm.role,
+        fullName: signUpForm.fullName,
+        emailID: signUpForm.emailID,
+        dateOfBirth: signUpForm.dateOfBirth,
+        password: signUpForm.createPassword,
+        confirmPassword: signUpForm.confirmPassword,
+        termsAccepted: signUpForm.checkbox,
+      });
 
-      request.flush(employees);
+      req.flush(mockResponse);
     });
   });
 
   describe('login', () => {
-    it('should return an error when the employee ID does not exist', () => {
+    it('should send a POST request to login, save user & token, and return login data', () => {
       const loginForm: LoginRequestInterface = {
         employeeId: 'E0001',
         password: 'Password@123',
       };
 
-      service.login(loginForm).subscribe({
-        next: () => {
-          throw new Error('Expected an error');
-        },
-        error: (error) => {
-          expect(error.message).toBe('Employee Id does not exist');
-        },
-      });
-
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${loginForm.employeeId}`,
-      );
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([]);
-    });
-
-    it('should return an error when the password is invalid', () => {
-      const loginForm: LoginRequestInterface = {
-        employeeId: 'E0001',
-        password: 'WrongPassword',
-      };
-
-      const employee = {
-        id: '1',
+      const mockUser: AuthenticatedUserInterface = {
+        id: 'emp-1',
         employeeId: 'E0001',
         fullName: 'Akshay Reddy',
+        email: 'akshay@gmail.com',
         emailID: 'akshay@gmail.com',
-        password: 'Password@123',
         role: 'Admin',
-        dateOfBirth: '2003-02-02',
         theme: Theme.LIGHT,
-      } as EmployeeInterface;
-
-      service.login(loginForm).subscribe({
-        next: () => {
-          throw new Error('Expected an error');
-        },
-        error: (error) => {
-          expect(error.message).toBe('Invalid Password');
-        },
-      });
-
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${loginForm.employeeId}`,
-      );
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([employee]);
-    });
-
-    it('should return the employee when the employee ID and password are valid', () => {
-      const loginForm: LoginRequestInterface = {
-        employeeId: 'E0001',
-        password: 'Password@123',
       };
 
-      const employee = {
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        role: 'Admin',
-        dateOfBirth: '2003-02-02',
-        theme: Theme.LIGHT,
-      } as EmployeeInterface;
+      const mockResponse: AuthApiResponse<LoginResponseData> = {
+        success: true,
+        message: 'Login successful',
+        data: {
+          employee: mockUser,
+          accessToken: 'jwt-access-token-123',
+        },
+      };
 
       service.login(loginForm).subscribe((result) => {
-        expect(result).toEqual(employee);
+        expect(result).toEqual(mockResponse.data);
+        expect(service.getAccessToken()).toBe('jwt-access-token-123');
+        expect(service.loggedInUser()).toEqual(mockUser);
+        const stored = JSON.parse(localStorage.getItem('currentuser')!);
+        expect(stored.employeeId).toBe('E0001');
       });
 
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${loginForm.employeeId}`,
-      );
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        employeeId: loginForm.employeeId,
+        password: loginForm.password,
+      });
 
-      expect(request.request.method).toBe('GET');
-
-      request.flush([employee]);
+      req.flush(mockResponse);
     });
   });
 
-  describe('getEmployeeById', () => {
-    it('should return null when the employee does not exist', () => {
-      const employeeId = 'E0001';
-
-      service.getEmployeeById(employeeId).subscribe((result) => {
-        expect(result).toBeNull();
-      });
-
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([]);
-    });
-
-    it('should return the employee when the employee exists', () => {
-      const employeeId = 'E0001';
-
-      const employee = {
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        role: 'Admin',
-        dateOfBirth: '2003-02-02',
-        theme: Theme.LIGHT,
-      } as EmployeeInterface;
-
-      service.getEmployeeById(employeeId).subscribe((result) => {
-        expect(result).toEqual(employee);
-      });
-
-      const request = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([employee]);
-    });
-  });
-
-  describe('getEmployeeByEmail', () => {
-    it('should return null when the employee emailId does not exist', () => {
-      const emailID = 'akshay@gmail.com';
-
-      service.getEmployeeByEmail(emailID).subscribe((result) => {
-        expect(result).toBeNull();
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees?emailID=${emailID}`);
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([]);
-    });
-
-    it('should return the employee when the email exists', () => {
-      const emailID = 'akshay@gmail.com';
-
-      const employee = {
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        role: 'Admin',
-        dateOfBirth: '2003-02-02',
-        theme: Theme.LIGHT,
-      } as EmployeeInterface;
-
-      service.getEmployeeByEmail(emailID).subscribe((result) => {
-        expect(result).toEqual(employee);
-      });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees?emailID=${emailID}`);
-
-      expect(request.request.method).toBe('GET');
-
-      request.flush([employee]);
-    });
-  });
-
-  describe('resetPassword', () => {
-    it('should return an error when the employee does not exist', () => {
-      const employeeId = 'E0001';
-      const newPassword = 'NewPassword@123';
-
-      service.resetPassword(employeeId, newPassword).subscribe({
-        next: () => {
-          throw new Error('Expected an error');
+  describe('refreshToken', () => {
+    it('should send a POST request to refresh token and update accessToken signal', () => {
+      const mockResponse: AuthApiResponse<RefreshTokenResponseData> = {
+        success: true,
+        message: 'Token refreshed',
+        data: {
+          accessToken: 'new-refreshed-token',
         },
-        error: (error) => {
-          expect(error.message).toBe('Employee not found');
-        },
-      });
-
-      const getRequest = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
-
-      expect(getRequest.request.method).toBe('GET');
-
-      getRequest.flush([]);
-    });
-
-    it('should update the employee password when the employee exists', () => {
-      const employeeId = 'E0001';
-      const newPassword = 'NewPassword@123';
-
-      const employee = {
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
-        emailID: 'akshay@gmail.com',
-        password: 'Password@123',
-        role: 'Admin',
-        dateOfBirth: '2003-02-02',
-        theme: Theme.LIGHT,
-      } as EmployeeInterface;
-
-      const updatedEmployee = {
-        ...employee,
-        password: newPassword,
       };
 
-      service.resetPassword(employeeId, newPassword).subscribe((result) => {
-        expect(result).toEqual(updatedEmployee);
+      service.refreshToken().subscribe((result) => {
+        expect(result).toEqual(mockResponse.data);
+        expect(service.getAccessToken()).toBe('new-refreshed-token');
       });
 
-      const getRequest = httpMock.expectOne(
-        `${environment.apiUrl}/employees?employeeId=${employeeId}`,
-      );
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/refresh`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({});
 
-      expect(getRequest.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+  });
 
-      getRequest.flush([employee]);
+  describe('forgotPassword', () => {
+    it('should send a POST request to forgot-password with email', () => {
+      const emailID = 'akshay@gmail.com';
+      const mockResponse: AuthApiResponse = {
+        success: true,
+        message: 'Password reset link sent',
+        data: null,
+      };
 
-      const patchRequest = httpMock.expectOne(`${environment.apiUrl}/employees/${employee.id}`);
-
-      expect(patchRequest.request.method).toBe('PATCH');
-
-      expect(patchRequest.request.body).toEqual({
-        password: newPassword,
+      service.forgotPassword(emailID).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
       });
 
-      patchRequest.flush(updatedEmployee);
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/forgot-password`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ emailID });
+
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('resetPasswordWithToken', () => {
+    it('should send a POST request to reset-password with token and new password', () => {
+      const token = 'reset-token-abc';
+      const password = 'NewPassword@123';
+      const confirmPassword = 'NewPassword@123';
+
+      const mockResponse: AuthApiResponse = {
+        success: true,
+        message: 'Password reset successfully',
+        data: null,
+      };
+
+      service.resetPasswordWithToken(token, password, confirmPassword).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/reset-password`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ token, password, confirmPassword });
+
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('getCurrentUser', () => {
+    it('should send a GET request to /auth/me and update current user', () => {
+      const mockUser: AuthenticatedUserInterface = {
+        id: 'emp-1',
+        employeeId: 'E0001',
+        fullName: 'Akshay Reddy',
+        email: 'akshay@gmail.com',
+        emailID: 'akshay@gmail.com',
+        role: 'Admin',
+        theme: Theme.LIGHT,
+      };
+
+      const mockResponse: AuthApiResponse<AuthenticatedUserInterface> = {
+        success: true,
+        message: 'User retrieved',
+        data: mockUser,
+      };
+
+      service.getCurrentUser().subscribe((user) => {
+        expect(user).toEqual(mockUser);
+        expect(service.loggedInUser()).toEqual(mockUser);
+        expect(JSON.parse(localStorage.getItem('currentuser')!)).toEqual(mockUser);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
+      expect(req.request.method).toBe('GET');
+
+      req.flush(mockResponse);
     });
   });
 
   describe('saveCurrentUser', () => {
-    it('should save the current user to localStorage', () => {
+    it('should save the current user to localStorage and update loggedInUser signal', () => {
       const employee = {
         id: '1',
         employeeId: 'E0001',
@@ -586,33 +263,26 @@ describe('AuthService', () => {
         employeeId: 'E0001',
         fullName: 'Akshay Reddy',
         email: 'akshay@gmail.com',
-        role: 'Admin',
-        theme: Theme.LIGHT,
-      });
-    });
-
-    it('should update the logged in user', () => {
-      const employee = {
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
         emailID: 'akshay@gmail.com',
         role: 'Admin',
-        password: 'Password@123',
-        dateOfBirth: '2003-02-02',
-        theme: Theme.LIGHT,
-      } as EmployeeInterface;
-
-      service.saveCurrentUser(employee);
-
-      expect(service.loggedInUser()).toEqual({
-        id: '1',
-        employeeId: 'E0001',
-        fullName: 'Akshay Reddy',
-        email: 'akshay@gmail.com',
-        role: 'Admin',
         theme: Theme.LIGHT,
       });
+
+      expect(service.loggedInUser()).toEqual(storedUser);
+    });
+
+    it('should handle employee object with email property instead of emailID', () => {
+      const user: AuthenticatedUserInterface = {
+        id: '2',
+        employeeId: 'E0002',
+        fullName: 'Jane Doe',
+        email: 'jane@gmail.com',
+        role: 'Employee',
+      };
+
+      service.saveCurrentUser(user);
+
+      expect(service.loggedInUser()?.email).toBe('jane@gmail.com');
     });
   });
 
@@ -640,6 +310,67 @@ describe('AuthService', () => {
       service.loadCurrentUser();
 
       expect(service.loggedInUser()).toEqual(storedUser);
+    });
+
+    it('should clear localStorage if the stored user is invalid JSON', () => {
+      localStorage.setItem('currentuser', 'invalid-json');
+
+      service.loadCurrentUser();
+
+      expect(service.loggedInUser()).toBeNull();
+      expect(localStorage.getItem('currentuser')).toBeNull();
+    });
+  });
+
+  describe('initializeSession', () => {
+    it('should return false if there is no user in localStorage', () => {
+      localStorage.removeItem('currentuser');
+
+      service.initializeSession().subscribe((result) => {
+        expect(result).toBe(false);
+      });
+    });
+
+    it('should return true when refresh token succeeds during initialization', () => {
+      const storedUser: AuthenticatedUserInterface = {
+        id: '1',
+        employeeId: 'E0001',
+        fullName: 'Akshay Reddy',
+        role: 'Admin',
+      };
+      localStorage.setItem('currentuser', JSON.stringify(storedUser));
+
+      service.initializeSession().subscribe((result) => {
+        expect(result).toBe(true);
+      });
+
+      const refreshReq = httpMock.expectOne(`${environment.apiUrl}/auth/refresh`);
+      expect(refreshReq.request.method).toBe('POST');
+      refreshReq.flush({
+        success: true,
+        message: 'Refreshed',
+        data: { accessToken: 'new-token' },
+      });
+    });
+
+    it('should call logout and return false when refresh token fails during initialization', () => {
+      const storedUser: AuthenticatedUserInterface = {
+        id: '1',
+        employeeId: 'E0001',
+        fullName: 'Akshay Reddy',
+        role: 'Admin',
+      };
+      localStorage.setItem('currentuser', JSON.stringify(storedUser));
+
+      service.initializeSession().subscribe((result) => {
+        expect(result).toBe(false);
+      });
+
+      const refreshReq = httpMock.expectOne(`${environment.apiUrl}/auth/refresh`);
+      refreshReq.error(new ProgressEvent('error'), { status: 401 });
+
+      const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+      logoutReq.flush({});
     });
   });
 
@@ -693,39 +424,16 @@ describe('AuthService', () => {
       service.saveCurrentUser(employee);
 
       service.updateUserTheme(Theme.DARK).subscribe((result) => {
-        expect(result).toEqual({
-          id: '1',
-          employeeId: 'E0001',
-          fullName: 'Akshay Reddy',
-          email: 'akshay@gmail.com',
-          role: 'Admin',
-          theme: Theme.DARK,
-        });
+        expect(result.theme).toBe(Theme.DARK);
+        expect(service.loggedInUser()?.theme).toBe(Theme.DARK);
+        const storedUser = JSON.parse(localStorage.getItem('currentuser')!);
+        expect(storedUser.theme).toBe(Theme.DARK);
       });
-
-      const request = httpMock.expectOne(`${environment.apiUrl}/employees/${employee.id}`);
-
-      expect(request.request.method).toBe('PATCH');
-
-      expect(request.request.body).toEqual({
-        theme: Theme.DARK,
-      });
-
-      request.flush({
-        ...employee,
-        theme: Theme.DARK,
-      });
-
-      expect(service.loggedInUser()?.theme).toBe(Theme.DARK);
-
-      const storedUser = JSON.parse(localStorage.getItem('currentuser')!);
-
-      expect(storedUser.theme).toBe(Theme.DARK);
     });
   });
 
   describe('logout', () => {
-    it('should clear the current user and remove the stored user', () => {
+    it('should send logout POST request, clear user/token, and navigate to /sign-in', () => {
       const employee = {
         id: '1',
         employeeId: 'E0001',
@@ -744,13 +452,13 @@ describe('AuthService', () => {
 
       service.logout();
 
+      const req = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
+      expect(req.request.method).toBe('POST');
+      req.flush({});
+
       expect(service.loggedInUser()).toBeNull();
+      expect(service.getAccessToken()).toBeNull();
       expect(localStorage.getItem('currentuser')).toBeNull();
-    });
-
-    it('should navigate to sign in after logout', () => {
-      service.logout();
-
       expect(routerMock.navigate).toHaveBeenCalledWith(['/sign-in']);
     });
   });

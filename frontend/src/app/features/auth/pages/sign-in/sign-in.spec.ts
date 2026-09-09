@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignIn } from './sign-in';
 import { EmployeeInterface } from '../../../employees/interfaces/employee.model';
-import { By } from '@angular/platform-browser';
-import { ForgotPassword } from '../../components/forgot-password/forgot-password';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { provideRouter, Router } from '@angular/router';
@@ -16,7 +14,6 @@ describe('SignIn', () => {
 
   const authServiceMock = {
     login: vi.fn(),
-    saveCurrentUser: vi.fn(),
   };
 
   const toastrServiceMock = {
@@ -189,58 +186,16 @@ describe('SignIn', () => {
     expect(passwordError).toBeTruthy();
   });
 
-  it('should invalidate checkbox when it is not checked', () => {
+  it('should allow checkbox to be false (Remember Me is optional)', () => {
     component.checkbox?.setValue(false);
-
-    expect(component.checkbox?.valid).toBe(false);
-  });
-
-  it('should validate checkbox when it is checked', () => {
-    component.checkbox?.setValue(true);
 
     expect(component.checkbox?.valid).toBe(true);
   });
 
-  it('should display checkbox error when it is not checked', () => {
-    const checkbox = fixture.nativeElement.querySelector('#remember_me') as HTMLInputElement;
+  it('should allow checkbox to be true (Remember Me checked)', () => {
+    component.checkbox?.setValue(true);
 
-    checkbox.checked = false;
-
-    checkbox.dispatchEvent(new Event('change'));
-    checkbox.dispatchEvent(new Event('blur'));
-
-    fixture.detectChanges();
-
-    const errors = fixture.nativeElement.querySelectorAll(
-      '.login__error',
-    ) as NodeListOf<HTMLElement>;
-
-    const checkboxError = Array.from(errors).find((error) =>
-      error.textContent?.includes('Accept all the terms and condtions'),
-    );
-
-    expect(checkboxError).toBeTruthy();
-  });
-
-  it('should not display checkbox error when it is checked', () => {
-    const checkbox = fixture.nativeElement.querySelector('#remember_me') as HTMLInputElement;
-
-    checkbox.checked = true;
-
-    checkbox.dispatchEvent(new Event('change'));
-    checkbox.dispatchEvent(new Event('blur'));
-
-    fixture.detectChanges();
-
-    const errors = fixture.nativeElement.querySelectorAll(
-      '.login__error',
-    ) as NodeListOf<HTMLElement>;
-
-    const checkboxError = Array.from(errors).find((error) =>
-      error.textContent?.includes('Accept all the terms and condtions'),
-    );
-
-    expect(checkboxError).toBeUndefined();
+    expect(component.checkbox?.valid).toBe(true);
   });
 
   it('should toggle password visibility', () => {
@@ -375,7 +330,7 @@ describe('SignIn', () => {
     expect(component.selectedEmployee()).toBeNull();
   });
 
-  it('should open the reset password modal when the forgot password emits continue', () => {
+  it('should render the reset password modal when opened', () => {
     const employee = {
       id: '1',
       employeeId: 'E0001',
@@ -386,20 +341,10 @@ describe('SignIn', () => {
       password: 'Akshay@123',
     } as EmployeeInterface;
 
-    component.openForgotPassword();
-    fixture.detectChanges();
-
-    const forgotPasswordDebugElement = fixture.debugElement.query(By.directive(ForgotPassword));
-
-    expect(forgotPasswordDebugElement).not.toBeNull();
-
-    const forgotPasswordComponent = forgotPasswordDebugElement.componentInstance as ForgotPassword;
-
-    forgotPasswordComponent.continue.emit(employee);
+    component.openResetPassword(employee);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('app-reset-password')).not.toBeNull();
-
     expect(component.selectedEmployee()).toBe(employee);
     expect(component.showResetPassword()).toBe(true);
   });
@@ -419,9 +364,14 @@ describe('SignIn', () => {
       role: 'Admin',
       password: 'Akshay@123',
       theme: 'light',
-    } as EmployeeInterface;
+    } as unknown as EmployeeInterface;
 
-    authServiceMock.login.mockReturnValue(of(employee));
+    const loginResponse = {
+      employee,
+      accessToken: 'jwt-access-token-123',
+    };
+
+    authServiceMock.login.mockReturnValue(of(loginResponse));
     const router = TestBed.inject(Router);
     const navigate = vi.spyOn(router, 'navigate');
 
@@ -439,7 +389,6 @@ describe('SignIn', () => {
       checkbox: true,
     });
 
-    expect(authServiceMock.saveCurrentUser).toHaveBeenCalledWith(employee);
     expect(themeServiceMock.setTheme).toHaveBeenCalledWith('light');
 
     expect(toastrServiceMock.success).toHaveBeenCalledWith('Login Success', 'Success');
