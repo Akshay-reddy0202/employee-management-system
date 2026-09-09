@@ -29,6 +29,10 @@ export class AuthService {
   private readonly accessToken = signal<string | null>(null);
   private readonly STORAGE_KEY = 'currentuser';
 
+  constructor() {
+    this.loadCurrentUser();
+  }
+
   public getAccessToken(): string | null {
     return this.accessToken();
   }
@@ -162,7 +166,9 @@ export class AuthService {
     return this.refreshToken().pipe(
       map(() => true),
       catchError(() => {
-        this.logout();
+        this.accessToken.set(null);
+        this.currentUser.set(null);
+        localStorage.removeItem(this.STORAGE_KEY);
         return of(false);
       }),
     );

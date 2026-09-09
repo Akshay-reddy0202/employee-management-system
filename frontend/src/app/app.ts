@@ -16,14 +16,9 @@ export class App {
   private readonly themeService = inject(ThemeService);
 
   ngOnInit(): void {
-    this.authService.initializeSession().subscribe({
-      next: () => {
-        const currentUser = this.authService.loggedInUser();
-        if (currentUser?.theme) {
-          this.themeService.setTheme(currentUser.theme);
-        }
-      },
-      error: () => {},
-    });
+    const currentUser = this.authService.loggedInUser();
+    if (currentUser?.theme) {
+      this.themeService.setTheme(currentUser.theme);
+    }
   }
 }

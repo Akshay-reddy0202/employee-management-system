@@ -353,7 +353,7 @@ describe('AuthService', () => {
       });
     });
 
-    it('should call logout and return false when refresh token fails during initialization', () => {
+    it('should clear session and return false when refresh token fails during initialization', () => {
       const storedUser: AuthenticatedUserInterface = {
         id: '1',
         employeeId: 'E0001',
@@ -364,13 +364,12 @@ describe('AuthService', () => {
 
       service.initializeSession().subscribe((result) => {
         expect(result).toBe(false);
+        expect(service.loggedInUser()).toBeNull();
+        expect(localStorage.getItem('currentuser')).toBeNull();
       });
 
       const refreshReq = httpMock.expectOne(`${environment.apiUrl}/auth/refresh`);
       refreshReq.error(new ProgressEvent('error'), { status: 401 });
-
-      const logoutReq = httpMock.expectOne(`${environment.apiUrl}/auth/logout`);
-      logoutReq.flush({});
     });
   });
 
