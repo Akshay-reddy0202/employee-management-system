@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: ' https://employee-management-system-mmtn.onrender.com/api',
+  apiUrl: 'https://ems-backend.nicebay-9e1dc17d.centralindia.azurecontainerapps.io/api',
 };
