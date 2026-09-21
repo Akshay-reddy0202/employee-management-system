@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: backend-config
+
+data:
+  PORT: {{ .Values.config.port | quote }}
+  CLIENT_URL: {{ .Values.config.clientUrl | quote }}
+  NODE_ENV: {{ .Values.config.nodeEnv | quote }}
+
+  JWT_ACCESS_EXPIRES: {{ .Values.config.jwtAccessExpires | quote }}
+  JWT_REFRESH_EXPIRES: {{ .Values.config.jwtRefreshExpires | quote }}
+
+  SMTP_HOST: {{ .Values.config.smtpHost | quote }}
+  SMTP_PORT: {{ .Values.config.smtpPort | quote }}
+  SMTP_USER: {{ .Values.config.smtpUser | quote }}
+  SMTP_FROM: {{ .Values.config.smtpFrom | quote }}
+
+  CLOUDINARY_CLOUD_NAME: {{ .Values.config.cloudinaryCloudName | quote }}
+  CLOUDINARY_API_KEY: {{ .Values.config.cloudinaryApiKey | quote }}

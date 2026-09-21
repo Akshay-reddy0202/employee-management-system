@@ -1,3 +1,5 @@
 # Kubernetes secrets
 k8s/backend-secret.yaml
 k8s/backend-config.yaml
+# Helm secrets / local configuration
+helm/ems/values.yaml

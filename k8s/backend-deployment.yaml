@@ -5,7 +5,7 @@ metadata:
   name: backend
 
 spec:
-  replicas: 1
+  replicas: 3
 
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ems-backend:latest
+          image: ems-backend:k8s-v2
           imagePullPolicy: IfNotPresent
 
           ports:
@@ -28,6 +28,27 @@ spec:
           envFrom:
             - configMapRef:
                 name: backend-config
-
             - secretRef:
                 name: backend-secret
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15

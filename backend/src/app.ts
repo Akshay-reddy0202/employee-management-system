@@ -13,6 +13,12 @@ import { globalLimiter } from "./middleware/rate-limit.middleware.js";
 import { env } from "./config/env.js";
 
 const app = express();
+app.use((req, _res, next) => {
+  console.log(
+    `[${process.env.HOSTNAME}] ${req.method} ${req.originalUrl}`
+  );
+  next();
+});
 app.set("trust proxy", 1);
 app.use(helmet());
 app.use(
@@ -30,7 +36,7 @@ app.use(cookieParser());
 app.get("/health", (_req, res) => {
   res.status(200).json({
     success: true,
-    message: "server is running",
+    message: "server is running - v3",
   });
 });
 
