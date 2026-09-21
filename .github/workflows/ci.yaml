@@ -25,3 +25,6 @@ jobs:
       - name: Build backend
         working-directory: backend
         run: npm run build
+
+      - name: Build backend Docker image
+        run: docker build -t ems-backend:${{ github.sha }} ./backend
