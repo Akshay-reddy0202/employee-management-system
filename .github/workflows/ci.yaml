@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install backend dependencies
         working-directory: backend
@@ -28,3 +28,14 @@ jobs:
 
       - name: Build backend Docker image
         run: docker build -t ems-backend:${{ github.sha }} ./backend
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Build frontend Docker image
+        run: docker build -t ems-frontend:${{ github.sha }} ./frontend
