@@ -1,9 +1,13 @@
-name : EMS CI
+name: EMS CI/CD
 
 on:
   push:
     branches:
-         - feature/real-backend
+      - feature/real-backend
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   build:
@@ -18,6 +22,7 @@ jobs:
         with:
           node-version: 24
 
+      # Backend build
       - name: Install backend dependencies
         working-directory: backend
         run: npm ci
@@ -26,16 +31,51 @@ jobs:
         working-directory: backend
         run: npm run build
 
-      - name: Build backend Docker image
-        run: docker build -t ems-backend:${{ github.sha }} ./backend
-
+      # Frontend build
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm ci
-      
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build
 
-      - name: Build frontend Docker image
-        run: docker build -t ems-frontend:${{ github.sha }} ./frontend
+      # Authenticate with AWS using GitHub OIDC
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # Login to Amazon ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Build and push backend image
+      - name: Build and push backend Docker image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            -t $REGISTRY/ems-backend:$IMAGE_TAG \
+            -t $REGISTRY/ems-backend:latest \
+            ./backend
+
+          docker push $REGISTRY/ems-backend:$IMAGE_TAG
+          docker push $REGISTRY/ems-backend:latest
+
+      # Build and push frontend image
+      - name: Build and push frontend Docker image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            -t $REGISTRY/ems-frontend:$IMAGE_TAG \
+            -t $REGISTRY/ems-frontend:latest \
+            ./frontend
+
+          docker push $REGISTRY/ems-frontend:$IMAGE_TAG
+          docker push $REGISTRY/ems-frontend:latest
